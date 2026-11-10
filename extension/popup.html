@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Intelligence - Premium Browsing Analytics</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Premium Header -->
+        <header class="app-header">
+            <div class="brand-group">
+                <div class="brand-badge">
+                    <span class="brand-dot"></span>
+                    <span class="brand-title">ACTIVITYWATCH <span class="brand-sub">PREMIUM</span></span>
+                </div>
+                <div class="brand-tagline">Personal Browsing Intelligence</div>
+            </div>
+            <div class="status-indicator" id="status-pill">
+                <span class="status-dot"></span>
+                <span id="window-status">MONITORING</span>
+            </div>
+        </header>
+
+        <!-- Time Range / Date Filter Toolbar -->
+        <div class="toolbar">
+            <div class="date-selector">
+                <button class="filter-btn active" data-range="today">Today</button>
+                <button class="filter-btn" data-range="yesterday">Yesterday</button>
+                <button class="filter-btn" data-range="7d">7 Days</button>
+                <button class="filter-btn" data-range="30d">30 Days</button>
+            </div>
+            <div class="session-badge" id="session-time-badge" title="Active session time">
+                <span class="badge-dot"></span>
+                <span id="badge-session-val">00:00:00</span>
+            </div>
+        </div>
+
+        <!-- 4 Main Navigation Tabs -->
+        <nav class="nav-bar">
+            <button class="nav-tab active" data-tab="tab-overview">
+                <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Overview
+            </button>
+            <button class="nav-tab" data-tab="tab-websites">
+                <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                Websites
+            </button>
+            <button class="nav-tab" data-tab="tab-timeline">
+                <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polyline points="12 6 12 12 16 14"></polyline><circle cx="12" cy="12" r="10"></circle></svg>
+                Timeline
+            </button>
+            <button class="nav-tab" data-tab="tab-reports">
+                <svg class="tab-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                Reports
+            </button>
+        </nav>
+
+        <!-- ========================================== -->
+        <!-- TAB 1: OVERVIEW                            -->
+        <!-- ========================================== -->
+        <section id="tab-overview" class="tab-panel active">
+            <!-- 4 Main Statistics Grid -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon-wrap emerald">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Total Usage</span>
+                        <strong id="stat-total-usage" class="metric-value">0s</strong>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap blue">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Websites Visited</span>
+                        <strong id="stat-sites-visited" class="metric-value">0</strong>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap cyan">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Most Used Site</span>
+                        <strong id="stat-most-used" class="metric-value truncate">—</strong>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap purple">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Total Visits</span>
+                        <strong id="stat-total-visits" class="metric-value">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Website Section -->
+            <div class="panel-card current-panel">
+                <div class="panel-header">
+                    <div class="header-left">
+                        <span class="pulsing-radar"></span>
+                        <span class="panel-label">Current Website</span>
+                    </div>
+                    <span class="active-badge">Active Tab</span>
+                </div>
+                <div class="site-identity">
+                    <div class="site-main">
+                        <h2 id="cur-name" class="site-name">No active tab detected</h2>
+                        <span id="cur-domain" class="domain-pill">—</span>
+                    </div>
+                    <div class="counter-display">
+                        <span class="dwell-subtext">Current Session Dwell</span>
+                        <div id="cur-counter" class="counter-val">00:00:00</div>
+                    </div>
+                </div>
+
+                <div class="card-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Today's Total for Site:</span>
+                        <strong id="cur-site-today" class="meta-highlight">0s</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Activated At:</span>
+                        <span id="cur-activated">—</span>
+                    </div>
+                </div>
+
+                <div class="url-row">
+                    <span class="url-label">URL</span>
+                    <a id="cur-url-link" href="#" target="_blank" class="url-text" title="Open in new tab">
+                        <span id="cur-url">—</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Previous Website Section -->
+            <div class="panel-card previous-panel">
+                <div class="panel-header">
+                    <span class="panel-label">Previous Website</span>
+                    <span class="history-badge">Last Active</span>
+                </div>
+                <div class="site-identity prev-identity">
+                    <div>
+                        <h3 id="prev-name" class="site-name-sm">No previous website yet</h3>
+                        <span id="prev-domain" class="domain-pill">—</span>
+                    </div>
+                    <div class="prev-time-block">
+                        <span class="prev-dwell-label">Active Time Spent</span>
+                        <strong id="prev-duration" class="prev-duration-val">0s</strong>
+                    </div>
+                </div>
+                <div class="prev-meta-row">
+                    <span>Switched At: <strong id="prev-last-time">—</strong></span>
+                    <a id="prev-url-link" href="#" target="_blank" class="url-mini-link">Visit URL &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Usage Comparison Preview -->
+            <div class="panel-card">
+                <div class="panel-header">
+                    <span class="panel-label">Website Usage Comparison</span>
+                    <span class="legend-note">Ranked by active duration</span>
+                </div>
+                <div id="overview-comparison-bars" class="bars-container">
+                    <div class="empty-state">No website activity recorded yet today.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: WEBSITES (Deep Breakdown)           -->
+        <!-- ========================================== -->
+        <section id="tab-websites" class="tab-panel">
+            <div class="search-filter-bar">
+                <div class="search-input-wrap">
+                    <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="site-search-input" placeholder="Search visited websites..." />
+                </div>
+                <div class="sort-select-wrap">
+                    <select id="site-sort-select">
+                        <option value="time">Sort by Duration</option>
+                        <option value="visits">Sort by Visits</option>
+                        <option value="name">Sort by Name</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sites-table-card">
+                <div class="table-header">
+                    <span class="th-rank">#</span>
+                    <span class="th-name">Website & Domain</span>
+                    <span class="th-visits">Visits</span>
+                    <span class="th-duration">Duration</span>
+                </div>
+                <div id="full-websites-list" class="sites-table-body">
+                    <div class="empty-state">No websites tracked yet.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: TIMELINE (Chronological)            -->
+        <!-- ========================================== -->
+        <section id="tab-timeline" class="tab-panel">
+            <div class="panel-card-flat">
+                <div class="panel-header">
+                    <div>
+                        <span class="panel-label">Chronological Activity Log</span>
+                        <div class="sub-caption">Real-time transitions & tab switches</div>
+                    </div>
+                    <span class="timeline-badge" id="timeline-count-badge">0 events</span>
+                </div>
+                <div id="timeline-stream" class="timeline-stream">
+                    <div class="empty-state">Timeline events will appear as you switch tabs and browse websites.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: REPORTS (Productivity Analytics)    -->
+        <!-- ========================================== -->
+        <section id="tab-reports" class="tab-panel">
+            <div class="report-summary-card">
+                <div class="report-header">
+                    <div>
+                        <h3 class="report-title">Daily Browsing Summary</h3>
+                        <p class="report-date" id="report-date-str">Today's Focus & Activity Analysis</p>
+                    </div>
+                    <button id="btn-export-csv" class="action-btn">
+                        <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Export CSV
+                    </button>
+                </div>
+
+                <div class="report-stats-grid">
+                    <div class="report-stat-item">
+                        <span class="r-label">Session vs. Total</span>
+                        <strong class="r-value" id="rep-session-ratio">0%</strong>
+                        <span class="r-sub">Current Session Share</span>
+                    </div>
+                    <div class="report-stat-item">
+                        <span class="r-label">Average Visit Dwell</span>
+                        <strong class="r-value" id="rep-avg-dwell">0s</strong>
+                        <span class="r-sub">Per Website Visit</span>
+                    </div>
+                    <div class="report-stat-item">
+                        <span class="r-label">Focus Density</span>
+                        <strong class="r-value highlight" id="rep-focus-score">High</strong>
+                        <span class="r-sub">Based on tab switches</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical / Category Bar Comparison -->
+            <div class="panel-card">
+                <div class="panel-header">
+                    <span class="panel-label">Top Domain Share</span>
+                    <span class="legend-note">% of total online time</span>
+                </div>
+                <div id="reports-share-bars" class="share-bars-wrap">
+                    <div class="empty-state">No distribution data available yet.</div>
+                </div>
+            </div>
+
+            <!-- Productivity Insight Card -->
+            <div class="insight-banner">
+                <div class="insight-icon">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </div>
+                <div class="insight-content">
+                    <strong class="insight-title" id="insight-title">Activity Baseline Active</strong>
+                    <p class="insight-text" id="insight-text">Browsing intelligence is actively measuring dwell intervals and tab transitions without reloading pages.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Footer -->
+        <footer class="app-footer">
+            <div class="footer-left">
+                <span class="sys-dot"></span>
+                <span>Infosys Springboard &bull; ActivityWatch Engine</span>
+            </div>
+            <div class="footer-right">
+                <span class="badge-v3">Manifest V3</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

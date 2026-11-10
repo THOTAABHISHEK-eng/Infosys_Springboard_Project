@@ -1,0 +1,245 @@
+﻿{
+    "current":  {
+                    "lastUpdated":  "05:45:34 PM",
+                    "activatedTime":  "05:45:23 PM",
+                    "title":  "Task Switching",
+                    "category":  "System",
+                    "dwellFormatted":  "12s",
+                    "dwellSeconds":  12,
+                    "appName":  "File Explorer",
+                    "process":  "explorer"
+                },
+    "appUsage":  [
+                     {
+                         "switchCount":  7,
+                         "category":  "System",
+                         "name":  "File Explorer",
+                         "totalSeconds":  68,
+                         "lastSeen":  "05:45:22 PM"
+                     },
+                     {
+                         "switchCount":  2,
+                         "category":  "General Application",
+                         "name":  "Whatsapp.Root",
+                         "totalSeconds":  10,
+                         "lastSeen":  "05:45:23 PM"
+                     },
+                     {
+                         "switchCount":  15,
+                         "category":  "Web Browser",
+                         "name":  "Microsoft Edge",
+                         "totalSeconds":  186,
+                         "lastSeen":  "05:45:21 PM"
+                     }
+                 ],
+    "timestamp":  "2026-11-10T17:45:34.5831700+05:30",
+    "previous":  {
+                     "activeDurationSec":  1,
+                     "appName":  "Whatsapp.Root",
+                     "activeDurationFormatted":  "1s",
+                     "lastActiveTime":  "05:45:23 PM",
+                     "category":  "General Application",
+                     "title":  "WhatsApp",
+                     "process":  "WhatsApp.Root"
+                 },
+    "date":  "2026-11-10",
+    "summary":  {
+                    "totalActiveSeconds":  138,
+                    "mostUsedApp":  {
+                                        "durationSeconds":  186,
+                                        "category":  "Web Browser",
+                                        "name":  "Microsoft Edge",
+                                        "durationFormatted":  "3m 6s",
+                                        "percentage":  135
+                                    },
+                    "totalActiveFormatted":  "2m 18s",
+                    "distinctAppsCount":  3,
+                    "totalSwitches":  24
+                },
+    "timeline":  [
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "05:43:09 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "33s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  33,
+                         "Time":  "05:43:10 PM",
+                         "Title":  "(1) Feed | LinkedIn and 2 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "05:43:45 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  2,
+                         "Time":  "05:43:47 PM",
+                         "Title":  "Inbox - thotaabhishek2006@gmail.com - Gmail and 2 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "4s",
+                         "Category":  "System",
+                         "DurationSec":  4,
+                         "Time":  "05:43:49 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "7s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  7,
+                         "Time":  "05:43:54 PM",
+                         "Title":  "Inbox - thotaabhishek2006@gmail.com - Gmail and 2 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "20s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  20,
+                         "Time":  "05:44:01 PM",
+                         "Title":  "Extensions"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "05:44:22 PM",
+                         "Title":  "(1) Saaketh bhimanojula | LinkedIn and 2 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  5,
+                         "Time":  "05:44:23 PM",
+                         "Title":  "Extensions"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  5,
+                         "Time":  "05:44:29 PM",
+                         "Title":  "New tab and 3 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  5,
+                         "Time":  "05:44:34 PM",
+                         "Title":  "aicte internship - Search and 3 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "05:44:39 PM",
+                         "Title":  "Extensions"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "4s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  4,
+                         "Time":  "05:44:40 PM",
+                         "Title":  "aicte internship - Search and 3 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "05:44:44 PM",
+                         "Title":  "Login | National Internship Portal and 4 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  2,
+                         "Time":  "05:44:45 PM",
+                         "Title":  "Student Dashboard | National Internship Portal and 4 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  5,
+                         "Time":  "05:44:48 PM",
+                         "Title":  "Extensions"
+                     },
+                     {
+                         "AppName":  "Whatsapp.Root",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "05:44:53 PM",
+                         "Title":  "WhatsApp"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "19s",
+                         "Category":  "System",
+                         "DurationSec":  19,
+                         "Time":  "05:44:57 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "05:45:17 PM",
+                         "Title":  "aicte internship - Search and 4 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "05:45:18 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Microsoft Edge",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "05:45:20 PM",
+                         "Title":  "Student Dashboard | National Internship Portal and 4 more pages - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "05:45:21 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Whatsapp.Root",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "05:45:22 PM",
+                         "Title":  "WhatsApp"
+                     }
+                 ]
+}

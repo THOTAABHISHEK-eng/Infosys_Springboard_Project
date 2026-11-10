@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity & Usage Tracker | Desktop & Browser Monitor</title>
+    
+    <!-- Clean Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Clean Minimalist Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-main">
+                <div class="header-title-wrap">
+                    <span class="header-badge">Internship Project &bull; Week 1</span>
+                    <h1>System Activity & Usage Tracker</h1>
+                    <p class="header-desc">Unified Active Window and Website Dwell Duration Telemetry</p>
+                </div>
+                <div class="header-controls">
+                    <div id="connection-status" class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span id="status-label">Monitoring System &amp; Browser</span>
+                    </div>
+                    <button id="btn-export-csv" class="btn btn-secondary btn-sm">Export Report (CSV)</button>
+                    <button id="btn-reset-session" class="btn btn-secondary btn-sm">Reset Session</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="content-grid">
+            <!-- 1. Live Current and Previous Activity Panels -->
+            <section class="section-full">
+                <div class="dual-panels">
+                    <!-- Current Active Window/Website Card -->
+                    <div class="card current-card">
+                        <div class="card-header">
+                            <span class="card-eyebrow eyebrow-current">Current Active Application / Website</span>
+                            <span class="badge badge-active">Live Active Focus</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="title-row">
+                                <h2 id="cur-app-name" class="entity-name">Waiting for active window...</h2>
+                                <span id="cur-app-category" class="category-tag">—</span>
+                            </div>
+                            <div id="cur-title-row" class="context-box">
+                                <span class="context-label">Window Title / URL:</span>
+                                <span id="cur-window-title" class="context-text">—</span>
+                            </div>
+                            <div class="dwell-counter-box">
+                                <span class="counter-label">Active Dwell Time</span>
+                                <div id="cur-counter" class="counter-time">00:00:00</div>
+                            </div>
+                            <div class="meta-footer">
+                                <span>Became Active: <strong id="cur-activated">—</strong></span>
+                                <span>Last Tick: <span id="cur-updated">—</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Previous Active Window/Website Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-eyebrow">Previous Active Application / Website</span>
+                            <span class="badge badge-neutral">Last State</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="title-row">
+                                <h2 id="prev-app-name" class="entity-name">No previous application yet</h2>
+                                <span id="prev-app-category" class="category-tag">—</span>
+                            </div>
+                            <div id="prev-title-row" class="context-box">
+                                <span class="context-label">Window Title / URL:</span>
+                                <span id="prev-window-title" class="context-text">—</span>
+                            </div>
+                            <div class="prev-duration-box">
+                                <span class="prev-duration-label">Total Time Actively Spent:</span>
+                                <strong id="prev-duration" class="prev-duration-time">0s</strong>
+                            </div>
+                            <div class="meta-footer">
+                                <span>Switched Away At: <strong id="prev-last-time">—</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. High-Level Summary Metrics Bar -->
+            <section class="section-full">
+                <div class="metrics-bar">
+                    <div class="metric-card">
+                        <span class="metric-title">Total Active Usage Today</span>
+                        <strong id="sum-total-time" class="metric-value">0s</strong>
+                        <span class="metric-hint">Focused active windows only</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-title">Distinct Apps / Sites</span>
+                        <strong id="sum-apps-count" class="metric-value">0</strong>
+                        <span class="metric-hint">Separate processes &amp; domains</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-title">Total Window Switches</span>
+                        <strong id="sum-switches" class="metric-value">0</strong>
+                        <span class="metric-hint">Context transitions logged</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-title">Most-Used Application</span>
+                        <strong id="sum-most-used" class="metric-value">—</strong>
+                        <span id="sum-most-used-hint" class="metric-hint">0% of total active time</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Usage Comparison Table & Chronological Timeline -->
+            <section class="section-full">
+                <div class="analytics-layout">
+                    <!-- Application Usage Comparison Table -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <div>
+                                <h3>Usage Duration Comparison</h3>
+                                <p class="panel-sub">Ranked by accumulated active time</p>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 48px;">#</th>
+                                        <th>Application / Website</th>
+                                        <th>Category</th>
+                                        <th>Active Duration</th>
+                                        <th>Switches</th>
+                                        <th style="width: 140px;">Proportion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="app-usage-tbody">
+                                    <tr>
+                                        <td colspan="6" class="empty-state">
+                                            No application activity logged yet. Switch between WhatsApp, Brave, Edge, VS Code, or other apps on your laptop to begin.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Chronological Activity Timeline -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <div>
+                                <h3>Chronological Activity Timeline</h3>
+                                <p class="panel-sub">Historical sequence of active window switches</p>
+                            </div>
+                        </div>
+                        <div class="timeline-container" id="timeline-container">
+                            <div class="empty-state">
+                                Transitions will be recorded here as you work.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-left">
+                <span>Current &amp; Previous Website &amp; Application Usage Tracker</span>
+                <span class="footer-dot">&bull;</span>
+                <span>System Win32 API + Manifest V3</span>
+            </div>
+            <div class="footer-right">
+                <span class="footer-tag">Active Window Guard: Enabled</span>
+                <span class="footer-tag">Auto-Sync: 1000ms</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
