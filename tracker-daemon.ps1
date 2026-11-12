@@ -27,6 +27,7 @@ $FG_CYAN   = "$ESC[38;2;6;182;212m"
 $FG_EMERALD= "$ESC[38;2;16;185;129m"
 $FG_AMBER  = "$ESC[38;2;245;158;11m"
 $FG_RED    = "$ESC[38;2;239;68;68m"
+$CLEAR_EOL = "$ESC[K"
 
 # Background Colors
 $BG_NAVY   = "$ESC[48;2;10;14;23m"
@@ -51,10 +52,13 @@ Add-Type -MemberDefinition $signature -Name "Win32API" -Namespace "SystemTracker
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $stateFile = Join-Path $scriptDir "activity_state.json"
+$historyFile = Join-Path $scriptDir "activity_history.json"
 
 # Process Catalog & Categorization
 $KNOWN_APPS = @{
     "whatsapp"        = @{ Name = "WhatsApp Desktop"; Category = "Communication" }
+    "whatsapp.root"   = @{ Name = "WhatsApp Desktop"; Category = "Communication" }
+    "applicationframehost" = @{ Name = "Windows App"; Category = "General Application" }
     "telegram"        = @{ Name = "Telegram Desktop"; Category = "Communication" }
     "discord"         = @{ Name = "Discord"; Category = "Communication" }
     "slack"           = @{ Name = "Slack"; Category = "Communication" }
@@ -75,6 +79,10 @@ $KNOWN_APPS = @{
     "spotify"         = @{ Name = "Spotify"; Category = "Media" }
     "notepad"         = @{ Name = "Notepad"; Category = "Utilities" }
     "notepad++"       = @{ Name = "Notepad++"; Category = "Development" }
+    "shellexperiencehost" = @{ Name = "Task Switching"; Category = "System" }
+    "taskview"        = @{ Name = "Task Switching"; Category = "System" }
+    "searchhost"      = @{ Name = "Windows Search"; Category = "System" }
+    "startmenuexperiencehost" = @{ Name = "Start Menu"; Category = "System" }
 }
 
 function Format-Duration([int]$totalSeconds) {
@@ -89,6 +97,36 @@ function Resolve-AppDetails($processName, $rawTitle) {
     $procLower = $processName.ToLower()
     $name = $processName
     $category = "General Application"
+
+    # 1. Native WhatsApp Desktop or Store Package (handles any contact name or chat title)
+    if ($procLower -like "*whatsapp*") {
+        $wTitle = if ([string]::IsNullOrWhiteSpace($rawTitle)) { "WhatsApp Desktop" } else { $rawTitle }
+        return @{
+            AppName = "WhatsApp Desktop"
+            Category = "Communication"
+            Title = $wTitle
+            Process = $processName
+        }
+    }
+
+    if ($procLower -eq "applicationframehost" -and $rawTitle -match "(?i)whatsapp") {
+        return @{
+            AppName = "WhatsApp Desktop"
+            Category = "Communication"
+            Title = $rawTitle
+            Process = $processName
+        }
+    }
+
+    # 2. Virtual Desktops, Task View, and Windows Task Switching
+    if ($procLower -eq "shellexperiencehost" -or $procLower -eq "taskview" -or ($procLower -eq "explorer" -and $rawTitle -match "(?i)(Task Switching|Task View|Running applications)")) {
+        return @{
+            AppName = "Task Switching"
+            Category = "System"
+            Title = if ([string]::IsNullOrWhiteSpace($rawTitle)) { "Virtual Desktop Switcher" } else { $rawTitle }
+            Process = $processName
+        }
+    }
 
     if ($KNOWN_APPS.ContainsKey($procLower)) {
         $name = $KNOWN_APPS[$procLower].Name
@@ -113,8 +151,16 @@ function Resolve-AppDetails($processName, $rawTitle) {
         $cleanTitle = $name
     }
 
+    # Distinct website tracking inside browsers (e.g. YouTube (Brave Browser))
+    $finalAppName = if ($procLower -in @("brave", "chrome", "msedge", "firefox") -and $cleanTitle -ne $name -and -not [string]::IsNullOrWhiteSpace($cleanTitle)) {
+        "$cleanTitle ($name)"
+    } else {
+        $name
+    }
+
     return @{
-        AppName = $name
+        AppName = $finalAppName
+        BaseApp = $name
         Category = $category
         Title = $cleanTitle
         Process = $processName
@@ -133,36 +179,74 @@ $lastForegroundId = 0
 $lastNotification = "Tracker daemon initialized successfully."
 $lastNotifType = "SUCCESS"
 
+# Load existing multi-day history if available
+$historyData = @{}
+if (Test-Path $historyFile) {
+    try {
+        $rawHist = Get-Content $historyFile -Raw -Encoding UTF8 | ConvertFrom-Json
+        if ($rawHist) {
+            foreach ($prop in $rawHist.PSObject.Properties) {
+                $historyData[$prop.Name] = $prop.Value
+            }
+        }
+    } catch {
+        # ignore parse errors
+    }
+}
+
 # Clear screen once on startup
 Clear-Host
+
+# Helper to write a clean terminal row with trailing space padding to eliminate leftover ghost characters
+function Write-DashboardRow {
+    param(
+        [string]$lineFormatted,
+        [int]$lineWidth = 90
+    )
+    # Strip ANSI escape codes to calculate visual string length accurately
+    $plain = $lineFormatted -replace "`e\[[0-9;]*[a-zA-Z]", ""
+    $padLen = [Math]::Max(0, $lineWidth - $plain.Length)
+    $spaces = " " * $padLen
+    Write-Host "$lineFormatted$spaces$CLEAR_EOL"
+}
 
 function Print-ConsoleDashboard {
     $timeNow = (Get-Date).ToString("hh:mm:ss tt")
     $dateNow = (Get-Date).ToString("yyyy-MM-dd")
 
-    # Move cursor to home position for clean redrawing
+    # Move cursor to home position for smooth redrawing without screen flicker
     [Console]::SetCursorPosition(0, 0)
 
     # 1. Header Banner
-    $hdrText = "  ACTIVITYWATCH & WINDOWS MONITOR | [CONSOLE ENGINE v2.0] | $dateNow $timeNow  "
-    Write-Host "$BG_CARD$FG_WHITE$C_BOLD$hdrText$C_RESET"
-    Write-Host "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
+    $hdrText = "  ACTIVITYWATCH & WINDOWS MONITOR | [CONSOLE ENGINE v2.0] | $dateNow $timeNow"
+    Write-DashboardRow "$BG_CARD$FG_WHITE$C_BOLD$hdrText$C_RESET"
+    Write-DashboardRow "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
 
-    # 2. Section: Monitoring Status & Session Statistics
-    $statusText = "$FG_EMERALD* ACTIVE (MONITORING)$C_RESET"
-    $storageText = "$FG_CYAN* CONNECTED (activity_state.json)$C_RESET"
+    # 2. Section: Monitoring Status & Session Statistics (Perfect 2-column alignment)
     $durFormatted = Format-Duration $totalActiveSeconds
     $appsCount = $appUsage.Keys.Count
     $procId = [System.Diagnostics.Process]::GetCurrentProcess().Id
 
-    Write-Host "$FG_BLUE$C_BOLD[MONITORING STATUS AND SESSION STATISTICS]$C_RESET"
-    Write-Host "  $FG_MUTED- Status:          $statusText        $FG_MUTED- Total Session Dwell:  $FG_WHITE$C_BOLD$durFormatted$C_RESET"
-    Write-Host "  $FG_MUTED- Storage Sync:    $storageText   $FG_MUTED- App Switch Count:     $FG_WHITE$C_BOLD$totalSwitches$C_RESET"
-    Write-Host "  $FG_MUTED- Engine PID:      $FG_WHITE$procId$C_RESET                   $FG_MUTED- Tracked Applications: $FG_WHITE$C_BOLD$appsCount$C_RESET"
-    Write-Host "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
+    Write-DashboardRow "$FG_BLUE$C_BOLD[MONITORING STATUS AND SESSION STATISTICS]$C_RESET"
+
+    # Row 1: Status & Total Dwell
+    $col1Val1 = "* ACTIVE (MONITORING)".PadRight(26)
+    Write-DashboardRow "  $FG_MUTED- Status:         $FG_RESET$FG_EMERALD$col1Val1$FG_RESET$FG_MUTED- Total Session Dwell:  $FG_RESET$FG_WHITE$C_BOLD$durFormatted$C_RESET"
+
+    # Row 2: Storage Sync & Switch Count
+    $col1Val2 = "* CONNECTED (JSON)".PadRight(26)
+    $switchesStr = "$totalSwitches"
+    Write-DashboardRow "  $FG_MUTED- Storage Sync:   $FG_RESET$FG_CYAN$col1Val2$FG_RESET$FG_MUTED- App Switch Count:     $FG_RESET$FG_WHITE$C_BOLD$switchesStr$C_RESET"
+
+    # Row 3: Engine PID & Tracked Apps
+    $col1Val3 = "$procId".PadRight(26)
+    $appsStr = "$appsCount"
+    Write-DashboardRow "  $FG_MUTED- Engine PID:     $FG_RESET$FG_WHITE$col1Val3$FG_RESET$FG_MUTED- Tracked Applications: $FG_RESET$FG_WHITE$C_BOLD$appsStr$C_RESET"
+
+    Write-DashboardRow "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
 
     # 3. Section: Current Application
-    Write-Host "$FG_EMERALD$C_BOLD[CURRENT ACTIVE APPLICATION]$C_RESET"
+    Write-DashboardRow "$FG_EMERALD$C_BOLD[CURRENT ACTIVE APPLICATION]$C_RESET"
     if ($currentState) {
         $curDwellFormatted = Format-Duration $currentDwell
         $appTitleTrunc = if ($currentState.Title.Length -gt 50) { $currentState.Title.Substring(0, 47) + "..." } else { $currentState.Title }
@@ -170,25 +254,25 @@ function Print-ConsoleDashboard {
         $cName = $currentState.AppName
         $cCat = $currentState.Category
         
-        Write-Host "  $FG_MUTED- Application:     $FG_WHITE$C_BOLD$cName$C_RESET  $FG_BLUE[$cCat]$C_RESET"
-        Write-Host "  $FG_MUTED- Window Title:    $FG_CYAN$appTitleTrunc$C_RESET"
-        Write-Host "  $FG_MUTED- Active Dwell:    $FG_EMERALD$C_BOLD$curDwellFormatted$C_RESET ($currentDwell s)   $FG_MUTED| Activated: $FG_WHITE$actTime$C_RESET"
-        Write-Host "  $FG_MUTED- App Status:      $FG_EMERALD* Focused in Foreground$C_RESET"
+        Write-DashboardRow "  $FG_MUTED- Application:  $FG_RESET$FG_WHITE$C_BOLD$cName$C_RESET  $FG_BLUE[$cCat]$C_RESET"
+        Write-DashboardRow "  $FG_MUTED- Window Title: $FG_RESET$FG_CYAN$appTitleTrunc$C_RESET"
+        Write-DashboardRow "  $FG_MUTED- Active Dwell: $FG_RESET$FG_EMERALD$C_BOLD$curDwellFormatted$C_RESET ($currentDwell s)   $FG_MUTED| Activated: $FG_WHITE$actTime$C_RESET"
+        Write-DashboardRow "  $FG_MUTED- App Status:   $FG_RESET$FG_EMERALD* Focused in Foreground$C_RESET"
     } else {
-        Write-Host "  $FG_MUTED- Awaiting window focus... (Click any app on your laptop)$C_RESET"
-        Write-Host "                                                                                          "
-        Write-Host "                                                                                          "
-        Write-Host "                                                                                          "
+        Write-DashboardRow "  $FG_MUTED- Awaiting window focus... (Click any app on your laptop)$C_RESET"
+        Write-DashboardRow ""
+        Write-DashboardRow ""
+        Write-DashboardRow ""
     }
-    Write-Host "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
+    Write-DashboardRow "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
 
     # 4. Section: Recent Activity History
-    Write-Host "$FG_CYAN$C_BOLD[RECENT ACTIVITY LOG]$C_RESET $FG_DIM(Chronological Transitions)$C_RESET"
+    Write-DashboardRow "$FG_CYAN$C_BOLD[RECENT ACTIVITY LOG]$C_RESET $FG_DIM(Chronological Transitions)$C_RESET"
     if ($recentEvents.Count -eq 0) {
-        Write-Host "  $FG_DIM(No application switches recorded yet)$C_RESET                                      "
-        Write-Host "                                                                                          "
-        Write-Host "                                                                                          "
-        Write-Host "                                                                                          "
+        Write-DashboardRow "  $FG_DIM(No application switches recorded yet)$C_RESET"
+        Write-DashboardRow ""
+        Write-DashboardRow ""
+        Write-DashboardRow ""
     } else {
         $displayEvents = $recentEvents[-4..-1]
         for ($i = $displayEvents.Count - 1; $i -ge 0; $i--) {
@@ -199,14 +283,14 @@ function Print-ConsoleDashboard {
                 $evName = $ev.AppName.PadRight(18)
                 $evTitlePadded = $evTitleTrunc.PadRight(34)
                 $evDur = $ev.DurationFormatted
-                Write-Host "  $FG_MUTED$evTime$C_RESET $FG_WHITE$C_BOLD$evName$C_RESET $FG_DIM|$C_RESET $FG_CYAN$evTitlePadded$C_RESET $FG_EMERALD$evDur$C_RESET   "
+                Write-DashboardRow "  $FG_MUTED$evTime$C_RESET $FG_WHITE$C_BOLD$evName$C_RESET $FG_DIM|$C_RESET $FG_CYAN$evTitlePadded$C_RESET $FG_EMERALD$evDur$C_RESET"
             }
         }
         for ($j = $displayEvents.Count; $j -lt 4; $j++) {
-            Write-Host "                                                                                          "
+            Write-DashboardRow ""
         }
     }
-    Write-Host "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
+    Write-DashboardRow "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
 
     # 5. Section: Notifications & Event Stream
     $notifColor = switch ($lastNotifType) {
@@ -215,9 +299,9 @@ function Print-ConsoleDashboard {
         "SYNC"    { $FG_BLUE }
         default   { $FG_CYAN }
     }
-    Write-Host "$FG_MUTED$C_BOLD[NOTIFICATIONS]$C_RESET  $notifColor$lastNotification$C_RESET                                      "
-    Write-Host "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
-    Write-Host "  $FG_DIM Press Ctrl+C in this terminal window to stop monitoring cleanly.                      $C_RESET"
+    Write-DashboardRow "$FG_MUTED$C_BOLD[NOTIFICATIONS]$C_RESET  $notifColor$lastNotification$C_RESET"
+    Write-DashboardRow "$FG_DIM------------------------------------------------------------------------------------------$C_RESET"
+    Write-DashboardRow "  $FG_DIM Press Ctrl+C in this terminal window to stop monitoring cleanly.$C_RESET"
 }
 
 # Main Monitoring Loop
@@ -387,7 +471,23 @@ while ($true) {
         try {
             $jsonContent = $exportPayload | ConvertTo-Json -Depth 6
             [System.IO.File]::WriteAllText($stateFile, $jsonContent, [System.Text.Encoding]::UTF8)
-            $lastNotification = "Data synced cleanly to activity_state.json ($($appUsage.Keys.Count) apps)"
+
+            # Persist and sync multi-day history
+            $todayKey = (Get-Date).ToString("yyyy-MM-dd")
+            $historyData[$todayKey] = @{
+                date = $todayKey
+                lastUpdated = (Get-Date).ToString("o")
+                totalActiveSeconds = $totalActiveSeconds
+                totalActiveFormatted = (Format-Duration $totalActiveSeconds)
+                totalSwitches = $totalSwitches
+                distinctAppsCount = $appUsage.Keys.Count
+                appUsage = @($appUsage.Values)
+                timeline = @($recentEvents)
+            }
+            $histJson = $historyData | ConvertTo-Json -Depth 6
+            [System.IO.File]::WriteAllText($historyFile, $histJson, [System.Text.Encoding]::UTF8)
+
+            $lastNotification = "Data synced cleanly to activity_state.json & activity_history.json ($($appUsage.Keys.Count) apps)"
             $lastNotifType = "SYNC"
         } catch {
             $lastNotification = "File sync paused: $($_.Exception.Message)"

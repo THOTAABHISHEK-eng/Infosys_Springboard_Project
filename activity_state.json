@@ -1,245 +1,545 @@
 ﻿{
     "current":  {
-                    "lastUpdated":  "05:45:34 PM",
-                    "activatedTime":  "05:45:23 PM",
-                    "title":  "Task Switching",
-                    "category":  "System",
-                    "dwellFormatted":  "12s",
-                    "dwellSeconds":  12,
-                    "appName":  "File Explorer",
-                    "process":  "explorer"
+                    "lastUpdated":  "12:50:52 AM",
+                    "activatedTime":  "12:50:51 AM",
+                    "title":  "System Activity Tracker Daemon",
+                    "category":  "Utilities",
+                    "dwellFormatted":  "2s",
+                    "dwellSeconds":  2,
+                    "appName":  "Windows Terminal",
+                    "process":  "WindowsTerminal"
                 },
     "appUsage":  [
                      {
-                         "switchCount":  7,
-                         "category":  "System",
-                         "name":  "File Explorer",
-                         "totalSeconds":  68,
-                         "lastSeen":  "05:45:22 PM"
+                         "switchCount":  1,
+                         "category":  "Web Browser",
+                         "name":  "WhatsApp and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
+                         "totalSeconds":  2,
+                         "lastSeen":  "12:50:24 AM"
+                     },
+                     {
+                         "switchCount":  3,
+                         "category":  "General Application",
+                         "name":  "Antigravity Ide",
+                         "totalSeconds":  90,
+                         "lastSeen":  "12:48:39 AM"
                      },
                      {
                          "switchCount":  2,
-                         "category":  "General Application",
-                         "name":  "Whatsapp.Root",
+                         "category":  "Web Browser",
+                         "name":  "Camila Cabello - Shameless (Official Video) - YouTube (Brave Browser)",
+                         "totalSeconds":  4,
+                         "lastSeen":  "12:45:52 AM"
+                     },
+                     {
+                         "switchCount":  1,
+                         "category":  "Web Browser",
+                         "name":  "English Lab Questions (Brave Browser)",
+                         "totalSeconds":  2,
+                         "lastSeen":  "12:45:53 AM"
+                     },
+                     {
+                         "switchCount":  13,
+                         "category":  "Utilities",
+                         "name":  "Windows Terminal",
+                         "totalSeconds":  314,
+                         "lastSeen":  "12:50:25 AM"
+                     },
+                     {
+                         "switchCount":  3,
+                         "category":  "Web Browser",
+                         "name":  "New Tab (Brave Browser)",
+                         "totalSeconds":  6,
+                         "lastSeen":  "12:49:04 AM"
+                     },
+                     {
+                         "switchCount":  1,
+                         "category":  "Web Browser",
+                         "name":  "WhatsApp Web and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
                          "totalSeconds":  10,
-                         "lastSeen":  "05:45:23 PM"
+                         "lastSeen":  "12:46:15 AM"
+                     },
+                     {
+                         "switchCount":  1,
+                         "category":  "Web Browser",
+                         "name":  "Untitled and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
+                         "totalSeconds":  4,
+                         "lastSeen":  "12:46:09 AM"
+                     },
+                     {
+                         "switchCount":  5,
+                         "category":  "System",
+                         "name":  "File Explorer",
+                         "totalSeconds":  18,
+                         "lastSeen":  "12:50:43 AM"
+                     },
+                     {
+                         "switchCount":  5,
+                         "category":  "Web Browser",
+                         "name":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
+                         "totalSeconds":  10,
+                         "lastSeen":  "12:50:44 AM"
+                     },
+                     {
+                         "switchCount":  4,
+                         "category":  "Web Browser",
+                         "name":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                         "totalSeconds":  8,
+                         "lastSeen":  "12:50:51 AM"
+                     },
+                     {
+                         "switchCount":  1,
+                         "category":  "Web Browser",
+                         "name":  "New tab - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
+                         "totalSeconds":  8,
+                         "lastSeen":  "12:46:07 AM"
+                     },
+                     {
+                         "switchCount":  10,
+                         "category":  "Web Browser",
+                         "name":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                         "totalSeconds":  20,
+                         "lastSeen":  "12:50:46 AM"
                      },
                      {
                          "switchCount":  15,
+                         "category":  "System",
+                         "name":  "Task Switching",
+                         "totalSeconds":  90,
+                         "lastSeen":  "12:50:42 AM"
+                     },
+                     {
+                         "switchCount":  4,
                          "category":  "Web Browser",
-                         "name":  "Microsoft Edge",
-                         "totalSeconds":  186,
-                         "lastSeen":  "05:45:21 PM"
+                         "name":  "ActivityWatch: System and Browser Intelligence (Brave Browser)",
+                         "totalSeconds":  8,
+                         "lastSeen":  "12:50:50 AM"
                      }
                  ],
-    "timestamp":  "2026-11-10T17:45:34.5831700+05:30",
+    "timestamp":  "2026-11-12T00:50:52.8412872+05:30",
     "previous":  {
                      "activeDurationSec":  1,
-                     "appName":  "Whatsapp.Root",
+                     "appName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
                      "activeDurationFormatted":  "1s",
-                     "lastActiveTime":  "05:45:23 PM",
-                     "category":  "General Application",
-                     "title":  "WhatsApp",
-                     "process":  "WhatsApp.Root"
+                     "lastActiveTime":  "12:50:51 AM",
+                     "category":  "Web Browser",
+                     "title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube",
+                     "process":  "brave"
                  },
-    "date":  "2026-11-10",
+    "date":  "2026-11-12",
     "summary":  {
-                    "totalActiveSeconds":  138,
+                    "totalActiveSeconds":  298,
                     "mostUsedApp":  {
-                                        "durationSeconds":  186,
-                                        "category":  "Web Browser",
-                                        "name":  "Microsoft Edge",
-                                        "durationFormatted":  "3m 6s",
-                                        "percentage":  135
+                                        "durationSeconds":  314,
+                                        "category":  "Utilities",
+                                        "name":  "Windows Terminal",
+                                        "durationFormatted":  "5m 14s",
+                                        "percentage":  105
                                     },
-                    "totalActiveFormatted":  "2m 18s",
-                    "distinctAppsCount":  3,
-                    "totalSwitches":  24
+                    "totalActiveFormatted":  "4m 58s",
+                    "distinctAppsCount":  15,
+                    "totalSwitches":  69
                 },
     "timeline":  [
                      {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Utilities",
+                         "DurationSec":  3,
+                         "Time":  "12:46:48 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "5s",
+                         "Category":  "System",
+                         "DurationSec":  5,
+                         "Time":  "12:46:51 AM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Utilities",
+                         "DurationSec":  1,
+                         "Time":  "12:46:56 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "6s",
+                         "Category":  "System",
+                         "DurationSec":  6,
+                         "Time":  "12:46:58 AM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "43s",
+                         "Category":  "General Application",
+                         "DurationSec":  43,
+                         "Time":  "12:47:04 AM",
+                         "Title":  "infosys_springboard - Antigravity IDE - activity_state.json"
+                     },
+                     {
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:47:49 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:47:51 AM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "22s",
+                         "Category":  "Utilities",
+                         "DurationSec":  22,
+                         "Time":  "12:47:52 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "12:48:14 AM",
+                         "Title":  "infosys_springboard - Antigravity IDE - activity_state.json"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "3s",
+                         "Category":  "System",
+                         "DurationSec":  3,
+                         "Time":  "12:48:16 AM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Utilities",
+                         "DurationSec":  1,
+                         "Time":  "12:48:19 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
                          "AppName":  "File Explorer",
                          "DurationFormatted":  "1s",
                          "Category":  "System",
                          "DurationSec":  1,
-                         "Time":  "05:43:09 PM",
-                         "Title":  "Task Switching"
+                         "Time":  "12:48:20 AM",
+                         "Title":  "Home - File Explorer"
                      },
                      {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "33s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  33,
-                         "Time":  "05:43:10 PM",
-                         "Title":  "(1) Feed | LinkedIn and 2 more pages - Profile 1 - Microsoft​ Edge"
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "10s",
+                         "Category":  "Utilities",
+                         "DurationSec":  10,
+                         "Time":  "12:48:21 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "6s",
+                         "Category":  "System",
+                         "DurationSec":  6,
+                         "Time":  "12:48:31 AM",
+                         "Title":  "Task View"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "12:48:38 AM",
+                         "Title":  "infosys_springboard - Antigravity IDE - activity_state.json"
                      },
                      {
                          "AppName":  "File Explorer",
                          "DurationFormatted":  "2s",
                          "Category":  "System",
                          "DurationSec":  2,
-                         "Time":  "05:43:45 PM",
-                         "Title":  "Task Switching"
+                         "Time":  "12:48:39 AM",
+                         "Title":  "Home - File Explorer"
                      },
                      {
-                         "AppName":  "Microsoft Edge",
+                         "AppName":  "Task Switching",
                          "DurationFormatted":  "2s",
-                         "Category":  "Web Browser",
+                         "Category":  "System",
                          "DurationSec":  2,
-                         "Time":  "05:43:47 PM",
-                         "Title":  "Inbox - thotaabhishek2006@gmail.com - Gmail and 2 more pages - Profile 1 - Microsoft​ Edge"
+                         "Time":  "12:48:41 AM",
+                         "Title":  "Task View"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "13s",
+                         "Category":  "Utilities",
+                         "DurationSec":  13,
+                         "Time":  "12:48:43 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:48:56 AM",
+                         "Title":  "Task View"
                      },
                      {
                          "AppName":  "File Explorer",
-                         "DurationFormatted":  "4s",
+                         "DurationFormatted":  "3s",
                          "Category":  "System",
-                         "DurationSec":  4,
-                         "Time":  "05:43:49 PM",
+                         "DurationSec":  3,
+                         "Time":  "12:48:58 AM",
+                         "Title":  "Home - File Explorer"
+                     },
+                     {
+                         "AppName":  "New Tab (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:49:01 AM",
+                         "Title":  "New Tab"
+                     },
+                     {
+                         "AppName":  "New Tab (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:49:02 AM",
+                         "Title":  "New Tab"
+                     },
+                     {
+                         "AppName":  "New Tab (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:49:03 AM",
+                         "Title":  "New Tab"
+                     },
+                     {
+                         "AppName":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:49:04 AM",
+                         "Title":  "Chess.com - Play Chess Online - Free Games"
+                     },
+                     {
+                         "AppName":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:49:05 AM",
+                         "Title":  "Chess.com - Play Chess Online - Free Games"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "12:49:06 AM",
+                         "Title":  "Task View"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1m 7s",
+                         "Category":  "Utilities",
+                         "DurationSec":  67,
+                         "Time":  "12:49:08 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "12:50:18 AM",
+                         "Title":  "Home - File Explorer"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Utilities",
+                         "DurationSec":  2,
+                         "Time":  "12:50:20 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:50:22 AM",
                          "Title":  "Task Switching"
                      },
                      {
-                         "AppName":  "Microsoft Edge",
+                         "AppName":  "WhatsApp and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:23 AM",
+                         "Title":  "WhatsApp and 1 more page - Profile 1 - Microsoft​ Edge"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Utilities",
+                         "DurationSec":  1,
+                         "Time":  "12:50:24 AM",
+                         "Title":  "System Activity Tracker Daemon"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:50:25 AM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:26 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
+                     },
+                     {
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:28 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
+                     },
+                     {
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:29 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
+                     },
+                     {
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:30 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:50:31 AM",
+                         "Title":  "Task View"
+                     },
+                     {
+                         "AppName":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:32 AM",
+                         "Title":  "Chess.com - Play Chess Online - Free Games"
+                     },
+                     {
+                         "AppName":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:33 AM",
+                         "Title":  "Chess.com - Play Chess Online - Free Games"
+                     },
+                     {
+                         "AppName":  "Task Switching",
                          "DurationFormatted":  "7s",
-                         "Category":  "Web Browser",
+                         "Category":  "System",
                          "DurationSec":  7,
-                         "Time":  "05:43:54 PM",
-                         "Title":  "Inbox - thotaabhishek2006@gmail.com - Gmail and 2 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "20s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  20,
-                         "Time":  "05:44:01 PM",
-                         "Title":  "Extensions"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  1,
-                         "Time":  "05:44:22 PM",
-                         "Title":  "(1) Saaketh bhimanojula | LinkedIn and 2 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "5s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  5,
-                         "Time":  "05:44:23 PM",
-                         "Title":  "Extensions"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "5s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  5,
-                         "Time":  "05:44:29 PM",
-                         "Title":  "New tab and 3 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "5s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  5,
-                         "Time":  "05:44:34 PM",
-                         "Title":  "aicte internship - Search and 3 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  1,
-                         "Time":  "05:44:39 PM",
-                         "Title":  "Extensions"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "4s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  4,
-                         "Time":  "05:44:40 PM",
-                         "Title":  "aicte internship - Search and 3 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  1,
-                         "Time":  "05:44:44 PM",
-                         "Title":  "Login | National Internship Portal and 4 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "2s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  2,
-                         "Time":  "05:44:45 PM",
-                         "Title":  "Student Dashboard | National Internship Portal and 4 more pages - Profile 1 - Microsoft​ Edge"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "5s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  5,
-                         "Time":  "05:44:48 PM",
-                         "Title":  "Extensions"
-                     },
-                     {
-                         "AppName":  "Whatsapp.Root",
-                         "DurationFormatted":  "4s",
-                         "Category":  "General Application",
-                         "DurationSec":  4,
-                         "Time":  "05:44:53 PM",
-                         "Title":  "WhatsApp"
-                     },
-                     {
-                         "AppName":  "File Explorer",
-                         "DurationFormatted":  "19s",
-                         "Category":  "System",
-                         "DurationSec":  19,
-                         "Time":  "05:44:57 PM",
-                         "Title":  "Task Switching"
-                     },
-                     {
-                         "AppName":  "Microsoft Edge",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Web Browser",
-                         "DurationSec":  1,
-                         "Time":  "05:45:17 PM",
-                         "Title":  "aicte internship - Search and 4 more pages - Profile 1 - Microsoft​ Edge"
+                         "Time":  "12:50:34 AM",
+                         "Title":  "Task View"
                      },
                      {
                          "AppName":  "File Explorer",
                          "DurationFormatted":  "1s",
                          "Category":  "System",
                          "DurationSec":  1,
-                         "Time":  "05:45:18 PM",
-                         "Title":  "Task Switching"
+                         "Time":  "12:50:42 AM",
+                         "Title":  "Program Manager"
                      },
                      {
-                         "AppName":  "Microsoft Edge",
+                         "AppName":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
                          "DurationFormatted":  "1s",
                          "Category":  "Web Browser",
                          "DurationSec":  1,
-                         "Time":  "05:45:20 PM",
-                         "Title":  "Student Dashboard | National Internship Portal and 4 more pages - Profile 1 - Microsoft​ Edge"
+                         "Time":  "12:50:43 AM",
+                         "Title":  "Chess.com - Play Chess Online - Free Games"
                      },
                      {
-                         "AppName":  "File Explorer",
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
                          "DurationFormatted":  "1s",
-                         "Category":  "System",
+                         "Category":  "Web Browser",
                          "DurationSec":  1,
-                         "Time":  "05:45:21 PM",
-                         "Title":  "Task Switching"
+                         "Time":  "12:50:44 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
                      },
                      {
-                         "AppName":  "Whatsapp.Root",
+                         "AppName":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
                          "DurationFormatted":  "1s",
-                         "Category":  "General Application",
+                         "Category":  "Web Browser",
                          "DurationSec":  1,
-                         "Time":  "05:45:22 PM",
-                         "Title":  "WhatsApp"
+                         "Time":  "12:50:45 AM",
+                         "Title":  "keyboard shortcuts everyone should know - Google Search"
+                     },
+                     {
+                         "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:46 AM",
+                         "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
+                     },
+                     {
+                         "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:47 AM",
+                         "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
+                     },
+                     {
+                         "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:48 AM",
+                         "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
+                     },
+                     {
+                         "AppName":  "ActivityWatch: System and Browser Intelligence (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:49 AM",
+                         "Title":  "ActivityWatch: System and Browser Intelligence"
+                     },
+                     {
+                         "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Web Browser",
+                         "DurationSec":  1,
+                         "Time":  "12:50:50 AM",
+                         "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
                      }
                  ]
 }

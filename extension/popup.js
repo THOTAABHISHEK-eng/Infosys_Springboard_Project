@@ -47,6 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Visual Comparison (Overview)
     const overviewComparisonBars = document.getElementById("overview-comparison-bars");
+    const btnOpenDashboard = document.getElementById("btn-open-dashboard");
+
+    if (btnOpenDashboard) {
+        btnOpenDashboard.addEventListener("click", () => {
+            // Open the comprehensive System & All Browsers Dashboard
+            chrome.tabs.create({ url: chrome.runtime.getURL("../index.html") });
+        });
+    }
 
     // Websites Tab
     const siteSearchInput = document.getElementById("site-search-input");
@@ -80,15 +88,84 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    let historyByDate = {};
+
     // Date Range Selection (Today, Yesterday, 7 Days, 30 Days)
     filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             filterBtns.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
             selectedRange = btn.getAttribute("data-range");
-            renderDashboard();
+            applyDateFilter();
         });
     });
+
+    function applyDateFilter() {
+        if (!latestState) return;
+
+        if (selectedRange === "today" || !historyByDate || Object.keys(historyByDate).length === 0) {
+            renderDashboard();
+            return;
+        }
+
+        const now = new Date();
+        const dates = Object.keys(historyByDate);
+        let targetDates = [];
+
+        if (selectedRange === "yesterday") {
+            const y = new Date();
+            y.setDate(now.getDate() - 1);
+            const yStr = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, "0")}-${String(y.getDate()).padStart(2, "0")}`;
+            targetDates = [yStr];
+        } else if (selectedRange === "7d") {
+            for (let i = 0; i < 7; i++) {
+                const d = new Date();
+                d.setDate(now.getDate() - i);
+                targetDates.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
+            }
+        } else if (selectedRange === "30d") {
+            for (let i = 0; i < 30; i++) {
+                const d = new Date();
+                d.setDate(now.getDate() - i);
+                targetDates.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
+            }
+        }
+
+        // Aggregate across target dates
+        const aggregatedUsage = {};
+        let aggTimeline = [];
+        let aggSwitches = 0;
+
+        targetDates.forEach(dt => {
+            if (historyByDate[dt]) {
+                const day = historyByDate[dt];
+                aggSwitches += (day.totalTabSwitches || 0);
+                if (day.timeline) aggTimeline = aggTimeline.concat(day.timeline);
+
+                const u = day.siteUsage || {};
+                Object.keys(u).forEach(dom => {
+                    if (!aggregatedUsage[dom]) {
+                        aggregatedUsage[dom] = { ...u[dom] };
+                    } else {
+                        aggregatedUsage[dom].totalSec += (u[dom].totalSec || 0);
+                        aggregatedUsage[dom].visitCount += (u[dom].visitCount || 0);
+                    }
+                });
+            }
+        });
+
+        const filterState = {
+            currentWebsite: latestState.currentWebsite,
+            previousWebsite: latestState.previousWebsite,
+            currentDwellSec: latestState.currentDwellSec,
+            totalTabSwitches: aggSwitches || latestState.totalTabSwitches,
+            siteUsage: Object.keys(aggregatedUsage).length > 0 ? aggregatedUsage : latestState.siteUsage,
+            timeline: aggTimeline.length > 0 ? aggTimeline.slice(-60) : latestState.timeline,
+            isWindowFocused: latestState.isWindowFocused
+        };
+
+        renderDashboardWithState(filterState);
+    }
 
     // Search and Sort
     if (siteSearchInput) {
@@ -145,14 +222,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Main Renderer
     function renderDashboard() {
-        if (!latestState) return;
+        renderDashboardWithState(latestState);
+    }
 
-        const cur = latestState.currentWebsite;
-        const prev = latestState.previousWebsite;
-        const dwell = latestState.currentDwellSec || 0;
-        const siteUsage = latestState.siteUsage || {};
-        const timeline = latestState.timeline || [];
-        const isFocused = latestState.isWindowFocused !== false;
+    function renderDashboardWithState(state) {
+        if (!state) return;
+
+        const cur = state.currentWebsite;
+        const prev = state.previousWebsite;
+        const dwell = state.currentDwellSec || 0;
+        const siteUsage = state.siteUsage || {};
+        const timeline = state.timeline || [];
+        const isFocused = state.isWindowFocused !== false;
 
         // 1. Status Indicator & Session Badge
         if (windowStatus) {
@@ -176,14 +257,19 @@ document.addEventListener("DOMContentLoaded", () => {
             totalVisits += (s.visitCount || 1);
         });
 
-        // Sort descending by totalSec
-        sites.sort((a, b) => (b.totalSec || 0) - (a.totalSec || 0));
+        // Sort by recency (most recently active or visited first)
+        sites.sort((a, b) => {
+            const timeA = a.lastActiveTimestamp || 0;
+            const timeB = b.lastActiveTimestamp || 0;
+            if (timeB !== timeA) return timeB - timeA;
+            return (b.totalSec || 0) - (a.totalSec || 0);
+        });
 
         // 3. 4 Main Overview Statistics
         if (statTotalUsage) statTotalUsage.textContent = formatDurationHuman(totalActiveSec);
         if (statSitesVisited) statSitesVisited.textContent = sites.length;
         if (statMostUsed) {
-            statMostUsed.textContent = (sites.length > 0 && sites[0].totalSec > 0) ? sites[0].name : "—";
+            statMostUsed.textContent = (sites.length > 0 && sites[0].totalSec > 0) ? sites[0].name : "None";
             statMostUsed.title = (sites.length > 0) ? `${sites[0].name} (${sites[0].domain})` : "";
         }
         if (statTotalVisits) statTotalVisits.textContent = totalVisits;
@@ -191,10 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // 4. Current Website Section
         if (cur) {
             curName.textContent = cur.name || "Unknown Website";
-            curDomain.textContent = cur.domain || "—";
+            curDomain.textContent = cur.domain || "None";
             curCounter.textContent = formatCounterDigits(dwell);
-            curActivated.textContent = cur.activatedTime || "—";
-            curUrl.textContent = cur.url || "—";
+            curActivated.textContent = cur.activatedTime || "Waiting";
+            curUrl.textContent = cur.url || "None";
             curUrlLink.href = cur.url || "#";
 
             // Today's total for this specific domain
@@ -202,10 +288,10 @@ document.addEventListener("DOMContentLoaded", () => {
             curSiteToday.textContent = formatDurationHuman(thisDomainTotal);
         } else {
             curName.textContent = "No active tab detected";
-            curDomain.textContent = "—";
+            curDomain.textContent = "None";
             curCounter.textContent = "00:00:00";
-            curActivated.textContent = "—";
-            curUrl.textContent = "—";
+            curActivated.textContent = "Waiting";
+            curUrl.textContent = "None";
             curUrlLink.href = "#";
             curSiteToday.textContent = "0s";
         }
@@ -213,16 +299,16 @@ document.addEventListener("DOMContentLoaded", () => {
         // 5. Previous Website Section
         if (prev) {
             prevName.textContent = prev.name || "Unknown";
-            prevDomain.textContent = prev.domain || "—";
+            prevDomain.textContent = prev.domain || "None";
             prevDuration.textContent = formatDurationHuman(prev.totalActiveSpent);
-            prevLastTime.textContent = prev.lastActiveTime || "—";
+            prevLastTime.textContent = prev.lastActiveTime || "Waiting";
             prevUrlLink.href = prev.url || "#";
             prevUrlLink.style.display = prev.url ? "inline" : "none";
         } else {
             prevName.textContent = "No previous website yet";
-            prevDomain.textContent = "—";
+            prevDomain.textContent = "None";
             prevDuration.textContent = "0s";
-            prevLastTime.textContent = "—";
+            prevLastTime.textContent = "None";
             prevUrlLink.style.display = "none";
         }
 
@@ -239,7 +325,10 @@ document.addEventListener("DOMContentLoaded", () => {
         renderReportsTab(sites, totalActiveSec, dwell, latestState.totalTabSwitches || 0);
     }
 
-    // Render Overview Horizontal Bars
+    let isOverviewExpanded = false;
+    let isWebsitesTableExpanded = false;
+
+    // Render Overview Horizontal Bars (Shows 4 most recent by default, More button to show all)
     function renderOverviewBars(sites, totalActiveSec) {
         if (!overviewComparisonBars) return;
 
@@ -248,11 +337,12 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const maxSec = sites[0].totalSec || 1;
+        const maxSec = Math.max(...sites.map(s => s.totalSec || 0), 1);
         let html = "";
-        const topSlice = sites.slice(0, 5);
+        const limit = isOverviewExpanded ? sites.length : 4;
+        const visibleSlice = sites.slice(0, limit);
 
-        topSlice.forEach((site, idx) => {
+        visibleSlice.forEach((site, idx) => {
             const pct = Math.max(3, Math.round(((site.totalSec || 0) / maxSec) * 100));
             html += `
                 <div class="usage-bar-item">
@@ -271,10 +361,23 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
 
+        // More option to show all remaining tabs
+        if (sites.length > 4) {
+            const remainingCount = sites.length - 4;
+            const label = isOverviewExpanded ? "Show Less &uarr;" : `More (+${remainingCount} remaining tabs) &darr;`;
+            html += `
+                <div style="text-align: center; margin-top: 8px;">
+                    <button id="btn-toggle-more-sites" style="background: rgba(59,130,246,0.14); border: 1px solid rgba(59,130,246,0.35); color: #38bdf8; font-size: 0.72rem; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;">
+                        ${label}
+                    </button>
+                </div>
+            `;
+        }
+
         overviewComparisonBars.innerHTML = html;
     }
 
-    // Render Full Websites Table
+    // Render Full Websites Table (Shows 4 most recent by default, More button to show all)
     function renderWebsitesTable() {
         if (!fullWebsitesList || !latestState) return;
 
@@ -300,8 +403,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (sortMode === "name") {
             sites.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
         } else {
-            // default 'time'
-            sites.sort((a, b) => (b.totalSec || 0) - (a.totalSec || 0));
+            // Recency-first ordering
+            sites.sort((a, b) => (b.lastActiveTimestamp || 0) - (a.lastActiveTimestamp || 0) || (b.totalSec || 0) - (a.totalSec || 0));
         }
 
         if (sites.length === 0) {
@@ -309,8 +412,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const limit = isWebsitesTableExpanded ? sites.length : 4;
+        const visibleSlice = sites.slice(0, limit);
+
         let html = "";
-        sites.forEach((site, index) => {
+        visibleSlice.forEach((site, index) => {
             html += `
                 <div class="site-row">
                     <span class="td-rank">${index + 1}</span>
@@ -323,6 +429,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
         });
+
+        // More option to show all remaining tabs in table
+        if (sites.length > 4) {
+            const remainingCount = sites.length - 4;
+            const label = isWebsitesTableExpanded ? "Show Less &uarr;" : `More (+${remainingCount} remaining tabs) &darr;`;
+            html += `
+                <div style="text-align: center; margin-top: 10px; padding: 6px 0;">
+                    <button id="btn-toggle-more-table" style="background: rgba(59,130,246,0.14); border: 1px solid rgba(59,130,246,0.35); color: #38bdf8; font-size: 0.72rem; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;">
+                        ${label}
+                    </button>
+                </div>
+            `;
+        }
 
         fullWebsitesList.innerHTML = html;
     }
@@ -349,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="tl-body">
                         <div class="tl-header">
                             <span class="tl-site">${escapeHtml(item.name || item.domain || "Website")}</span>
-                            <span class="tl-time">${escapeHtml(item.timeStr || "—")}</span>
+                            <span class="tl-time">${escapeHtml(item.timeStr || "N/A")}</span>
                         </div>
                         <span class="tl-action">${escapeHtml(item.actionText || "Visited page")}</span>
                         <span class="tl-dur-pill">${formatDurationHuman(item.durationSec)}</span>
@@ -470,6 +589,29 @@ document.addEventListener("DOMContentLoaded", () => {
         URL.revokeObjectURL(url);
     }
 
+    // Event delegation for "More" expanders
+    if (overviewComparisonBars) {
+        overviewComparisonBars.addEventListener("click", e => {
+            const btn = e.target.closest("#btn-toggle-more-sites");
+            if (btn) {
+                e.preventDefault();
+                isOverviewExpanded = !isOverviewExpanded;
+                renderDashboard();
+            }
+        });
+    }
+
+    if (fullWebsitesList) {
+        fullWebsitesList.addEventListener("click", e => {
+            const btn = e.target.closest("#btn-toggle-more-table");
+            if (btn) {
+                e.preventDefault();
+                isWebsitesTableExpanded = !isWebsitesTableExpanded;
+                renderWebsitesTable();
+            }
+        });
+    }
+
     // Initial load from chrome.storage.local
     if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
         chrome.storage.local.get([
@@ -478,8 +620,10 @@ document.addEventListener("DOMContentLoaded", () => {
             "currentDwellSec",
             "totalTabSwitches",
             "siteUsage",
-            "timeline"
+            "timeline",
+            "historyByDate"
         ], res => {
+            historyByDate = res.historyByDate || {};
             latestState = {
                 currentWebsite: res.currentWebsite || null,
                 previousWebsite: res.previousWebsite || null,
@@ -489,14 +633,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 timeline: res.timeline || [],
                 isWindowFocused: true
             };
-            renderDashboard();
+            applyDateFilter();
         });
 
         // Listen for 1-second live heartbeat broadcasts from background.js
         chrome.runtime.onMessage.addListener(msg => {
             if (msg.type === "TICK_1S") {
                 latestState = msg;
-                renderDashboard();
+                if (selectedRange === "today") {
+                    renderDashboard();
+                }
             }
         });
     }

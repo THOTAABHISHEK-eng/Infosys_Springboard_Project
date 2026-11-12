@@ -17,9 +17,14 @@
                 </div>
                 <div class="brand-tagline">Personal Browsing Intelligence</div>
             </div>
-            <div class="status-indicator" id="status-pill">
-                <span class="status-dot"></span>
-                <span id="window-status">MONITORING</span>
+            <div class="header-right-tools" style="display: flex; align-items: center; gap: 8px;">
+                <button id="btn-open-dashboard" title="Open Full System & Desktop Dashboard" style="background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); color: #38bdf8; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
+                    OPEN FULL DASHBOARD &#x2197;
+                </button>
+                <div class="status-indicator" id="status-pill">
+                    <span class="status-dot"></span>
+                    <span id="window-status">MONITORING</span>
+                </div>
             </div>
         </header>
 
@@ -87,7 +92,7 @@
                     </div>
                     <div class="metric-content">
                         <span class="metric-label">Most Used Site</span>
-                        <strong id="stat-most-used" class="metric-value truncate">—</strong>
+                        <strong id="stat-most-used" class="metric-value truncate">N/A</strong>
                     </div>
                 </div>
                 <div class="metric-card">
@@ -113,7 +118,7 @@
                 <div class="site-identity">
                     <div class="site-main">
                         <h2 id="cur-name" class="site-name">No active tab detected</h2>
-                        <span id="cur-domain" class="domain-pill">—</span>
+                        <span id="cur-domain" class="domain-pill">None</span>
                     </div>
                     <div class="counter-display">
                         <span class="dwell-subtext">Current Session Dwell</span>
@@ -128,14 +133,14 @@
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Activated At:</span>
-                        <span id="cur-activated">—</span>
+                        <span id="cur-activated">Waiting</span>
                     </div>
                 </div>
 
                 <div class="url-row">
                     <span class="url-label">URL</span>
                     <a id="cur-url-link" href="#" target="_blank" class="url-text" title="Open in new tab">
-                        <span id="cur-url">—</span>
+                        <span id="cur-url">None</span>
                     </a>
                 </div>
             </div>
@@ -149,7 +154,7 @@
                 <div class="site-identity prev-identity">
                     <div>
                         <h3 id="prev-name" class="site-name-sm">No previous website yet</h3>
-                        <span id="prev-domain" class="domain-pill">—</span>
+                        <span id="prev-domain" class="domain-pill">None</span>
                     </div>
                     <div class="prev-time-block">
                         <span class="prev-dwell-label">Active Time Spent</span>
@@ -157,7 +162,7 @@
                     </div>
                 </div>
                 <div class="prev-meta-row">
-                    <span>Switched At: <strong id="prev-last-time">—</strong></span>
+                    <span>Switched At: <strong id="prev-last-time">None</strong></span>
                     <a id="prev-url-link" href="#" target="_blank" class="url-mini-link">Visit URL &rarr;</a>
                 </div>
             </div>
