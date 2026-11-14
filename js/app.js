@@ -117,6 +117,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (pieLegend) pieLegend.innerHTML = legendHtml;
     }
+
+    function renderCategoryBreakdown(apps, totalSec) {
+        const stackedBar = document.getElementById("cat-stacked-bar");
+        const chipsGrid = document.getElementById("cat-chips-grid");
+        const prodSummary = document.getElementById("cat-productivity-summary");
+        if (!chipsGrid) return;
+
+        // Tally dwell for all 9 categories
+        const catTotals = {
+            Development: 0,
+            Learning: 0,
+            Professional: 0,
+            Communication: 0,
+            Entertainment: 0,
+            "Social Media": 0,
+            Shopping: 0,
+            News: 0,
+            Other: 0
+        };
+
+        const appList = Array.isArray(apps) ? apps : Object.values(apps || {});
+        appList.forEach(a => {
+            const cat = displayCategory(a.category, a.name).label;
+            const sec = a.totalSeconds || 0;
+            if (catTotals[cat] !== undefined) {
+                catTotals[cat] += sec;
+            } else {
+                catTotals.Other += sec;
+            }
+        });
+
+        const effectiveTotal = Math.max(1, totalSec || Object.values(catTotals).reduce((s, v) => s + v, 0));
+        const productiveSec = catTotals.Development + catTotals.Learning + catTotals.Professional;
+        const prodPct = Math.round((productiveSec / effectiveTotal) * 100);
+
+        if (prodSummary) {
+            prodSummary.textContent = `Productive Dwell: ${prodPct}%`;
+            prodSummary.style.color = prodPct >= 60 ? "var(--accent-emerald)" : prodPct >= 35 ? "#38bdf8" : "#f59e0b";
+        }
+
+        // Render Multi-Color Horizontal Stacked Progress Bar
+        if (stackedBar) {
+            if (totalSec <= 0) {
+                stackedBar.innerHTML = `<div style="width: 100%; background: rgba(255,255,255,0.06); text-align: center; font-size: 0.65rem; color: var(--text-muted); line-height: 12px;">Awaiting telemetry...</div>`;
+            } else {
+                let barHtml = "";
+                Object.entries(catTotals).forEach(([catName, sec]) => {
+                    if (sec > 0) {
+                        const pct = Math.max(1, Math.round((sec / effectiveTotal) * 100));
+                        const color = CAT_DISPLAY[catName].color;
+                        barHtml += `<div title="${catName}: ${formatDurationHuman(sec)} (${pct}%)" style="width: ${pct}%; background: ${color}; transition: width 0.3s ease;"></div>`;
+                    }
+                });
+                stackedBar.innerHTML = barHtml || `<div style="width: 100%; background: rgba(255,255,255,0.06);"></div>`;
+            }
+        }
+
+        // Render 9 Category Chips
+        let chipsHtml = "";
+        Object.entries(CAT_DISPLAY).forEach(([catName, catInfo]) => {
+            const sec = catTotals[catName] || 0;
+            const pct = Math.round((sec / effectiveTotal) * 100);
+            const isProd = PRODUCTIVE_CATEGORIES.includes(catName);
+            const isActive = activeCatFilter === catName;
+            chipsHtml += `
+                <div class="cat-chip" data-cat="${catName}" title="Click to filter table by ${catName}" style="cursor:pointer;${isActive ? `outline:2px solid ${catInfo.color};outline-offset:2px;box-shadow:0 0 0 1px ${catInfo.color}40;` : ``}">
+                    <div class="cat-chip-head">
+                        <span style="color: ${catInfo.color}; display: flex; align-items: center;">
+                            <span class="cat-chip-dot" style="background: ${catInfo.color};"></span>
+                            ${catName}
+                        </span>
+                        <span class="cat-chip-pct">${pct}%</span>
+                    </div>
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 2px;">
+                        <span class="cat-chip-val">${formatDurationHuman(sec)}</span>
+                        ${isProd ? '<span style="font-size:0.58rem;color:var(--accent-emerald);font-weight:600;">PROD</span>' : ''}
+                    </div>
+                </div>
+            `;
+        });
+        chipsGrid.innerHTML = chipsHtml;
+
+        // Click-to-filter: clicking a chip filters the usage table by that category
+        chipsGrid.addEventListener("click", function(e) {
+            const chip = e.target.closest(".cat-chip");
+            if (!chip) return;
+            const cat = chip.dataset.cat;
+            activeCatFilter = (activeCatFilter === cat) ? null : cat;
+            if (latestState) renderState(latestState);
+        }, { once: true });
+    }
     const timelineContainer = document.getElementById("timeline-container");
     const timelineCount = document.getElementById("timeline-count");
     const statusLabel = document.getElementById("status-label");
@@ -175,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const PRODUCTIVE_CATEGORIES = ["Development", "Learning", "Professional"];
 
-    function displayCategory(category) {
+    function displayCategory(category, appName) {
         const cat = (category || "Other").toString();
         const direct = CAT_DISPLAY[cat];
         if (direct) return direct;
@@ -188,7 +279,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (c === "social media") return CAT_DISPLAY["Social Media"];
         if (c === "shopping") return CAT_DISPLAY.Shopping;
         if (c === "news") return CAT_DISPLAY.News;
-        if (c === "web browser") return CAT_DISPLAY.Other;
+        if (c === "web browser") {
+            const n = (appName || "").toLowerCase();
+            if (n.match(/youtube|netflix|spotify|twitch|crunchyroll|anime|disney|hotstar|hulu|peacock/)) return CAT_DISPLAY.Entertainment;
+            if (n.match(/github|stackoverflow|chatgpt|gemini|copilot|leetcode|codepen|openai|replit|vercel|netlify|figma/)) return CAT_DISPLAY.Development;
+            if (n.match(/coursera|udemy|khan|wikipedia|chess|typeracer|duolingo|freecodecamp|infosys|w3schools|mdn|typing|tutorial/)) return CAT_DISPLAY.Learning;
+            if (n.match(/whatsapp|discord|slack|gmail|teams|zoom|telegram|meet|skype|mail/)) return CAT_DISPLAY.Communication;
+            if (n.match(/linkedin|notion|drive|trello|jira|asana|canva|docs|sheets|slides|calendar|sharepoint/)) return CAT_DISPLAY.Professional;
+            if (n.match(/instagram|twitter|x\.com|facebook|reddit|snapchat|tiktok|pinterest/)) return CAT_DISPLAY["Social Media"];
+            if (n.match(/amazon|flipkart|ebay|shopping|store|cart|myntra|meesho|etsy|walmart/)) return CAT_DISPLAY.Shopping;
+            if (n.match(/news|bbc|cnn|times|techcrunch|wired|guardian|bloomberg|reuters|hindu/)) return CAT_DISPLAY.News;
+            return CAT_DISPLAY.Other;
+        }
         if (c === "utilities" || c === "system" || c === "general application") return CAT_DISPLAY.Other;
         return CAT_DISPLAY.Other;
     }
@@ -214,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
         apps.forEach(a => {
             const sec = a.totalSeconds || 0;
             totalSec += sec;
-            const cat = displayCategory(a.category);
+            const cat = displayCategory(a.category, a.name);
             if (cat.label === "Entertainment") entSec += sec;
             if (cat.label === "Communication") commSec += sec;
         });
@@ -316,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const total = Math.max(1, apps.reduce((s, a) => s + (a.totalSeconds || 0), 0));
         const byCategory = {};
         apps.forEach(a => {
-            const cat = displayCategory(a.category).label;
+            const cat = displayCategory(a.category, a.name).label;
             byCategory[cat] = (byCategory[cat] || 0) + (a.totalSeconds || 0);
         });
         const timeLost = Object.entries(byCategory)
@@ -324,12 +426,12 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(([cat, sec]) => ({ category: cat, seconds: sec, percent: Math.round((sec / total) * 100) }))
             .sort((a, b) => b.seconds - a.seconds);
         const topDistractions = apps
-            .filter(a => !PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category).label))
+            .filter(a => !PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category, a.name).label))
             .slice(0, 5)
             .map(a => ({
                 name: a.name,
                 title: a.title,
-                category: displayCategory(a.category).label,
+                category: displayCategory(a.category, a.name).label,
                 seconds: a.totalSeconds || 0
             }));
         return {
@@ -387,7 +489,48 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         if (fsJson) fsJson.textContent = jsonText;
-        if (fsWrap) fsWrap.style.display = "block";
+
+        // Render human-readable AI audit summary cards above the JSON block
+        if (fsWrap) {
+            const summaryParsed = (() => { try { return JSON.parse(jsonText); } catch(e) { return null; } })();
+            const apps = latestState.appUsage || [];
+            let entSec = 0, commSec = 0;
+            apps.forEach(a => {
+                const cat = displayCategory(a.category, a.name);
+                if (cat.label === "Entertainment") entSec += (a.totalSeconds || 0);
+                if (cat.label === "Communication") commSec += (a.totalSeconds || 0);
+            });
+            const totalSec2 = latestState.summary ? (latestState.summary.totalActiveSeconds || 1) : 1;
+            const topSink = apps[0];
+            const prodSec = apps.filter(a => PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category, a.name).label)).reduce((s,a)=>s+(a.totalSeconds||0),0);
+            const prodPct2 = Math.round((prodSec / Math.max(1, totalSec2)) * 100);
+            const switchCount = (latestState.summary || {}).totalSwitches || 0;
+            const distractPct = Math.round(((entSec + commSec) / Math.max(1, totalSec2)) * 100);
+
+            const auditCardsHtml = `<div id="fs-audit-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Top Time Sink</div>
+                    <div style="font-weight:700;font-size:0.85rem;color:var(--text-pure);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${topSink ? escapeHtml(topSink.name) : 'None'}">${topSink ? escapeHtml(topSink.name) : 'None'}</div>
+                    <div style="font-size:0.72rem;color:#ef4444;margin-top:2px;">${topSink ? formatDurationHuman(topSink.totalSeconds) : '0s'}</div>
+                </div>
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Attention Purity</div>
+                    <div style="font-weight:700;font-size:0.85rem;color:${prodPct2 >= 60 ? 'var(--accent-emerald)' : prodPct2 >= 35 ? '#38bdf8' : '#f59e0b'};">${prodPct2}% Productive</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${distractPct}% distraction</div>
+                </div>
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Switch Friction</div>
+                    <div style="font-weight:700;font-size:0.85rem;color:#f59e0b;">${switchCount} transitions</div>
+                    <div style="font-size:0.72rem;color:${score >= 80 ? 'var(--accent-emerald)' : '#f59e0b'};margin-top:2px;">Focus: ${score}/100</div>
+                </div>
+            </div>`;
+
+            // Remove any previous audit cards before inserting
+            const prevCards = document.getElementById("fs-audit-cards");
+            if (prevCards) prevCards.remove();
+            fsWrap.insertAdjacentHTML("afterbegin", auditCardsHtml);
+            fsWrap.style.display = "block";
+        }
     }
 
     function getAppGlyph(name) {
@@ -411,6 +554,8 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     // Track current scope filter for the app usage table
     let currentScopeFilter = "all";
+    // Category chip filter (null = show all categories)
+    let activeCatFilter = null;
 
     function renderState(state) {
         if (!state) return;
@@ -443,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 1. Current Active Window / Application
         if (cur && cur.appName) {
             curAppName.textContent = cur.appName;
-            const curCat = displayCategory(cur.category);
+            const curCat = displayCategory(cur.category, cur.appName);
             curAppCategory.textContent = curCat.label;
             curAppCategory.style.color = curCat.color;
             curAppCategory.style.borderColor = curCat.color + "40";
@@ -499,7 +644,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 2. Previous Active Window / Application
         if (prev && prev.appName) {
             prevAppName.textContent = prev.appName;
-            const prevCat = displayCategory(prev.category);
+            const prevCat = displayCategory(prev.category, prev.appName);
             prevAppCategory.textContent = prevCat.label;
             prevAppCategory.style.color = prevCat.color;
             prevAppCategory.style.borderColor = prevCat.color + "40";
@@ -544,7 +689,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 focusScoreGrade.style.color = "#94a3b8";
                 focusScoreGrade.style.borderColor = "rgba(100,116,139,0.4)";
             }
-            if (focusScoreHint) focusScoreHint.textContent = `Collecting data... ${totalActiveSec}s / 60s`;
+            if (focusScoreHint) focusScoreHint.textContent = `Baseline calibration: collecting 60s of telemetry (${totalActiveSec}s / 60s)`;
         } else {
             if (focusScoreVal) focusScoreVal.textContent = focusScore;
             if (focusScoreGrade) {
@@ -556,14 +701,55 @@ document.addEventListener("DOMContentLoaded", () => {
             if (focusScoreHint) focusScoreHint.textContent = `${fGrade.label} focus (${focusScore}/100)`;
         }
 
-        // Idle Time tile (enhanced messaging)
+        // Historical Comparison: Today vs Yesterday
+        const deltaTotalTime = document.getElementById("delta-total-time");
+        const deltaSwitches = document.getElementById("delta-switches");
+        if (!isHistoricalView && allHistory) {
+            const yesterdayDate = new Date();
+            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+            const yKey = yesterdayDate.toISOString().slice(0, 10);
+            const yData = allHistory[yKey];
+            if (yData && yData.totalActiveSeconds !== undefined) {
+                const diffSec = (summary.totalActiveSeconds || 0) - yData.totalActiveSeconds;
+                if (deltaTotalTime) {
+                    deltaTotalTime.style.display = "inline-block";
+                    if (diffSec >= 0) {
+                        deltaTotalTime.className = "kpi-delta-tag delta-positive";
+                        deltaTotalTime.textContent = `+${formatDurationHuman(diffSec)} vs yesterday`;
+                    } else {
+                        deltaTotalTime.className = "kpi-delta-tag delta-negative";
+                        deltaTotalTime.textContent = `-${formatDurationHuman(Math.abs(diffSec))} vs yesterday`;
+                    }
+                }
+                const diffSwitches = (summary.totalSwitches || 0) - (yData.totalSwitches || 0);
+                if (deltaSwitches) {
+                    deltaSwitches.style.display = "inline-block";
+                    if (diffSwitches <= 0) {
+                        deltaSwitches.className = "kpi-delta-tag delta-positive";
+                        deltaSwitches.textContent = `${diffSwitches} switches vs yesterday`;
+                    } else {
+                        deltaSwitches.className = "kpi-delta-tag delta-negative";
+                        deltaSwitches.textContent = `+${diffSwitches} switches vs yesterday`;
+                    }
+                }
+            } else {
+                if (deltaTotalTime) deltaTotalTime.style.display = "none";
+                if (deltaSwitches) deltaSwitches.style.display = "none";
+            }
+        } else {
+            if (deltaTotalTime) deltaTotalTime.style.display = "none";
+            if (deltaSwitches) deltaSwitches.style.display = "none";
+        }
+
+        // Idle Time tile (enhanced messaging & Focus Purity)
         const idleSec = state.idleSeconds || 0;
         const idleTimeVal = document.getElementById("idle-time-val");
         const idleStateText = document.getElementById("idle-state-text");
+        const idleRatioText = document.getElementById("idle-ratio-text");
         if (idleTimeVal) idleTimeVal.textContent = formatDurationHuman(idleSec);
         if (idleStateText) {
             if (isHistoricalView) {
-                idleStateText.textContent = "Historical data";
+                idleStateText.textContent = "Historical record";
                 idleStateText.style.color = "var(--text-muted)";
             } else if (idleSec >= 600) {
                 idleStateText.textContent = "Idle confirmed: " + formatDurationHuman(idleSec);
@@ -572,8 +758,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 idleStateText.textContent = "Idle: " + formatDurationHuman(idleSec);
                 idleStateText.style.color = "#f59e0b";
             } else {
-                idleStateText.textContent = "No inactivity detected";
+                idleStateText.textContent = "Active on laptop";
                 idleStateText.style.color = "var(--text-muted)";
+            }
+        }
+        if (idleRatioText) {
+            const totalObserved = (summary.totalActiveSeconds || 0) + idleSec;
+            if (totalObserved > 0) {
+                const activePct = Math.round(((summary.totalActiveSeconds || 0) / totalObserved) * 100);
+                idleRatioText.style.display = "inline-block";
+                idleRatioText.textContent = `Focus Purity: ${activePct}% active`;
+                idleRatioText.className = activePct >= 80 ? "kpi-delta-tag delta-positive" : "kpi-delta-tag delta-neutral";
+            } else {
+                idleRatioText.style.display = "none";
             }
         }
 
@@ -598,10 +795,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return "desktop";
         }
 
-        // Apply scope filter
-        const filteredAppList = currentScopeFilter === "all"
-            ? appList
-            : appList.filter(app => getAppScope(app) === currentScopeFilter);
+        // Apply scope filter + category chip filter
+        const scopeFiltered = currentScopeFilter === "all" ? appList : appList.filter(app => getAppScope(app) === currentScopeFilter);
+        const filteredAppList = activeCatFilter ? scopeFiltered.filter(app => displayCategory(app.category, app.name).label === activeCatFilter) : scopeFiltered;
 
         if (filteredAppList.length === 0) {
             if (tableMoreContainer) tableMoreContainer.style.display = "none";
@@ -639,7 +835,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <span class="app-name-text">${escapeHtml(app.name)}${browserNote}</span>
                             </div>
                         </td>
-                        <td><span class="category-tag" style="color:${displayCategory(app.category).color};border-color:${displayCategory(app.category).color}40;background:${displayCategory(app.category).color}12;">${escapeHtml(displayCategory(app.category).label)}</span></td>
+                        <td><span class="category-tag" style="color:${displayCategory(app.category,app.name).color};border-color:${displayCategory(app.category,app.name).color}40;background:${displayCategory(app.category,app.name).color}12;">${escapeHtml(displayCategory(app.category,app.name).label)}</span></td>
                         <td class="cell-time">${formatDurationHuman(app.totalSeconds)}</td>
                         <td class="cell-switches">${app.switchCount || 1}</td>
                         <td class="cell-share">
@@ -672,9 +868,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // Render Pie Chart
+        // Render Pie Chart & 9-Category Attention Breakdown
         const totalSec = summary.totalActiveSeconds || (appList.length > 0 ? appList.reduce((acc, a) => acc + (a.totalSeconds || 0), 0) : 0);
         renderPieChart(appList, totalSec);
+        renderCategoryBreakdown(appList, totalSec);
 
         // User Duration Comparison readiness
         const durationReadyEl = document.getElementById("duration-readiness");
@@ -695,13 +892,25 @@ document.addEventListener("DOMContentLoaded", () => {
             const reversed = [...timeline].reverse();
             let tlHtml = "";
 
-            reversed.slice(0, 40).forEach(item => {
+            // Activity Stream search filter
+            const tlSearchEl = document.getElementById("timeline-search");
+            const tlSearchVal = tlSearchEl ? tlSearchEl.value.toLowerCase().trim() : "";
+            const tlItems = tlSearchVal
+                ? reversed.filter(item => {
+                    const name = (item.appName || item.name || item.AppName || "").toLowerCase();
+                    const title = (item.title || item.Title || "").toLowerCase();
+                    const cat = (item.category || item.Category || "").toLowerCase();
+                    return name.includes(tlSearchVal) || title.includes(tlSearchVal) || cat.includes(tlSearchVal);
+                })
+                : reversed;
+
+            tlItems.slice(0, 40).forEach(item => {
                 const appName = item.appName || item.name || item.AppName || "Application";
                 const timeVal = item.time || item.timeStr || item.Time || "";
                 const titleVal = item.title || item.domain || item.Title || appName;
                 const durSec = item.durationSec || item.DurationSec || 0;
                 const durFormatted = item.durationFormatted || item.DurationFormatted || formatDurationHuman(durSec);
-                const itemCat = displayCategory(item.category || item.Category || "Other");
+                const itemCat = displayCategory(item.category || item.Category || "Other", item.appName || item.AppName || "");
 
                 tlHtml += `
                     <div class="timeline-item">
@@ -1049,14 +1258,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Scope filter buttons for app usage table (All / Desktop / Browser / System)
     const scopeButtons = document.querySelectorAll(".scope-pill-btn");
+    const headerScopeIndicator = document.getElementById("header-scope-indicator");
     scopeButtons.forEach(btn => {
         btn.addEventListener("click", () => {
             scopeButtons.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
             currentScopeFilter = btn.getAttribute("data-scope") || "all";
+            if (headerScopeIndicator) {
+                const scopeLabels = {
+                    all: "Scope: All Activity",
+                    desktop: "Scope: Desktop Applications",
+                    browser: "Scope: Browser Websites",
+                    system: "Scope: System Context"
+                };
+                headerScopeIndicator.textContent = scopeLabels[currentScopeFilter] || "Scope: All Activity";
+            }
             if (latestState) renderState(latestState);
         });
     });
+
+    // Print / PDF Report Export
+    const btnPrintReport = document.getElementById("btn-print-report");
+    if (btnPrintReport) {
+        btnPrintReport.addEventListener("click", () => {
+            window.print();
+        });
+    }
 
     /* ========================================================================
        FOCUS PANEL: live score + time-loss breakdown + AI JSON summary
@@ -1090,7 +1317,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const apps = latestState.appUsage || [];
         let entSec = 0, commSec = 0;
         apps.forEach(a => {
-            const cat = displayCategory(a.category);
+            const cat = displayCategory(a.category, a.name);
             if (cat.label === "Entertainment") entSec += (a.totalSeconds || 0);
             if (cat.label === "Communication") commSec += (a.totalSeconds || 0);
         });
@@ -1110,16 +1337,119 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("fs-btn-summary")) {
         document.getElementById("fs-btn-summary").addEventListener("click", generateTimeLossSummary);
     }
-    if (document.getElementById("fs-btn-api")) {
-        document.getElementById("fs-btn-api").addEventListener("click", () => {
-            const provider = prompt("Configure AI API key:\nType 'gemini' or 'groq'", "");
-            if (!provider) return;
-            const key = prompt(`Enter your ${provider} API key (stored locally in this browser only):`, "");
-            if (key) {
-                setApiKey(provider, key);
-                alert(`${provider} API key saved locally. Click "Generate Time-Loss JSON Summary" to use it.`);
+    // AI API Keys Modal Management
+    const apiKeyModal = document.getElementById("api-key-modal");
+    const modalCloseBtn = document.getElementById("modal-close-btn");
+    const modalDoneBtn = document.getElementById("modal-done-btn");
+    const inputGeminiKey = document.getElementById("input-gemini-key");
+    const inputGroqKey = document.getElementById("input-groq-key");
+    const btnSaveGemini = document.getElementById("btn-save-gemini");
+    const btnRemoveGemini = document.getElementById("btn-remove-gemini");
+    const btnSaveGroq = document.getElementById("btn-save-groq");
+    const btnRemoveGroq = document.getElementById("btn-remove-groq");
+    const geminiStatusBadge = document.getElementById("gemini-status-badge");
+    const groqStatusBadge = document.getElementById("groq-status-badge");
+
+    function updateApiKeyModalUi() {
+        const keys = getApiKeys();
+        if (keys.gemini) {
+            if (geminiStatusBadge) {
+                geminiStatusBadge.textContent = "Configured";
+                geminiStatusBadge.className = "key-status-badge status-ready";
+            }
+            if (inputGeminiKey) inputGeminiKey.placeholder = "Key saved (Enter new key to change)";
+            if (btnRemoveGemini) btnRemoveGemini.style.display = "inline-block";
+        } else {
+            if (geminiStatusBadge) {
+                geminiStatusBadge.textContent = "Not Configured";
+                geminiStatusBadge.className = "key-status-badge";
+            }
+            if (inputGeminiKey) {
+                inputGeminiKey.value = "";
+                inputGeminiKey.placeholder = "Enter Gemini API key (AIzaSy...)";
+            }
+            if (btnRemoveGemini) btnRemoveGemini.style.display = "none";
+        }
+
+        if (keys.groq) {
+            if (groqStatusBadge) {
+                groqStatusBadge.textContent = "Configured";
+                groqStatusBadge.className = "key-status-badge status-ready";
+            }
+            if (inputGroqKey) inputGroqKey.placeholder = "Key saved (Enter new key to change)";
+            if (btnRemoveGroq) btnRemoveGroq.style.display = "inline-block";
+        } else {
+            if (groqStatusBadge) {
+                groqStatusBadge.textContent = "Not Configured";
+                groqStatusBadge.className = "key-status-badge";
+            }
+            if (inputGroqKey) {
+                inputGroqKey.value = "";
+                inputGroqKey.placeholder = "Enter Groq API key (gsk_...)";
+            }
+            if (btnRemoveGroq) btnRemoveGroq.style.display = "none";
+        }
+    }
+
+    function openApiKeyModal() {
+        updateApiKeyModalUi();
+        if (apiKeyModal) apiKeyModal.style.display = "flex";
+    }
+
+    function closeApiKeyModal() {
+        if (apiKeyModal) apiKeyModal.style.display = "none";
+    }
+
+    if (modalCloseBtn) modalCloseBtn.addEventListener("click", closeApiKeyModal);
+    if (modalDoneBtn) modalDoneBtn.addEventListener("click", closeApiKeyModal);
+    if (apiKeyModal) {
+        apiKeyModal.addEventListener("click", (e) => {
+            if (e.target === apiKeyModal) closeApiKeyModal();
+        });
+    }
+
+    if (btnSaveGemini) {
+        btnSaveGemini.addEventListener("click", () => {
+            const val = (inputGeminiKey.value || "").trim();
+            if (val) {
+                setApiKey("gemini", val);
+                inputGeminiKey.value = "";
+                updateApiKeyModalUi();
             }
         });
+    }
+
+    if (btnRemoveGemini) {
+        btnRemoveGemini.addEventListener("click", () => {
+            const keys = getApiKeys();
+            delete keys.gemini;
+            try { localStorage.setItem(API_KEY_STORAGE_KEY, JSON.stringify(keys)); } catch {}
+            updateApiKeyModalUi();
+        });
+    }
+
+    if (btnSaveGroq) {
+        btnSaveGroq.addEventListener("click", () => {
+            const val = (inputGroqKey.value || "").trim();
+            if (val) {
+                setApiKey("groq", val);
+                inputGroqKey.value = "";
+                updateApiKeyModalUi();
+            }
+        });
+    }
+
+    if (btnRemoveGroq) {
+        btnRemoveGroq.addEventListener("click", () => {
+            const keys = getApiKeys();
+            delete keys.groq;
+            try { localStorage.setItem(API_KEY_STORAGE_KEY, JSON.stringify(keys)); } catch {}
+            updateApiKeyModalUi();
+        });
+    }
+
+    if (document.getElementById("fs-btn-api")) {
+        document.getElementById("fs-btn-api").addEventListener("click", openApiKeyModal);
     }
 
     // Page-level idle clock: progress toward 180s threshold, then count real idle time
@@ -1157,4 +1487,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Refresh focus panel readouts every few seconds
     setInterval(renderFocusPanel, 3000);
     renderFocusPanel();
+
+    // Activity Stream: re-render on search input
+    const tlSearchInput = document.getElementById('timeline-search');
+    if (tlSearchInput) {
+        tlSearchInput.addEventListener('input', () => {
+            if (latestState) renderState(latestState);
+        });
+    }
 });

@@ -167,6 +167,30 @@ function Resolve-AppDetails($processName, $rawTitle) {
         $name
     }
 
+    # Infer real category from browser site identity (overrides "Web Browser")
+    if ($procLower -in @("brave", "chrome", "msedge", "firefox") -and $finalAppName -ne $name) {
+        $siteLower = $siteIdentity.ToLower()
+        if ($siteLower -match "youtube|netflix|spotify|twitch|disney|prime video|hotstar|crunchyroll|anime|hulu|peacock") {
+            $category = "Entertainment"
+        } elseif ($siteLower -match "github|stackoverflow|stack overflow|chatgpt|gemini|copilot|replit|codepen|leetcode|vercel|netlify|npm|openai|figma") {
+            $category = "Development"
+        } elseif ($siteLower -match "coursera|udemy|khan|wikipedia|infosys|w3schools|mdn|freecodecamp|chess|typeracer|duolingo|edx|skillshare|typing|tutorial") {
+            $category = "Learning"
+        } elseif ($siteLower -match "whatsapp|discord|slack|teams|telegram|gmail|outlook|zoom|meet|skype|mail") {
+            $category = "Communication"
+        } elseif ($siteLower -match "linkedin|notion|jira|confluence|trello|asana|monday|canva|dropbox|drive|docs|sheets|slides|calendar|office|sharepoint") {
+            $category = "Professional"
+        } elseif ($siteLower -match "instagram|twitter|x\.com|facebook|reddit|snapchat|tiktok|pinterest|tumblr") {
+            $category = "Social Media"
+        } elseif ($siteLower -match "amazon|flipkart|ebay|myntra|meesho|zara|nykaa|shopping|cart|etsy|walmart") {
+            $category = "Shopping"
+        } elseif ($siteLower -match "news|bbc|cnn|times|hindu|ndtv|reuters|techcrunch|verge|wired|hacker news|guardian|bloomberg") {
+            $category = "News"
+        } else {
+            $category = "Other"
+        }
+    }
+
     return @{
         AppName = $finalAppName
         BaseApp = $name

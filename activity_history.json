@@ -430,505 +430,323 @@
     "2026-11-14":  {
                        "timeline":  [
                                         {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:37:45 PM",
-                                            "Title":  "Attachments - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:37:46 PM",
-                                            "Title":  "THOTA - Personal - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "System",
-                                            "DurationSec":  3,
-                                            "Time":  "08:37:47 PM",
-                                            "Title":  "Documents - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:37:51 PM",
-                                            "Title":  "THOTA - Personal - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:37:52 PM",
-                                            "Title":  "Microsoft Copilot Chat Files - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:37:53 PM",
-                                            "Title":  "THOTA - Personal - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "System",
-                                            "DurationSec":  2,
-                                            "Time":  "08:37:54 PM",
-                                            "Title":  "Pictures - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "System",
-                                            "DurationSec":  2,
-                                            "Time":  "08:37:56 PM",
-                                            "Title":  "THOTA - Personal - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "Microsoft​ Edge (Microsoft Edge)",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  3,
-                                            "Time":  "08:37:58 PM",
-                                            "Title":  "Getting started with OneDrive.pdf - Personal - Microsoft​ Edge"
-                                        },
-                                        {
-                                            "AppName":  "Microsoft​ Edge (Microsoft Edge)",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  2,
-                                            "Time":  "08:38:02 PM",
-                                            "Title":  "New tab - Personal - Microsoft​ Edge"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "8s",
-                                            "Category":  "System",
-                                            "DurationSec":  8,
-                                            "Time":  "08:38:05 PM",
-                                            "Title":  "Desktop - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:14 PM",
-                                            "Title":  "Downloads - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "System",
-                                            "DurationSec":  2,
-                                            "Time":  "08:38:15 PM",
-                                            "Title":  "Documents - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:17 PM",
-                                            "Title":  "Pictures - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:18 PM",
-                                            "Title":  "Documents - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:19 PM",
-                                            "Title":  "Cline - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "System",
-                                            "DurationSec":  2,
-                                            "Time":  "08:38:21 PM",
-                                            "Title":  "Workflows - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "6s",
-                                            "Category":  "System",
-                                            "DurationSec":  6,
-                                            "Time":  "08:38:23 PM",
-                                            "Title":  "Documents - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:29 PM",
-                                            "Title":  "Delete Folder"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "System",
-                                            "DurationSec":  2,
-                                            "Time":  "08:38:30 PM",
-                                            "Title":  "Documents - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:33 PM",
-                                            "Title":  "Pictures - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "6s",
-                                            "Category":  "System",
-                                            "DurationSec":  6,
-                                            "Time":  "08:38:34 PM",
-                                            "Title":  "Screenshots - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:40 PM",
-                                            "Title":  "Pictures - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:42 PM",
-                                            "Title":  "Documents - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:38:43 PM",
-                                            "Title":  "infosys_springboard - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "17s",
-                                            "Category":  "System",
-                                            "DurationSec":  17,
-                                            "Time":  "08:38:44 PM",
-                                            "Title":  "Videos - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "9s",
-                                            "Category":  "System",
-                                            "DurationSec":  9,
-                                            "Time":  "08:39:02 PM",
-                                            "Title":  "Screen Recordings - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "System",
-                                            "DurationSec":  2,
-                                            "Time":  "08:39:13 PM",
-                                            "Title":  "Delete Multiple Items"
-                                        },
-                                        {
-                                            "AppName":  "File Explorer",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:39:15 PM",
-                                            "Title":  "Screen Recordings - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
+                                            "AppName":  "Untitled (Brave Browser)",
                                             "DurationFormatted":  "10s",
-                                            "Category":  "System",
+                                            "Category":  "Other",
                                             "DurationSec":  10,
-                                            "Time":  "08:39:16 PM",
-                                            "Title":  "Task Switching"
+                                            "Time":  "09:51:23 PM",
+                                            "Title":  "Untitled"
                                         },
                                         {
-                                            "AppName":  "File Explorer",
+                                            "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "1s",
-                                            "Category":  "System",
+                                            "Category":  "Entertainment",
                                             "DurationSec":  1,
-                                            "Time":  "08:39:26 PM",
-                                            "Title":  "Screen Recordings - File Explorer"
+                                            "Time":  "09:51:36 PM",
+                                            "Title":  "Ranking The Best If You Laugh Or Smile, You Lose 😂 #funny #shorts #viral - YouTube"
                                         },
                                         {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "System",
-                                            "DurationSec":  3,
-                                            "Time":  "08:39:27 PM",
-                                            "Title":  "Task Switching"
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "1m 0s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  60,
+                                            "Time":  "09:51:37 PM",
+                                            "Title":  "Stupid screenshots out of context #memes #ranking #funny #internetmemes #bestmemes #outofcontext - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  1,
+                                            "Time":  "09:52:42 PM",
+                                            "Title":  "Ranking The Best If You Laugh Or Smile, You Lose 😂 #funny #shorts #viral - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "56s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  56,
+                                            "Time":  "09:52:44 PM",
+                                            "Title":  "Stupid screenshots out of context #memes #ranking #funny #internetmemes #bestmemes #outofcontext - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  1,
+                                            "Time":  "09:53:46 PM",
+                                            "Title":  "#naofloppa - YouTube"
                                         },
                                         {
                                             "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "2s",
-                                            "Category":  "Web Browser",
+                                            "Category":  "Entertainment",
                                             "DurationSec":  2,
-                                            "Time":  "08:39:31 PM",
-                                            "Title":  "Ravyn Lenae - Love Me Not (Official Music Video) - YouTube"
+                                            "Time":  "09:53:47 PM",
+                                            "Title":  "Completely necessary btw🥀 #jojosbizarreadventure #jojos #memes #viralvideo - YouTube"
                                         },
                                         {
-                                            "AppName":  "Free Games (Brave Browser)",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  1,
-                                            "Time":  "08:39:33 PM",
-                                            "Title":  "Chess.com - Play Chess Online - Free Games"
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "10s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  10,
+                                            "Time":  "09:53:49 PM",
+                                            "Title":  "Ranking of the Best Men as Simple Creatures Moments.#funny #funnyvideo #men #foryou #fypviral #usa - YouTube"
                                         },
                                         {
-                                            "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
+                                            "AppName":  "New Tab (Brave Browser)",
+                                            "DurationFormatted":  "8s",
+                                            "Category":  "Other",
+                                            "DurationSec":  8,
+                                            "Time":  "09:54:00 PM",
+                                            "Title":  "New Tab"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
                                             "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
+                                            "Category":  "Other",
                                             "DurationSec":  1,
-                                            "Time":  "08:39:34 PM",
-                                            "Title":  "TypeRacer - Play Typing Games and Race Friends"
+                                            "Time":  "09:54:09 PM",
+                                            "Title":  "typeracer - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "4s",
+                                            "Category":  "Other",
+                                            "DurationSec":  4,
+                                            "Time":  "09:54:10 PM",
+                                            "Title":  "programiz c - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "6s",
+                                            "Category":  "Other",
+                                            "DurationSec":  6,
+                                            "Time":  "09:54:15 PM",
+                                            "Title":  "there is an ai for that - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:21 PM",
+                                            "Title":  "typeracer - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:22 PM",
+                                            "Title":  "programiz c - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:24 PM",
+                                            "Title":  "there is an ai for that - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Other",
+                                            "DurationSec":  2,
+                                            "Time":  "09:54:25 PM",
+                                            "Title":  "typeracer - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Online C Compiler (Editor) (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:27 PM",
+                                            "Title":  "Online C Compiler (Editor)"
+                                        },
+                                        {
+                                            "AppName":  "Just a moment... (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:28 PM",
+                                            "Title":  "Just a moment..."
+                                        },
+                                        {
+                                            "AppName":  "Online C Compiler (Editor) (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:30 PM",
+                                            "Title":  "Online C Compiler (Editor)"
                                         },
                                         {
                                             "AppName":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
                                             "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
+                                            "Category":  "Other",
                                             "DurationSec":  1,
-                                            "Time":  "08:39:35 PM",
+                                            "Time":  "09:54:31 PM",
                                             "Title":  "There\u0027s An AI For That® — The front page of AI"
                                         },
                                         {
-                                            "AppName":  "Free Games (Brave Browser)",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  2,
-                                            "Time":  "08:39:36 PM",
-                                            "Title":  "Chess.com - Play Chess Online - Free Games"
+                                            "AppName":  "Just a moment... (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:32 PM",
+                                            "Title":  "Just a moment..."
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  1,
+                                            "Time":  "09:54:34 PM",
+                                            "Title":  "Ranking of the Best Men as Simple Creatures Moments.#funny #funnyvideo #men #foryou #fypviral #usa - YouTube"
                                         },
                                         {
                                             "AppName":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
-                                            "DurationFormatted":  "10s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  10,
-                                            "Time":  "08:39:38 PM",
+                                            "DurationFormatted":  "12s",
+                                            "Category":  "Other",
+                                            "DurationSec":  12,
+                                            "Time":  "09:54:35 PM",
                                             "Title":  "There\u0027s An AI For That® — The front page of AI"
                                         },
                                         {
-                                            "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
-                                            "DurationFormatted":  "8s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  8,
-                                            "Time":  "08:39:49 PM",
-                                            "Title":  "TypeRacer - Play Typing Games and Race Friends"
+                                            "AppName":  "New Tab (Brave Browser)",
+                                            "DurationFormatted":  "6s",
+                                            "Category":  "Other",
+                                            "DurationSec":  6,
+                                            "Time":  "09:54:48 PM",
+                                            "Title":  "New Tab"
                                         },
                                         {
-                                            "AppName":  "YouTube (Brave Browser)",
-                                            "DurationFormatted":  "14s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  14,
-                                            "Time":  "08:39:58 PM",
-                                            "Title":  "Ravyn Lenae - Love Me Not (Official Music Video) - YouTube"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "10s",
-                                            "Category":  "System",
-                                            "DurationSec":  10,
-                                            "Time":  "08:40:13 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
+                                            "AppName":  "Google Search (Brave Browser)",
                                             "DurationFormatted":  "2s",
-                                            "Category":  "Utilities",
+                                            "Category":  "Other",
                                             "DurationSec":  2,
-                                            "Time":  "08:40:25 PM",
-                                            "Title":  "OC | Browser local host data persistence a…"
+                                            "Time":  "09:54:55 PM",
+                                            "Title":  "flipkart - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Online Shopping Site for Mobiles... (Brave Browser)",
+                                            "DurationFormatted":  "24s",
+                                            "Category":  "Shopping",
+                                            "DurationSec":  24,
+                                            "Time":  "09:54:57 PM",
+                                            "Title":  "Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books \u0026 More. Best Offers!"
                                         },
                                         {
                                             "AppName":  "Task Switching",
-                                            "DurationFormatted":  "1s",
+                                            "DurationFormatted":  "31s",
                                             "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "08:40:27 PM",
+                                            "DurationSec":  31,
+                                            "Time":  "09:55:23 PM",
                                             "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "Antigravity Ide",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "General Application",
-                                            "DurationSec":  2,
-                                            "Time":  "08:40:28 PM",
-                                            "Title":  "infosys_springboard - Antigravity IDE"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "System",
-                                            "DurationSec":  3,
-                                            "Time":  "08:40:31 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "Free Games (Brave Browser)",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  1,
-                                            "Time":  "08:40:35 PM",
-                                            "Title":  "Chess.com - Play Chess Online - Free Games"
                                         },
                                         {
                                             "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
                                             "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
+                                            "Category":  "Learning",
                                             "DurationSec":  1,
-                                            "Time":  "08:40:36 PM",
+                                            "Time":  "09:55:57 PM",
                                             "Title":  "TypeRacer - Play Typing Games and Race Friends"
                                         },
                                         {
-                                            "AppName":  "YouTube (Brave Browser)",
+                                            "AppName":  "Online Shopping Site for Mobiles... (Brave Browser)",
                                             "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
+                                            "Category":  "Shopping",
                                             "DurationSec":  1,
-                                            "Time":  "08:40:37 PM",
-                                            "Title":  "Ravyn Lenae - Love Me Not (Official Music Video) - YouTube"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  1,
-                                            "Time":  "08:40:38 PM",
-                                            "Title":  "OC | Browser local host data persistence a…"
-                                        },
-                                        {
-                                            "AppName":  "Antigravity Ide",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "General Application",
-                                            "DurationSec":  2,
-                                            "Time":  "08:40:39 PM",
-                                            "Title":  "infosys_springboard - Antigravity IDE"
+                                            "Time":  "09:55:58 PM",
+                                            "Title":  "Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books \u0026 More. Best Offers!"
                                         }
                                     ],
-                       "totalActiveSeconds":  806,
-                       "lastUpdated":  "2026-11-14T20:40:43.9625528+05:30",
-                       "totalSwitches":  97,
+                       "totalActiveSeconds":  251,
+                       "lastUpdated":  "2026-11-14T21:56:03.0750721+05:30",
+                       "totalSwitches":  30,
                        "appUsage":  [
                                         {
-                                            "switchCount":  8,
-                                            "category":  "Web Browser",
-                                            "name":  "Free Games (Brave Browser)",
-                                            "totalSeconds":  32,
-                                            "lastSeen":  "08:40:36 PM"
-                                        },
-                                        {
-                                            "switchCount":  1,
-                                            "category":  "Web Browser",
-                                            "name":  "Just a moment... (Brave Browser)",
-                                            "totalSeconds":  10,
-                                            "lastSeen":  "08:26:44 PM"
-                                        },
-                                        {
-                                            "switchCount":  7,
-                                            "category":  "Web Browser",
-                                            "name":  "Play Typing Games and Race Friends (Brave Browser)",
-                                            "totalSeconds":  28,
-                                            "lastSeen":  "08:40:37 PM"
-                                        },
-                                        {
-                                            "switchCount":  3,
-                                            "category":  "Utilities",
-                                            "name":  "Windows Terminal",
-                                            "totalSeconds":  10,
-                                            "lastSeen":  "08:40:39 PM"
-                                        },
-                                        {
-                                            "switchCount":  5,
-                                            "category":  "Web Browser",
-                                            "name":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
-                                            "totalSeconds":  54,
-                                            "lastSeen":  "08:39:49 PM"
-                                        },
-                                        {
-                                            "switchCount":  17,
-                                            "category":  "Web Browser",
-                                            "name":  "YouTube (Brave Browser)",
-                                            "totalSeconds":  1044,
-                                            "lastSeen":  "08:40:38 PM"
-                                        },
-                                        {
-                                            "switchCount":  1,
-                                            "category":  "Utilities",
-                                            "name":  "Notepad",
-                                            "totalSeconds":  30,
-                                            "lastSeen":  "08:36:34 PM"
-                                        },
-                                        {
-                                            "switchCount":  2,
-                                            "category":  "Web Browser",
-                                            "name":  "Microsoft​ Edge (Microsoft Edge)",
-                                            "totalSeconds":  10,
-                                            "lastSeen":  "08:38:05 PM"
-                                        },
-                                        {
-                                            "switchCount":  1,
-                                            "category":  "Communication",
-                                            "name":  "WhatsApp Desktop",
-                                            "totalSeconds":  32,
-                                            "lastSeen":  "08:36:52 PM"
-                                        },
-                                        {
-                                            "switchCount":  35,
-                                            "category":  "System",
-                                            "name":  "File Explorer",
-                                            "totalSeconds":  230,
-                                            "lastSeen":  "08:39:27 PM"
-                                        },
-                                        {
-                                            "switchCount":  6,
-                                            "category":  "Web Browser",
+                                            "switchCount":  9,
+                                            "category":  "Other",
                                             "name":  "Google Search (Brave Browser)",
-                                            "totalSeconds":  42,
-                                            "lastSeen":  "08:26:50 PM"
+                                            "totalSeconds":  52,
+                                            "lastSeen":  "09:54:57 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Learning",
+                                            "name":  "Play Typing Games and Race Friends (Brave Browser)",
+                                            "totalSeconds":  2,
+                                            "lastSeen":  "09:55:58 PM"
                                         },
                                         {
                                             "switchCount":  2,
+                                            "category":  "Other",
+                                            "name":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
+                                            "totalSeconds":  26,
+                                            "lastSeen":  "09:54:48 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Other",
+                                            "name":  "New Tab (Brave Browser)",
+                                            "totalSeconds":  12,
+                                            "lastSeen":  "09:54:55 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Other",
+                                            "name":  "Untitled (Brave Browser)",
+                                            "totalSeconds":  20,
+                                            "lastSeen":  "09:51:36 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
                                             "category":  "General Application",
                                             "name":  "Antigravity Ide",
-                                            "totalSeconds":  8,
-                                            "lastSeen":  "08:40:41 PM"
+                                            "totalSeconds":  3,
+                                            "lastSeen":  "09:55:59 PM"
                                         },
                                         {
-                                            "switchCount":  9,
+                                            "switchCount":  2,
+                                            "category":  "Other",
+                                            "name":  "Online C Compiler (Editor) (Brave Browser)",
+                                            "totalSeconds":  4,
+                                            "lastSeen":  "09:54:31 PM"
+                                        },
+                                        {
+                                            "switchCount":  2,
+                                            "category":  "Other",
+                                            "name":  "Just a moment... (Brave Browser)",
+                                            "totalSeconds":  4,
+                                            "lastSeen":  "09:54:34 PM"
+                                        },
+                                        {
+                                            "switchCount":  8,
+                                            "category":  "Entertainment",
+                                            "name":  "YouTube (Brave Browser)",
+                                            "totalSeconds":  264,
+                                            "lastSeen":  "09:54:35 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
                                             "category":  "System",
                                             "name":  "Task Switching",
-                                            "totalSeconds":  79,
-                                            "lastSeen":  "08:40:35 PM"
+                                            "totalSeconds":  62,
+                                            "lastSeen":  "09:55:57 PM"
+                                        },
+                                        {
+                                            "switchCount":  2,
+                                            "category":  "Shopping",
+                                            "name":  "Online Shopping Site for Mobiles... (Brave Browser)",
+                                            "totalSeconds":  50,
+                                            "lastSeen":  "09:55:59 PM"
                                         }
                                     ],
-                       "distinctAppsCount":  13,
+                       "distinctAppsCount":  11,
                        "date":  "2026-11-14",
-                       "totalActiveFormatted":  "13m 26s"
+                       "totalActiveFormatted":  "4m 11s"
                    },
     "2026-11-11":  {
                        "timeline":  [
