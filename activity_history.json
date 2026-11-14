@@ -2,28 +2,12 @@
     "2026-11-12":  {
                        "timeline":  [
                                         {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  3,
-                                            "Time":  "12:46:48 AM",
-                                            "Title":  "System Activity Tracker Daemon"
-                                        },
-                                        {
                                             "AppName":  "Task Switching",
                                             "DurationFormatted":  "5s",
                                             "Category":  "System",
                                             "DurationSec":  5,
                                             "Time":  "12:46:51 AM",
                                             "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  1,
-                                            "Time":  "12:46:56 AM",
-                                            "Title":  "System Activity Tracker Daemon"
                                         },
                                         {
                                             "AppName":  "Task Switching",
@@ -58,14 +42,6 @@
                                             "Title":  "Task Switching"
                                         },
                                         {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "22s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  22,
-                                            "Time":  "12:47:52 AM",
-                                            "Title":  "System Activity Tracker Daemon"
-                                        },
-                                        {
                                             "AppName":  "Antigravity Ide",
                                             "DurationFormatted":  "1s",
                                             "Category":  "General Application",
@@ -82,28 +58,12 @@
                                             "Title":  "Task Switching"
                                         },
                                         {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  1,
-                                            "Time":  "12:48:19 AM",
-                                            "Title":  "System Activity Tracker Daemon"
-                                        },
-                                        {
                                             "AppName":  "File Explorer",
                                             "DurationFormatted":  "1s",
                                             "Category":  "System",
                                             "DurationSec":  1,
                                             "Time":  "12:48:20 AM",
                                             "Title":  "Home - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "10s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  10,
-                                            "Time":  "12:48:21 AM",
-                                            "Title":  "System Activity Tracker Daemon"
                                         },
                                         {
                                             "AppName":  "Task Switching",
@@ -136,14 +96,6 @@
                                             "DurationSec":  2,
                                             "Time":  "12:48:41 AM",
                                             "Title":  "Task View"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "13s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  13,
-                                            "Time":  "12:48:43 AM",
-                                            "Title":  "System Activity Tracker Daemon"
                                         },
                                         {
                                             "AppName":  "Task Switching",
@@ -210,28 +162,12 @@
                                             "Title":  "Task View"
                                         },
                                         {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "1m 7s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  67,
-                                            "Time":  "12:49:08 AM",
-                                            "Title":  "System Activity Tracker Daemon"
-                                        },
-                                        {
                                             "AppName":  "File Explorer",
                                             "DurationFormatted":  "2s",
                                             "Category":  "System",
                                             "DurationSec":  2,
                                             "Time":  "12:50:18 AM",
                                             "Title":  "Home - File Explorer"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  2,
-                                            "Time":  "12:50:20 AM",
-                                            "Title":  "System Activity Tracker Daemon"
                                         },
                                         {
                                             "AppName":  "Task Switching",
@@ -248,14 +184,6 @@
                                             "DurationSec":  1,
                                             "Time":  "12:50:23 AM",
                                             "Title":  "WhatsApp and 1 more page - Profile 1 - Microsoft​ Edge"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  1,
-                                            "Time":  "12:50:24 AM",
-                                            "Title":  "System Activity Tracker Daemon"
                                         },
                                         {
                                             "AppName":  "Task Switching",
@@ -362,7 +290,7 @@
                                             "Title":  "keyboard shortcuts everyone should know - Google Search"
                                         },
                                         {
-                                            "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                                            "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "1s",
                                             "Category":  "Web Browser",
                                             "DurationSec":  1,
@@ -370,7 +298,7 @@
                                             "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
                                         },
                                         {
-                                            "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                                            "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "1s",
                                             "Category":  "Web Browser",
                                             "DurationSec":  1,
@@ -378,7 +306,7 @@
                                             "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
                                         },
                                         {
-                                            "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                                            "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "1s",
                                             "Category":  "Web Browser",
                                             "DurationSec":  1,
@@ -386,15 +314,7 @@
                                             "Title":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube"
                                         },
                                         {
-                                            "AppName":  "ActivityWatch: System and Browser Intelligence (Brave Browser)",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Web Browser",
-                                            "DurationSec":  1,
-                                            "Time":  "12:50:49 AM",
-                                            "Title":  "ActivityWatch: System and Browser Intelligence"
-                                        },
-                                        {
-                                            "AppName":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
+                                            "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "1s",
                                             "Category":  "Web Browser",
                                             "DurationSec":  1,
@@ -408,45 +328,38 @@
                        "appUsage":  [
                                         {
                                             "switchCount":  1,
-                                            "category":  "Web Browser",
-                                            "name":  "WhatsApp and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
-                                            "totalSeconds":  2,
-                                            "lastSeen":  "12:50:24 AM"
-                                        },
-                                        {
-                                            "switchCount":  3,
                                             "category":  "General Application",
                                             "name":  "Antigravity Ide",
                                             "totalSeconds":  90,
                                             "lastSeen":  "12:48:39 AM"
                                         },
                                         {
-                                            "switchCount":  2,
-                                            "category":  "Web Browser",
-                                            "name":  "Camila Cabello - Shameless (Official Video) - YouTube (Brave Browser)",
-                                            "totalSeconds":  4,
-                                            "lastSeen":  "12:45:52 AM"
+                                            "switchCount":  1,
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  90,
+                                            "lastSeen":  "12:50:42 AM"
                                         },
                                         {
                                             "switchCount":  1,
                                             "category":  "Web Browser",
-                                            "name":  "English Lab Questions (Brave Browser)",
-                                            "totalSeconds":  2,
-                                            "lastSeen":  "12:45:53 AM"
+                                            "name":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
+                                            "totalSeconds":  20,
+                                            "lastSeen":  "12:50:46 AM"
                                         },
                                         {
-                                            "switchCount":  13,
-                                            "category":  "Utilities",
-                                            "name":  "Windows Terminal",
-                                            "totalSeconds":  314,
-                                            "lastSeen":  "12:50:25 AM"
+                                            "switchCount":  1,
+                                            "category":  "System",
+                                            "name":  "File Explorer",
+                                            "totalSeconds":  18,
+                                            "lastSeen":  "12:50:43 AM"
                                         },
                                         {
-                                            "switchCount":  3,
+                                            "switchCount":  2,
                                             "category":  "Web Browser",
-                                            "name":  "New Tab (Brave Browser)",
-                                            "totalSeconds":  6,
-                                            "lastSeen":  "12:49:04 AM"
+                                            "name":  "YouTube (Brave Browser)",
+                                            "totalSeconds":  12,
+                                            "lastSeen":  "12:45:52 AM"
                                         },
                                         {
                                             "switchCount":  1,
@@ -458,30 +371,9 @@
                                         {
                                             "switchCount":  1,
                                             "category":  "Web Browser",
-                                            "name":  "Untitled and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
-                                            "totalSeconds":  4,
-                                            "lastSeen":  "12:46:09 AM"
-                                        },
-                                        {
-                                            "switchCount":  5,
-                                            "category":  "System",
-                                            "name":  "File Explorer",
-                                            "totalSeconds":  18,
-                                            "lastSeen":  "12:50:43 AM"
-                                        },
-                                        {
-                                            "switchCount":  5,
-                                            "category":  "Web Browser",
                                             "name":  "Chess.com - Play Chess Online - Free Games (Brave Browser)",
                                             "totalSeconds":  10,
                                             "lastSeen":  "12:50:44 AM"
-                                        },
-                                        {
-                                            "switchCount":  4,
-                                            "category":  "Web Browser",
-                                            "name":  "PLAY DATE - MELANIE MARTINEZ (Tik Tok Song Version) - YouTube (Brave Browser)",
-                                            "totalSeconds":  8,
-                                            "lastSeen":  "12:50:51 AM"
                                         },
                                         {
                                             "switchCount":  1,
@@ -491,30 +383,552 @@
                                             "lastSeen":  "12:46:07 AM"
                                         },
                                         {
-                                            "switchCount":  10,
+                                            "switchCount":  1,
                                             "category":  "Web Browser",
-                                            "name":  "keyboard shortcuts everyone should know - Google Search (Brave Browser)",
-                                            "totalSeconds":  20,
-                                            "lastSeen":  "12:50:46 AM"
+                                            "name":  "New Tab (Brave Browser)",
+                                            "totalSeconds":  6,
+                                            "lastSeen":  "12:49:04 AM"
                                         },
                                         {
-                                            "switchCount":  15,
-                                            "category":  "System",
-                                            "name":  "Task Switching",
-                                            "totalSeconds":  90,
-                                            "lastSeen":  "12:50:42 AM"
+                                            "switchCount":  1,
+                                            "category":  "Web Browser",
+                                            "name":  "Untitled and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
+                                            "totalSeconds":  4,
+                                            "lastSeen":  "12:46:09 AM"
                                         },
                                         {
-                                            "switchCount":  4,
+                                            "switchCount":  1,
                                             "category":  "Web Browser",
-                                            "name":  "ActivityWatch: System and Browser Intelligence (Brave Browser)",
-                                            "totalSeconds":  8,
-                                            "lastSeen":  "12:50:50 AM"
+                                            "name":  "WhatsApp and 1 more page - Profile 1 - Microsoft​ Edge (Microsoft Edge)",
+                                            "totalSeconds":  2,
+                                            "lastSeen":  "12:50:24 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Web Browser",
+                                            "name":  "English Lab Questions (Brave Browser)",
+                                            "totalSeconds":  2,
+                                            "lastSeen":  "12:45:53 AM"
                                         }
                                     ],
                        "distinctAppsCount":  15,
                        "date":  "2026-11-12",
-                       "totalActiveFormatted":  "4m 58s"
+                       "totalActiveFormatted":  "4m 58s",
+                       "summary":  {
+                                       "totalActiveSeconds":  272,
+                                       "totalActiveFormatted":  "4m 32s",
+                                       "totalSwitches":  8,
+                                       "distinctAppsCount":  12,
+                                       "mostUsedApp":  {
+                                                           "name":  "Antigravity Ide",
+                                                           "category":  "General Application",
+                                                           "durationFormatted":  "1m 30s",
+                                                           "percentage":  33
+                                                       }
+                                   }
+                   },
+    "2026-11-14":  {
+                       "timeline":  [
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:37:45 PM",
+                                            "Title":  "Attachments - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:37:46 PM",
+                                            "Title":  "THOTA - Personal - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "System",
+                                            "DurationSec":  3,
+                                            "Time":  "08:37:47 PM",
+                                            "Title":  "Documents - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:37:51 PM",
+                                            "Title":  "THOTA - Personal - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:37:52 PM",
+                                            "Title":  "Microsoft Copilot Chat Files - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:37:53 PM",
+                                            "Title":  "THOTA - Personal - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "System",
+                                            "DurationSec":  2,
+                                            "Time":  "08:37:54 PM",
+                                            "Title":  "Pictures - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "System",
+                                            "DurationSec":  2,
+                                            "Time":  "08:37:56 PM",
+                                            "Title":  "THOTA - Personal - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "Microsoft​ Edge (Microsoft Edge)",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  3,
+                                            "Time":  "08:37:58 PM",
+                                            "Title":  "Getting started with OneDrive.pdf - Personal - Microsoft​ Edge"
+                                        },
+                                        {
+                                            "AppName":  "Microsoft​ Edge (Microsoft Edge)",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  2,
+                                            "Time":  "08:38:02 PM",
+                                            "Title":  "New tab - Personal - Microsoft​ Edge"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "8s",
+                                            "Category":  "System",
+                                            "DurationSec":  8,
+                                            "Time":  "08:38:05 PM",
+                                            "Title":  "Desktop - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:14 PM",
+                                            "Title":  "Downloads - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "System",
+                                            "DurationSec":  2,
+                                            "Time":  "08:38:15 PM",
+                                            "Title":  "Documents - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:17 PM",
+                                            "Title":  "Pictures - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:18 PM",
+                                            "Title":  "Documents - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:19 PM",
+                                            "Title":  "Cline - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "System",
+                                            "DurationSec":  2,
+                                            "Time":  "08:38:21 PM",
+                                            "Title":  "Workflows - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "6s",
+                                            "Category":  "System",
+                                            "DurationSec":  6,
+                                            "Time":  "08:38:23 PM",
+                                            "Title":  "Documents - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:29 PM",
+                                            "Title":  "Delete Folder"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "System",
+                                            "DurationSec":  2,
+                                            "Time":  "08:38:30 PM",
+                                            "Title":  "Documents - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:33 PM",
+                                            "Title":  "Pictures - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "6s",
+                                            "Category":  "System",
+                                            "DurationSec":  6,
+                                            "Time":  "08:38:34 PM",
+                                            "Title":  "Screenshots - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:40 PM",
+                                            "Title":  "Pictures - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:42 PM",
+                                            "Title":  "Documents - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:38:43 PM",
+                                            "Title":  "infosys_springboard - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "17s",
+                                            "Category":  "System",
+                                            "DurationSec":  17,
+                                            "Time":  "08:38:44 PM",
+                                            "Title":  "Videos - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "9s",
+                                            "Category":  "System",
+                                            "DurationSec":  9,
+                                            "Time":  "08:39:02 PM",
+                                            "Title":  "Screen Recordings - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "System",
+                                            "DurationSec":  2,
+                                            "Time":  "08:39:13 PM",
+                                            "Title":  "Delete Multiple Items"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:39:15 PM",
+                                            "Title":  "Screen Recordings - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "10s",
+                                            "Category":  "System",
+                                            "DurationSec":  10,
+                                            "Time":  "08:39:16 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "File Explorer",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:39:26 PM",
+                                            "Title":  "Screen Recordings - File Explorer"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "System",
+                                            "DurationSec":  3,
+                                            "Time":  "08:39:27 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  2,
+                                            "Time":  "08:39:31 PM",
+                                            "Title":  "Ravyn Lenae - Love Me Not (Official Music Video) - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "Free Games (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  1,
+                                            "Time":  "08:39:33 PM",
+                                            "Title":  "Chess.com - Play Chess Online - Free Games"
+                                        },
+                                        {
+                                            "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  1,
+                                            "Time":  "08:39:34 PM",
+                                            "Title":  "TypeRacer - Play Typing Games and Race Friends"
+                                        },
+                                        {
+                                            "AppName":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  1,
+                                            "Time":  "08:39:35 PM",
+                                            "Title":  "There\u0027s An AI For That® — The front page of AI"
+                                        },
+                                        {
+                                            "AppName":  "Free Games (Brave Browser)",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  2,
+                                            "Time":  "08:39:36 PM",
+                                            "Title":  "Chess.com - Play Chess Online - Free Games"
+                                        },
+                                        {
+                                            "AppName":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
+                                            "DurationFormatted":  "10s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  10,
+                                            "Time":  "08:39:38 PM",
+                                            "Title":  "There\u0027s An AI For That® — The front page of AI"
+                                        },
+                                        {
+                                            "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
+                                            "DurationFormatted":  "8s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  8,
+                                            "Time":  "08:39:49 PM",
+                                            "Title":  "TypeRacer - Play Typing Games and Race Friends"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "14s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  14,
+                                            "Time":  "08:39:58 PM",
+                                            "Title":  "Ravyn Lenae - Love Me Not (Official Music Video) - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "10s",
+                                            "Category":  "System",
+                                            "DurationSec":  10,
+                                            "Time":  "08:40:13 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Windows Terminal",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Utilities",
+                                            "DurationSec":  2,
+                                            "Time":  "08:40:25 PM",
+                                            "Title":  "OC | Browser local host data persistence a…"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "08:40:27 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Antigravity Ide",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "General Application",
+                                            "DurationSec":  2,
+                                            "Time":  "08:40:28 PM",
+                                            "Title":  "infosys_springboard - Antigravity IDE"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "System",
+                                            "DurationSec":  3,
+                                            "Time":  "08:40:31 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Free Games (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  1,
+                                            "Time":  "08:40:35 PM",
+                                            "Title":  "Chess.com - Play Chess Online - Free Games"
+                                        },
+                                        {
+                                            "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  1,
+                                            "Time":  "08:40:36 PM",
+                                            "Title":  "TypeRacer - Play Typing Games and Race Friends"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Web Browser",
+                                            "DurationSec":  1,
+                                            "Time":  "08:40:37 PM",
+                                            "Title":  "Ravyn Lenae - Love Me Not (Official Music Video) - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "Windows Terminal",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Utilities",
+                                            "DurationSec":  1,
+                                            "Time":  "08:40:38 PM",
+                                            "Title":  "OC | Browser local host data persistence a…"
+                                        },
+                                        {
+                                            "AppName":  "Antigravity Ide",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "General Application",
+                                            "DurationSec":  2,
+                                            "Time":  "08:40:39 PM",
+                                            "Title":  "infosys_springboard - Antigravity IDE"
+                                        }
+                                    ],
+                       "totalActiveSeconds":  806,
+                       "lastUpdated":  "2026-11-14T20:40:43.9625528+05:30",
+                       "totalSwitches":  97,
+                       "appUsage":  [
+                                        {
+                                            "switchCount":  8,
+                                            "category":  "Web Browser",
+                                            "name":  "Free Games (Brave Browser)",
+                                            "totalSeconds":  32,
+                                            "lastSeen":  "08:40:36 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Web Browser",
+                                            "name":  "Just a moment... (Brave Browser)",
+                                            "totalSeconds":  10,
+                                            "lastSeen":  "08:26:44 PM"
+                                        },
+                                        {
+                                            "switchCount":  7,
+                                            "category":  "Web Browser",
+                                            "name":  "Play Typing Games and Race Friends (Brave Browser)",
+                                            "totalSeconds":  28,
+                                            "lastSeen":  "08:40:37 PM"
+                                        },
+                                        {
+                                            "switchCount":  3,
+                                            "category":  "Utilities",
+                                            "name":  "Windows Terminal",
+                                            "totalSeconds":  10,
+                                            "lastSeen":  "08:40:39 PM"
+                                        },
+                                        {
+                                            "switchCount":  5,
+                                            "category":  "Web Browser",
+                                            "name":  "There\u0027s An AI For That® — The fr... (Brave Browser)",
+                                            "totalSeconds":  54,
+                                            "lastSeen":  "08:39:49 PM"
+                                        },
+                                        {
+                                            "switchCount":  17,
+                                            "category":  "Web Browser",
+                                            "name":  "YouTube (Brave Browser)",
+                                            "totalSeconds":  1044,
+                                            "lastSeen":  "08:40:38 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Utilities",
+                                            "name":  "Notepad",
+                                            "totalSeconds":  30,
+                                            "lastSeen":  "08:36:34 PM"
+                                        },
+                                        {
+                                            "switchCount":  2,
+                                            "category":  "Web Browser",
+                                            "name":  "Microsoft​ Edge (Microsoft Edge)",
+                                            "totalSeconds":  10,
+                                            "lastSeen":  "08:38:05 PM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Communication",
+                                            "name":  "WhatsApp Desktop",
+                                            "totalSeconds":  32,
+                                            "lastSeen":  "08:36:52 PM"
+                                        },
+                                        {
+                                            "switchCount":  35,
+                                            "category":  "System",
+                                            "name":  "File Explorer",
+                                            "totalSeconds":  230,
+                                            "lastSeen":  "08:39:27 PM"
+                                        },
+                                        {
+                                            "switchCount":  6,
+                                            "category":  "Web Browser",
+                                            "name":  "Google Search (Brave Browser)",
+                                            "totalSeconds":  42,
+                                            "lastSeen":  "08:26:50 PM"
+                                        },
+                                        {
+                                            "switchCount":  2,
+                                            "category":  "General Application",
+                                            "name":  "Antigravity Ide",
+                                            "totalSeconds":  8,
+                                            "lastSeen":  "08:40:41 PM"
+                                        },
+                                        {
+                                            "switchCount":  9,
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  79,
+                                            "lastSeen":  "08:40:35 PM"
+                                        }
+                                    ],
+                       "distinctAppsCount":  13,
+                       "date":  "2026-11-14",
+                       "totalActiveFormatted":  "13m 26s"
                    },
     "2026-11-11":  {
                        "timeline":  [
@@ -924,78 +1338,83 @@
                        "totalSwitches":  2775,
                        "appUsage":  [
                                         {
-                                            "switchCount":  14,
-                                            "category":  "Utilities",
-                                            "name":  "Windows Terminal",
-                                            "totalSeconds":  641,
-                                            "lastSeen":  "12:27:52 AM"
-                                        },
-                                        {
-                                            "switchCount":  4,
-                                            "category":  "System",
-                                            "name":  "Windows Search",
-                                            "totalSeconds":  14,
-                                            "lastSeen":  "12:02:49 AM"
-                                        },
-                                        {
-                                            "switchCount":  5,
-                                            "category":  "Communication",
-                                            "name":  "WhatsApp Desktop",
-                                            "totalSeconds":  42,
-                                            "lastSeen":  "12:30:53 AM"
-                                        },
-                                        {
-                                            "switchCount":  5,
-                                            "category":  "Web Browser",
-                                            "name":  "Microsoft Edge",
-                                            "totalSeconds":  24,
-                                            "lastSeen":  "12:31:04 AM"
-                                        },
-                                        {
-                                            "switchCount":  9,
-                                            "category":  "General Application",
-                                            "name":  "Shellhost",
-                                            "totalSeconds":  236,
-                                            "lastSeen":  "12:27:47 AM"
-                                        },
-                                        {
-                                            "switchCount":  7,
-                                            "category":  "System",
-                                            "name":  "File Explorer",
-                                            "totalSeconds":  58,
-                                            "lastSeen":  "12:31:00 AM"
-                                        },
-                                        {
-                                            "switchCount":  25,
-                                            "category":  "System",
-                                            "name":  "Task Switching",
-                                            "totalSeconds":  110,
-                                            "lastSeen":  "12:31:54 AM"
-                                        },
-                                        {
-                                            "switchCount":  4300,
+                                            "switchCount":  1,
                                             "category":  "Web Browser",
                                             "name":  "Brave Browser",
                                             "totalSeconds":  8606,
                                             "lastSeen":  "12:31:51 AM"
                                         },
                                         {
-                                            "switchCount":  17,
+                                            "switchCount":  1,
                                             "category":  "General Application",
                                             "name":  "Antigravity Ide",
                                             "totalSeconds":  1168,
                                             "lastSeen":  "12:31:53 AM"
                                         },
                                         {
-                                            "switchCount":  6,
+                                            "switchCount":  1,
+                                            "category":  "General Application",
+                                            "name":  "Shellhost",
+                                            "totalSeconds":  236,
+                                            "lastSeen":  "12:27:47 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  110,
+                                            "lastSeen":  "12:31:54 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
                                             "category":  "Utilities",
                                             "name":  "Notepad",
                                             "totalSeconds":  68,
                                             "lastSeen":  "12:30:57 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "System",
+                                            "name":  "File Explorer",
+                                            "totalSeconds":  58,
+                                            "lastSeen":  "12:31:00 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Communication",
+                                            "name":  "WhatsApp Desktop",
+                                            "totalSeconds":  42,
+                                            "lastSeen":  "12:30:53 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Web Browser",
+                                            "name":  "Microsoft Edge",
+                                            "totalSeconds":  24,
+                                            "lastSeen":  "12:31:04 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "System",
+                                            "name":  "Windows Search",
+                                            "totalSeconds":  14,
+                                            "lastSeen":  "12:02:49 AM"
                                         }
                                     ],
                        "distinctAppsCount":  10,
                        "date":  "2026-11-11",
-                       "totalActiveFormatted":  "1h 1m 22s"
+                       "totalActiveFormatted":  "1h 1m 22s",
+                       "summary":  {
+                                       "totalActiveSeconds":  10326,
+                                       "totalActiveFormatted":  "172m 6s",
+                                       "totalSwitches":  8,
+                                       "distinctAppsCount":  9,
+                                       "mostUsedApp":  {
+                                                           "name":  "Brave Browser",
+                                                           "category":  "Web Browser",
+                                                           "durationFormatted":  "143m 26s",
+                                                           "percentage":  83
+                                                       }
+                                   }
                    }
 }

@@ -5,7 +5,8 @@
   "description": "Lightweight real-time website activity and usage duration tracker with activity timeline and daily comparison statistics.",
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "idle"
   ],
   "host_permissions": [
     "<all_urls>"

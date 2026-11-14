@@ -141,6 +141,12 @@ const URLParser = (function () {
             if (KNOWN_DOMAINS[withoutWww]) {
                 return KNOWN_DOMAINS[withoutWww];
             }
+            if (/^\d+\.\d+\.\d+\.\d+$/.test(withoutWww)) {
+                return withoutWww;
+            }
+            if (withoutWww === "localhost") {
+                return "Localhost";
+            }
 
             // 3. Fallback smart heuristic extraction
             // e.g., "cs.stanford.edu" -> parts: ["cs", "stanford", "edu"]
@@ -157,6 +163,10 @@ const URLParser = (function () {
                 brandPart = parts[parts.length - 2];
             } else {
                 brandPart = parts[0];
+            }
+
+            if (!brandPart || !isNaN(brandPart)) {
+                return withoutWww;
             }
 
             // Clean up hyphens and title case

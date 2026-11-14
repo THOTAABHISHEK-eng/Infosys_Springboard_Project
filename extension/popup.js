@@ -28,6 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const statSitesVisited = document.getElementById("stat-sites-visited");
     const statMostUsed = document.getElementById("stat-most-used");
     const statTotalVisits = document.getElementById("stat-total-visits");
+    const statSwitches = document.getElementById("stat-switches");
+    const statIdleTime = document.getElementById("stat-idle-time");
+
+    // Focus score pill (header)
+    const focusPill = document.getElementById("focus-pill");
+    const focusScoreVal = document.getElementById("focus-score-val");
+    const focusGrade = document.getElementById("focus-grade");
+
+    // Current panel idle info
+    const curIdleFor = document.getElementById("cur-idle-for");
+    const idleStateBadge = document.getElementById("idle-state-badge");
 
     // Current Website Elements
     const curName = document.getElementById("cur-name");
@@ -135,11 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const aggregatedUsage = {};
         let aggTimeline = [];
         let aggSwitches = 0;
+        let aggTotalIdleSec = 0;
 
         targetDates.forEach(dt => {
             if (historyByDate[dt]) {
                 const day = historyByDate[dt];
                 aggSwitches += (day.totalTabSwitches || 0);
+                aggTotalIdleSec += (day.totalIdleSec || 0);
                 if (day.timeline) aggTimeline = aggTimeline.concat(day.timeline);
 
                 const u = day.siteUsage || {};
@@ -155,13 +168,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const filterState = {
+            __isPastDay: true,
             currentWebsite: latestState.currentWebsite,
             previousWebsite: latestState.previousWebsite,
             currentDwellSec: latestState.currentDwellSec,
             totalTabSwitches: aggSwitches || latestState.totalTabSwitches,
             siteUsage: Object.keys(aggregatedUsage).length > 0 ? aggregatedUsage : latestState.siteUsage,
             timeline: aggTimeline.length > 0 ? aggTimeline.slice(-60) : latestState.timeline,
-            isWindowFocused: latestState.isWindowFocused
+            isWindowFocused: latestState.isWindowFocused,
+            idleState: "active",
+            currentIdleSec: 0,
+            totalIdleSec: aggTotalIdleSec,
+            lastActiveTime: Date.now()
         };
 
         renderDashboardWithState(filterState);
@@ -210,6 +228,82 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${secs}s`;
     }
 
+    // 10 user-facing distraction categories
+    const CATEGORY_COLORS = {
+        Development: "#3b82f6",
+        Learning: "#10b981",
+        Professional: "#8b5cf6",
+        Communication: "#f59e0b",
+        Entertainment: "#ef4444",
+        "Social Media": "#ec4899",
+        Shopping: "#eab308",
+        News: "#6366f1",
+        Other: "#64748b"
+    };
+
+    // Lightweight domain -> category guess for the popup (glance view)
+    function guessCategory(domain, name) {
+        const d = (domain || "").toLowerCase();
+        const n = (name || "").toLowerCase();
+        const buckets = [
+            ["Entertainment", ["youtube", "netflix", "twitch", "spotify", "hulu", "disneyplus", "crunchyroll", "hotstar", "primevideo"]],
+            ["Social Media", ["instagram", "facebook", "x.com", "twitter", "reddit", "tiktok", "pinterest", "snapchat", "linkedin"]],
+            ["Shopping", ["amazon", "flipkart", "ebay", "myntra", "ajio", "walmart", "target"]],
+            ["News", ["bbc", "cnn", "nytimes", "reuters", "aljazeera", "theguardian", "timesofindia", "ndtv", "apnews"]],
+            ["Communication", ["whatsapp", "slack", "discord", "telegram", "teams", "outlook", "mail.google", "messenger"]],
+            ["Development", ["github", "gitlab", "stackoverflow", "leetcode", "hackerrank", "developer.mozilla", "docs.python", "nodejs", "react.dev"]],
+            ["Learning", ["coursera", "udemy", "khanacademy", "springboard", "edx", "wikipedia", "medium", "udacity"]],
+            ["Professional", ["notion", "trello", "linear", "jira", "figma", "canva", "chatgpt", "claude.ai", "gemini.google", "drive.google", "docs.google"]]
+        ];
+        for (const [cat, keywords] of buckets) {
+            if (keywords.some(kw => d.includes(kw) || n.includes(kw))) return cat;
+        }
+        return "Other";
+    }
+
+    // Focus Score: starts at 100
+    // -20 : too much tab switching  (> 20 switches today)
+    // -5  : communication used
+    // -N  : entertainment reduces score proportionally to its share ("reduce all")
+    // -10 : idle for 10 minutes or more
+    function computeFocusScore(state) {
+        if (!state) return { score: 100, isCalibrating: true, elapsed: 0 };
+        const switches = state.totalTabSwitches || 0;
+        const siteUsage = state.siteUsage || {};
+        const sites = Object.values(siteUsage);
+        const totalActiveSec = sites.reduce((acc, s) => acc + (s.totalSec || 0), 0);
+
+        if (totalActiveSec < 60) {
+            return { score: 100, isCalibrating: true, elapsed: totalActiveSec };
+        }
+
+        let score = 100;
+        let entertainmentSec = 0;
+        let communicationSec = 0;
+        sites.forEach(s => {
+            const cat = guessCategory(s.domain, s.name);
+            const sec = s.totalSec || 0;
+            if (cat === "Entertainment") entertainmentSec += sec;
+            if (cat === "Communication") communicationSec += sec;
+        });
+
+        if (switches > 20) score -= 20;
+        if (communicationSec > 0) score -= 5;
+        score -= Math.round((entertainmentSec / Math.max(1, totalActiveSec)) * 30);
+
+        const idleSec = state.totalIdleSec || 0;
+        if (idleSec >= 600) score -= 10;
+
+        return { score: Math.max(0, Math.min(100, Math.round(score))), isCalibrating: false, elapsed: totalActiveSec };
+    }
+
+    function focusGradeLabel(score) {
+        if (score > 80) return { label: "Excellent", color: "#10b981" };
+        if (score >= 60) return { label: "Good", color: "#3b82f6" };
+        if (score >= 40) return { label: "Fair", color: "#f59e0b" };
+        return { label: "Needs Work", color: "#ef4444" };
+    }
+
     function escapeHtml(str) {
         if (!str) return "";
         return String(str)
@@ -225,6 +319,15 @@ document.addEventListener("DOMContentLoaded", () => {
         renderDashboardWithState(latestState);
     }
 
+    function sanitizeSiteName(name, domain) {
+        if (!name || name === "0" || /^\d+$/.test(name)) {
+            if (!domain || domain === "none" || domain === "unknown") return "Local / Unknown";
+            if (domain === "127.0.0.1" || domain === "localhost") return "Localhost";
+            return domain;
+        }
+        return name;
+    }
+
     function renderDashboardWithState(state) {
         if (!state) return;
 
@@ -236,15 +339,99 @@ document.addEventListener("DOMContentLoaded", () => {
         const isFocused = state.isWindowFocused !== false;
 
         // 1. Status Indicator & Session Badge
+        const stIdleState = state.idleState || "active";
+        const idle = stIdleState === "idle" || stIdleState === "locked";
+        const focused = isFocused !== false && !idle;
         if (windowStatus) {
-            windowStatus.textContent = isFocused ? "MONITORING" : "PAUSED";
-            if (statusPill) {
-                statusPill.style.borderColor = isFocused ? "rgba(16, 185, 129, 0.25)" : "rgba(245, 158, 11, 0.3)";
-                statusPill.style.color = isFocused ? "var(--accent-emerald)" : "var(--accent-amber)";
+            if (state.__isPastDay) {
+                windowStatus.textContent = "HISTORICAL";
+                if (statusPill) {
+                    statusPill.style.borderColor = "rgba(148, 163, 184, 0.25)";
+                    statusPill.style.color = "var(--text-muted)";
+                }
+            } else {
+                windowStatus.textContent = focused ? "MONITORING" : "PAUSED";
+                if (statusPill) {
+                    statusPill.style.borderColor = focused
+                        ? "rgba(16, 185, 129, 0.25)"
+                        : idle
+                            ? "rgba(245, 158, 11, 0.25)"
+                            : "rgba(239, 68, 68, 0.25)";
+                    statusPill.style.color = focused
+                        ? "var(--accent-emerald)"
+                        : idle
+                            ? "var(--accent-amber)"
+                            : "var(--accent-rose)";
+                }
             }
+        }
+        const pauseNoticeBanner = document.getElementById("pause-notice-banner");
+        if (pauseNoticeBanner) {
+            pauseNoticeBanner.style.display = (focused || state.__isPastDay) ? "none" : "block";
         }
         if (badgeSessionVal) {
             badgeSessionVal.textContent = formatCounterDigits(dwell);
+        }
+        if (statSwitches) {
+            statSwitches.textContent = state.totalTabSwitches || 0;
+        }
+
+        // Idle time:
+        //   Today (live): show X/180s progress before threshold, then real idle time after.
+        //   Previous days: show stored totalIdleSec (no counting up).
+        const idleProgress = state.idleProgressSeconds || 0;
+        const idleTime = state.idleTimeSeconds || 0;
+        const todayIdle = state.totalIdleSec || 0;
+        const isViewingPast = state.__isPastDay === true;
+
+        if (statIdleTime) {
+            if (isViewingPast) {
+                // Previous days: just show the stored idle total, no counting.
+                statIdleTime.textContent = formatDurationHuman(todayIdle);
+            } else if (stIdleState === "idle" || stIdleState === "locked") {
+                if (idleTime > 0) {
+                    // Past 180s threshold: show real idle time.
+                    statIdleTime.textContent = formatDurationHuman(idleTime) + " (idle now)";
+                } else {
+                    // Counting toward 180s threshold: show progress.
+                    statIdleTime.textContent = `${idleProgress}/180s`;
+                }
+            } else {
+                statIdleTime.textContent = `0/180s`;
+            }
+        }
+        if (curIdleFor) {
+            curIdleFor.textContent = isViewingPast
+                ? formatDurationHuman(todayIdle)
+                : (idleTime > 0 ? formatDurationHuman(idleTime) : `${idleProgress}/180s`);
+        }
+        if (idleStateBadge) {
+            const isIdle = stIdleState === "idle" || stIdleState === "locked";
+            idleStateBadge.textContent = isIdle ? "IDLE" : "ACTIVE";
+            idleStateBadge.style.color = isIdle ? "#f59e0b" : "#10b981";
+            if (focusPill) focusPill.style.display = isIdle ? "none" : "flex";
+        }
+
+        // Focus Score + Grade
+        const fsResult = computeFocusScore(state);
+        if (fsResult.isCalibrating) {
+            if (focusScoreVal) focusScoreVal.textContent = "--";
+            if (focusGrade) {
+                focusGrade.textContent = "Calibrating";
+                focusGrade.style.backgroundColor = "rgba(245, 158, 11, 0.15)";
+                focusGrade.style.color = "#f59e0b";
+                focusGrade.style.borderColor = "rgba(245, 158, 11, 0.4)";
+            }
+        } else {
+            const score = fsResult.score;
+            const grade = focusGradeLabel(score);
+            if (focusScoreVal) focusScoreVal.textContent = score + "%";
+            if (focusGrade) {
+                focusGrade.textContent = grade.label;
+                focusGrade.style.backgroundColor = grade.color + "15";
+                focusGrade.style.color = grade.color;
+                focusGrade.style.borderColor = grade.color + "40";
+            }
         }
 
         // 2. Prepare Sites List & Aggregations
@@ -265,18 +452,35 @@ document.addEventListener("DOMContentLoaded", () => {
             return (b.totalSec || 0) - (a.totalSec || 0);
         });
 
-        // 3. 4 Main Overview Statistics
-        if (statTotalUsage) statTotalUsage.textContent = formatDurationHuman(totalActiveSec);
-        if (statSitesVisited) statSitesVisited.textContent = sites.length;
-        if (statMostUsed) {
-            statMostUsed.textContent = (sites.length > 0 && sites[0].totalSec > 0) ? sites[0].name : "None";
-            statMostUsed.title = (sites.length > 0) ? `${sites[0].name} (${sites[0].domain})` : "";
+        // 3. 4 Main Overview Statistics (Browser-only scope)
+        if (statTotalUsage) {
+            statTotalUsage.textContent = formatDurationHuman(totalActiveSec);
+            statTotalUsage.className = "metric-value scope-browser-only";
         }
-        if (statTotalVisits) statTotalVisits.textContent = totalVisits;
+        if (statSitesVisited) {
+            statSitesVisited.textContent = sites.length;
+            statSitesVisited.className = "metric-value scope-browser-only";
+        }
+        if (statMostUsed) {
+            statMostUsed.textContent = (sites.length > 0 && sites[0].totalSec > 0) ? sanitizeSiteName(sites[0].name, sites[0].domain) : "None";
+            statMostUsed.title = (sites.length > 0) ? `${sanitizeSiteName(sites[0].name, sites[0].domain)} (${sites[0].domain})` : "";
+            statMostUsed.className = "metric-value truncate scope-browser-only";
+        }
+        if (statTotalVisits) {
+            statTotalVisits.textContent = totalVisits;
+            statTotalVisits.className = "metric-value scope-browser-only";
+        }
+        if (statSwitches) {
+            statSwitches.textContent = state.totalTabSwitches || 0;
+            statSwitches.className = "metric-value scope-browser-only";
+        }
+        if (statIdleTime) {
+            statIdleTime.className = "metric-value scope-browser-only";
+        }
 
         // 4. Current Website Section
         if (cur) {
-            curName.textContent = cur.name || "Unknown Website";
+            curName.textContent = sanitizeSiteName(cur.name, cur.domain);
             curDomain.textContent = cur.domain || "None";
             curCounter.textContent = formatCounterDigits(dwell);
             curActivated.textContent = cur.activatedTime || "Waiting";
@@ -298,7 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 5. Previous Website Section
         if (prev) {
-            prevName.textContent = prev.name || "Unknown";
+            prevName.textContent = sanitizeSiteName(prev.name, prev.domain);
             prevDomain.textContent = prev.domain || "None";
             prevDuration.textContent = formatDurationHuman(prev.totalActiveSpent);
             prevLastTime.textContent = prev.lastActiveTime || "Waiting";
@@ -322,7 +526,13 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTimelineStream(timeline);
 
         // 9. Reports Tab
-        renderReportsTab(sites, totalActiveSec, dwell, latestState.totalTabSwitches || 0);
+        renderReportsTab(sites, totalActiveSec, dwell, state.totalTabSwitches || 0, {
+            idleState: state.idleState,
+            idleProgressSeconds: state.idleProgressSeconds || 0,
+            idleTimeSeconds: state.idleTimeSeconds || 0,
+            totalIdleSec: state.totalIdleSec || 0,
+            focusScore: computeFocusScore(state)
+        });
     }
 
     let isOverviewExpanded = false;
@@ -333,7 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!overviewComparisonBars) return;
 
         if (!sites || sites.length === 0 || totalActiveSec === 0) {
-            overviewComparisonBars.innerHTML = `<div class="empty-state">No website activity recorded yet today.</div>`;
+            overviewComparisonBars.innerHTML = `<div class="empty-state">No website activity recorded yet today. Visit any website in a new tab to start tracking. The extension monitors your active browser tab automatically.</div>`;
             return;
         }
 
@@ -349,7 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="bar-meta">
                         <div class="bar-name-group">
                             <span class="bar-rank">#${idx + 1}</span>
-                            <span class="bar-site-title">${escapeHtml(site.name)}</span>
+                            <span class="bar-site-title">${escapeHtml(sanitizeSiteName(site.name, site.domain))}</span>
                             <span class="bar-site-domain">${escapeHtml(site.domain)}</span>
                         </div>
                         <span class="bar-duration">${formatDurationHuman(site.totalSec)}</span>
@@ -421,7 +631,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="site-row">
                     <span class="td-rank">${index + 1}</span>
                     <div class="td-site-info">
-                        <span class="td-name">${escapeHtml(site.name)}</span>
+                        <span class="td-name">${escapeHtml(sanitizeSiteName(site.name, site.domain))}</span>
                         <span class="td-domain">${escapeHtml(site.domain)}</span>
                     </div>
                     <span class="td-visits">${site.visitCount || 1}x</span>
@@ -467,8 +677,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="tl-node"></div>
                     <div class="tl-body">
                         <div class="tl-header">
-                            <span class="tl-site">${escapeHtml(item.name || item.domain || "Website")}</span>
-                            <span class="tl-time">${escapeHtml(item.timeStr || "N/A")}</span>
+                            <span class="tl-site">${escapeHtml(sanitizeSiteName(item.appName || item.name, item.domain))}</span>
+                            <span class="tl-time">${escapeHtml(item.timeStr || item.time || "N/A")}</span>
                         </div>
                         <span class="tl-action">${escapeHtml(item.actionText || "Visited page")}</span>
                         <span class="tl-dur-pill">${formatDurationHuman(item.durationSec)}</span>
@@ -481,7 +691,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Render Reports Tab
-    function renderReportsTab(sites, totalActiveSec, currentDwell, tabSwitches) {
+    function renderReportsTab(sites, totalActiveSec, currentDwell, tabSwitches, extra) {
         if (!reportsShareBars) return;
 
         // Date Display
@@ -499,17 +709,41 @@ document.addEventListener("DOMContentLoaded", () => {
         const avgDwellSec = totalVisits > 0 ? Math.round(totalActiveSec / totalVisits) : 0;
         if (repAvgDwell) repAvgDwell.textContent = formatDurationHuman(avgDwellSec);
 
-        // Focus score indicator
+        // Focus score indicator (numeric + grade)
+        // computeFocusScore returns a number; calibrating state is determined by total browsing time
+        const totalBrowsingSec = totalActiveSec || 0;
+        const isCalibrating = totalBrowsingSec < 60 && !state.__isPastDay;
+        const rawScore = extra && extra.focusScore !== undefined ? extra.focusScore : computeFocusScore({ totalTabSwitches: tabSwitches, siteUsage: latestState.siteUsage, totalIdleSec: latestState.totalIdleSec });
+        const focusScore = isCalibrating ? "--" : (rawScore + "%");
+        const grade = isCalibrating ? { label: "Calibrating", color: "#f59e0b" } : focusGradeLabel(rawScore);
         if (repFocusScore) {
-            if (tabSwitches < 10) {
-                repFocusScore.textContent = "Deep Focus";
-                repFocusScore.style.color = "var(--accent-emerald)";
-            } else if (tabSwitches < 35) {
-                repFocusScore.textContent = "Balanced";
-                repFocusScore.style.color = "var(--accent-blue)";
+            repFocusScore.textContent = `${focusScore} • ${grade.label}`;
+            repFocusScore.style.color = grade.color;
+            repFocusScore.className = "r-value highlight focus-score-pill";
+        }
+
+        // Idle time line in reports (renders once into a dedicated element)
+        if (extra && repFocusScore) {
+            let idleLine = document.getElementById("rep-idle-line");
+            if (!idleLine) {
+                idleLine = document.createElement("span");
+                idleLine.id = "rep-idle-line";
+                idleLine.className = "r-sub";
+                idleLine.style.cssText = "display:block;margin-top:6px;font-size:0.7rem;color:var(--text-muted);";
+                repFocusScore.parentElement.insertAdjacentElement("afterend", idleLine);
+            }
+            const stIdleState = extra.idleState || "active";
+            const idleProgress = extra.idleProgressSeconds || 0;
+            const idleTime = extra.idleTimeSeconds || 0;
+            const todayIdle = extra.totalIdleSec || 0;
+            if (stIdleState === "idle" || stIdleState === "locked") {
+                if (idleTime > 0) {
+                    idleLine.textContent = `💤 Idle now: ${formatDurationHuman(idleTime)}`;
+                } else {
+                    idleLine.textContent = `💤 Building idle: ${idleProgress}/180s`;
+                }
             } else {
-                repFocusScore.textContent = "Fragmented";
-                repFocusScore.style.color = "var(--accent-amber)";
+                idleLine.textContent = `💤 Idle today: ${formatDurationHuman(todayIdle)}`;
             }
         }
 
@@ -621,7 +855,13 @@ document.addEventListener("DOMContentLoaded", () => {
             "totalTabSwitches",
             "siteUsage",
             "timeline",
-            "historyByDate"
+            "historyByDate",
+            "idleState",
+            "totalIdleSec",
+            "idleProgressSeconds",
+            "idleTimeSeconds",
+            "isWindowFocused",
+            "lastActiveTime"
         ], res => {
             historyByDate = res.historyByDate || {};
             latestState = {
@@ -631,7 +871,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 totalTabSwitches: res.totalTabSwitches || 0,
                 siteUsage: res.siteUsage || {},
                 timeline: res.timeline || [],
-                isWindowFocused: true
+                isWindowFocused: res.isWindowFocused !== false,
+                idleState: res.idleState || "active",
+                totalIdleSec: res.totalIdleSec || 0,
+                idleProgressSeconds: res.idleProgressSeconds || 0,
+                idleTimeSeconds: res.idleTimeSeconds || 0,
+                lastActiveTime: res.lastActiveTime || Date.now()
             };
             applyDateFilter();
         });
@@ -649,13 +894,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Local 1-second UI fallback tick (keeps dwell counter counting smoothly)
     setInterval(() => {
-        if (latestState && latestState.currentWebsite && latestState.isWindowFocused !== false) {
+        if (!latestState) return;
+
+        if (latestState.currentWebsite && latestState.isWindowFocused !== false) {
             latestState.currentDwellSec = (latestState.currentDwellSec || 0) + 1;
             if (curCounter) {
                 curCounter.textContent = formatCounterDigits(latestState.currentDwellSec);
             }
             if (badgeSessionVal) {
                 badgeSessionVal.textContent = formatCounterDigits(latestState.currentDwellSec);
+            }
+        }
+
+        // Keep idle & focus readouts live while the popup is open
+        const stIdleState = latestState.idleState || "active";
+        const isIdle = stIdleState === "idle" || stIdleState === "locked";
+        const idleProgress = latestState.idleProgressSeconds || 0;
+        const idleTime = latestState.idleTimeSeconds || 0;
+        const todayIdle = latestState.totalIdleSec || 0;
+
+        if (curIdleFor) {
+            curIdleFor.textContent = isIdle
+                ? (idleTime > 0 ? formatDurationHuman(idleTime) : `${idleProgress}/180s`)
+                : `0/180s`;
+        }
+        if (idleStateBadge) {
+            idleStateBadge.textContent = isIdle ? "IDLE" : "ACTIVE";
+            idleStateBadge.style.color = isIdle ? "#f59e0b" : "#10b981";
+            if (focusPill) focusPill.style.display = isIdle ? "none" : "flex";
+        }
+        if (statIdleTime) {
+            if (isIdle) {
+                statIdleTime.textContent = idleTime > 0
+                    ? formatDurationHuman(idleTime) + " (idle now)"
+                    : `${idleProgress}/180s`;
+            } else {
+                statIdleTime.textContent = `0/180s`;
+            }
+        }
+        if (focusScoreVal) {
+            const fsRes = computeFocusScore(latestState);
+            if (fsRes.isCalibrating) {
+                focusScoreVal.textContent = "--";
+                if (focusGrade) {
+                    focusGrade.textContent = "Calibrating";
+                    focusGrade.style.backgroundColor = "rgba(245, 158, 11, 0.15)";
+                    focusGrade.style.color = "#f59e0b";
+                    focusGrade.style.borderColor = "rgba(245, 158, 11, 0.4)";
+                }
+            } else {
+                const score = fsRes.score;
+                const grade = focusGradeLabel(score);
+                focusScoreVal.textContent = score + "%";
+                if (focusGrade) {
+                    focusGrade.textContent = grade.label;
+                    focusGrade.style.backgroundColor = grade.color + "15";
+                    focusGrade.style.color = grade.color;
+                    focusGrade.style.borderColor = grade.color + "40";
+                }
             }
         }
     }, 1000);

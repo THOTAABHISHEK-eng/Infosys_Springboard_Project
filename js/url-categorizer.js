@@ -59,11 +59,16 @@ const URLCategorizer = (function () {
             if (AttentionConfig.DOMAIN_RULES["www." + domain]) {
                 return AttentionConfig.DOMAIN_RULES["www." + domain].name;
             }
+            if (/^\d+\.\d+\.\d+\.\d+$/.test(domain)) return domain;
+            if (domain === "localhost") return "Localhost";
 
             // Fallback: title-case the primary domain slug
             const parts = domain.split(".");
             const brand = parts.length >= 2 ? parts[parts.length - 2] : parts[0];
-            return brand.charAt(0).toUpperCase() + brand.slice(1);
+            if (brand && isNaN(brand)) {
+                return brand.charAt(0).toUpperCase() + brand.slice(1);
+            }
+            return domain;
         } catch {
             return "Web Page";
         }

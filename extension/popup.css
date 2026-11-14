@@ -4,6 +4,20 @@
    Colors: Deep Navy / Charcoal (#0a0e17), Emerald (#10b981), Blue (#3b82f6)
    ========================================================================== */
 
+/* Pause Notice Banner (shown when browser tracking is paused) */
+#pause-notice-banner {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #f59e0b;
+    padding: 8px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+    margin: 6px 10px;
+    letter-spacing: 0.02em;
+}
+
 :root {
     --bg-base: #0a0e17;
     --bg-surface: #0f1523;
@@ -590,6 +604,12 @@ body {
     border: 1px solid rgba(139, 92, 246, 0.25);
 }
 
+.metric-icon-wrap.amber {
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--accent-amber);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
 .metric-content {
     display: flex;
     flex-direction: column;
@@ -1134,6 +1154,94 @@ body {
     background: rgba(0, 0, 0, 0.15);
     border-radius: var(--radius-sm);
     border: 1px dashed var(--border-subtle);
+}
+
+/* Focus Score Pill (header) */
+.focus-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 3px 8px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.focus-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+#focus-score-val {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #ffffff;
+}
+
+.grade-badge {
+    font-size: 0.62rem;
+    font-weight: 600;
+    border-radius: 3px;
+    padding: 1px 5px;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+}
+
+/* Idle badge */
+.idle-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+/* Reports focus score pill */
+.focus-score-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* Scope badges (Browser-only vs Desktop-wide) */
+.scope-badge {
+    display: inline-block;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #38bdf8;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-left: 6px;
+    white-space: nowrap;
+}
+
+.scope-browser-only {
+    position: relative;
+}
+.scope-browser-only::after {
+    content: " (Browser)";
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: #38bdf8;
+    margin-left: 4px;
 }
 
 /* Custom Scrollbars */

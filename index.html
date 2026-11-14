@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ActivityWatch: System and Browser Intelligence</title>
-    
+
     <!-- Premium Fonts: Plus Jakarta Sans + Inter + JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <div class="shell">
         <!-- =========================================================
@@ -40,23 +44,37 @@
 
                 <div class="date-select-wrap">
                     <label for="history-date-picker" class="date-picker-label">Date:</label>
-                    <select id="history-date-picker" class="date-select-control" title="Select date to inspect activity history">
+                    <select id="history-date-picker" class="date-select-control"
+                        title="Select date to inspect activity history">
                         <option value="today">Today (Live)</option>
                     </select>
                 </div>
-                
+
                 <div class="action-group">
                     <button id="btn-export-csv" class="btn btn-panel" title="Export session records as CSV">
-                        <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor"
+                            fill="none" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
                         <span>Export CSV</span>
                     </button>
-                    <button id="btn-reset-session" class="btn btn-panel btn-danger-hover" title="Reset tracking session baseline">
-                        <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <button id="btn-reset-session" class="btn btn-panel btn-danger-hover"
+                        title="Reset tracking session baseline">
+                        <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor"
+                            fill="none" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
                         <span>Reset</span>
                     </button>
                 </div>
             </div>
         </header>
+
+        <!-- Historical View Date Banner (hidden by default, shown when viewing past dates) -->
+        <div id="historical-view-banner" style="display:none;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc;text-align:center;padding:8px 16px;font-size:0.78rem;font-weight:600;letter-spacing:0.03em;border-radius:6px;margin:0 24px 10px 24px;"></div>
 
         <!-- =========================================================
              B. KPI METRICS CARDS (DISTINCT VISUAL IDENTITIES)
@@ -67,7 +85,11 @@
                 <div class="tile-top">
                     <span class="tile-label">Total Active Usage</span>
                     <div class="tile-icon-box">
-                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
                     </div>
                 </div>
                 <div class="tile-number-row">
@@ -75,7 +97,7 @@
                 </div>
                 <div class="tile-foot">
                     <span class="dot-indicator dot-emerald"></span>
-                    <span class="tile-caption">Focused active window dwell</span>
+                    <span class="tile-caption">Desktop-wide &bull; All apps</span>
                 </div>
             </div>
 
@@ -84,7 +106,12 @@
                 <div class="tile-top">
                     <span class="tile-label">Apps and Sites</span>
                     <div class="tile-icon-box">
-                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
+                        </svg>
                     </div>
                 </div>
                 <div class="tile-number-row">
@@ -100,7 +127,13 @@
                 <div class="tile-top">
                     <span class="tile-label">Context Switches</span>
                     <div class="tile-icon-box">
-                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <polyline points="17 1 21 5 17 9" />
+                            <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                            <polyline points="7 23 3 19 7 15" />
+                            <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                        </svg>
                     </div>
                 </div>
                 <div class="tile-number-row">
@@ -116,7 +149,11 @@
                 <div class="tile-top">
                     <span class="tile-label">Top Attention Share</span>
                     <div class="tile-icon-box hero-icon">
-                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
                     </div>
                 </div>
                 <div class="tile-number-row">
@@ -124,6 +161,46 @@
                 </div>
                 <div class="tile-foot">
                     <span id="sum-most-used-hint" class="tile-caption">0% of total active time</span>
+                </div>
+            </div>
+
+            <!-- 5. Focus Score (hero) -->
+            <div class="metric-tile metric-hero metric-focus">
+                <div class="tile-top">
+                    <span class="tile-label">Focus Score</span>
+                    <div class="tile-icon-box hero-icon">
+                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="tile-number-row">
+                    <strong id="focus-score-val" class="tile-val tile-focus-val">--</strong>
+                    <span id="focus-score-grade" class="tile-focus-grade">--</span>
+                </div>
+                <div class="tile-foot">
+                    <span id="focus-score-hint" class="tile-caption">100 = excellent focus</span>
+                </div>
+            </div>
+
+            <!-- 6. Idle Time -->
+            <div class="metric-tile metric-amber">
+                <div class="tile-top">
+                    <span class="tile-label">Idle Time (Today)</span>
+                    <div class="tile-icon-box">
+                        <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="tile-number-row">
+                    <strong id="idle-time-val" class="tile-val">0s</strong>
+                </div>
+                <div class="tile-foot">
+                    <span id="idle-state-text" class="tile-caption">User active</span>
                 </div>
             </div>
         </section>
@@ -144,7 +221,12 @@
 
                 <div class="entity-spotlight">
                     <div class="entity-avatar" id="cur-avatar">
-                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                            <path d="M2 12h20" />
+                        </svg>
                     </div>
                     <div class="entity-details">
                         <span class="entity-prefix">Current Process</span>
@@ -154,7 +236,8 @@
 
                 <div class="detail-plate">
                     <span class="plate-label">ACTIVE WINDOW TITLE / URL</span>
-                    <span id="cur-window-title" class="plate-content">Switch to any application or browser tab on your machine</span>
+                    <span id="cur-window-title" class="plate-content">Switch to any application or browser tab on your
+                        machine</span>
                 </div>
 
                 <div class="timer-display-dock">
@@ -188,7 +271,11 @@
 
                 <div class="entity-spotlight">
                     <div class="entity-avatar avatar-subdued" id="prev-avatar">
-                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none"
+                            stroke-width="2">
+                            <path d="M12 8v4l3 3" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
                     </div>
                     <div class="entity-details">
                         <span class="entity-prefix">Previous Process</span>
@@ -227,22 +314,37 @@
                 <div class="pro-panel-header">
                     <div>
                         <h3 class="panel-heading">Usage Duration Comparison</h3>
-                        <p class="panel-subtext">Ranked by accumulated active dwell time across applications and websites</p>
+                        <p class="panel-subtext">Ranked by accumulated active dwell time across applications and
+                            websites <span id="duration-readiness" class="readiness-inline"></span></p>
                     </div>
                     <div class="panel-tag">Real-Time Aggregates</div>
                 </div>
 
+                <!-- Scope Filtering Tabs: All, Desktop Apps, Browser Websites, System -->
+                <div class="scope-filter-toolbar" style="display: flex; gap: 8px; padding: 10px 20px; background: rgba(0, 0, 0, 0.18); border-bottom: 1px solid var(--stroke-subtle); flex-wrap: wrap;">
+                    <button class="scope-pill-btn active" data-scope="all">All Activity</button>
+                    <button class="scope-pill-btn" data-scope="desktop">Desktop Applications</button>
+                    <button class="scope-pill-btn" data-scope="browser">Browser Websites</button>
+                    <button class="scope-pill-btn" data-scope="system">System Context</button>
+                </div>
+
                 <!-- Visual Chart & Breakdown Section -->
-                <div class="chart-breakdown-card" style="display: flex; align-items: center; justify-content: space-around; gap: 20px; padding: 18px 24px; background: rgba(0,0,0,0.25); border-bottom: 1px solid var(--stroke-subtle); flex-wrap: wrap;">
+                <div class="chart-breakdown-card"
+                    style="display: flex; align-items: center; justify-content: space-around; gap: 20px; padding: 18px 24px; background: rgba(0,0,0,0.25); border-bottom: 1px solid var(--stroke-subtle); flex-wrap: wrap;">
                     <div style="position: relative; width: 140px; height: 140px; flex-shrink: 0;">
                         <canvas id="usage-pie-canvas" width="140" height="140"></canvas>
-                        <div id="pie-center-label" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
-                            <span id="pie-total-dwell" style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: #fff;">0s</span>
-                            <span style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase;">Active</span>
+                        <div id="pie-center-label"
+                            style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none;">
+                            <span id="pie-total-dwell"
+                                style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; color: #fff;">0s</span>
+                            <span
+                                style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase;">Active</span>
                         </div>
                     </div>
-                    <div id="pie-legend" style="flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px;">
-                        <span style="font-size: 0.7rem; color: var(--text-muted); font-style: italic;">Awaiting activity breakdown...</span>
+                    <div id="pie-legend"
+                        style="flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px;">
+                        <span style="font-size: 0.7rem; color: var(--text-muted); font-style: italic;">Awaiting activity
+                            breakdown...</span>
                     </div>
                 </div>
 
@@ -263,14 +365,17 @@
                                 <td colspan="6" class="empty-row">
                                     <div class="empty-wrap">
                                         <div class="empty-pulse"></div>
-                                        <span>No activity logged yet. Switch between WhatsApp, Brave, Edge, VS Code, or other applications to begin.</span>
+                                        <span>No activity logged yet. Switch between WhatsApp, Brave, Edge, VS Code, or
+                                            other applications to begin.</span>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div id="table-more-container" style="text-align: center; padding: 10px 16px; border-top: 1px solid var(--stroke-subtle); display: none;"></div>
+                <div id="table-more-container"
+                    style="text-align: center; padding: 10px 16px; border-top: 1px solid var(--stroke-subtle); display: none;">
+                </div>
             </div>
 
             <!-- E. Vertical Chronological Timeline -->
@@ -287,6 +392,61 @@
                     <div class="empty-wrap" style="padding: 24px;">
                         <span>Transitions will be logged here in real time as you navigate windows.</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             G. FOCUS SCORE & AI INSIGHTS PANEL
+        ========================================================= -->
+        <section class="pro-panel focus-ai-panel">
+            <div class="pro-panel-header">
+                <div>
+                    <h3 class="panel-heading">Focus Score & Time-Loss Summary</h3>
+                    <p class="panel-subtext">Score starts at 100. Tab switching (-20), Entertainment (proportional),
+                        Communication (-5), Idle &gt;=10 min (-10). Grades: &gt;80 Excellent, 60-79 Good, 40-59 Fair,
+                        &lt;40 Needs Work.</p>
+                </div>
+                <div class="panel-tag">AI Powered (Gemini / Groq)</div>
+            </div>
+
+            <div class="focus-score-card"
+                style="background:var(--surface-elevated);border:1px solid var(--stroke-panel);border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                    <div>
+                        <span class="tile-caption" style="color:var(--text-muted);font-size:0.75rem;">Current Focus
+                            Score</span>
+                        <div style="display:flex;align-items:baseline;gap:8px;">
+                            <strong id="fs-score"
+                                style="font-size:2rem;font-family:var(--font-mono);color:var(--text-primary);">--</strong>
+                            <span id="fs-grade" class="fs-grade-badge">--</span>
+                            <span id="fs-readiness" style="font-size:0.72rem;font-weight:600;margin-left:8px;"></span>
+                        </div>
+                    </div>
+                    <div id="fs-breakdown"
+                        style="font-size:0.72rem;color:var(--text-secondary);min-width:260px;text-align:right;">
+                        <div style="color:var(--text-muted);">Switches: <strong id="fs-switches">0</strong></div>
+                        <div style="color:var(--text-muted);">Idle: <strong id="fs-idle">0s</strong></div>
+                        <div style="color:var(--text-muted);">Entertainment: <strong id="fs-ent">0s</strong></div>
+                        <div style="color:var(--text-muted);">Communication: <strong id="fs-comm">0s</strong></div>
+                    </div>
+                </div>
+
+                <div class="fs-actions" style="display:flex;gap:8px;">
+                    <button id="fs-btn-summary" class="btn btn-panel"
+                        style="font-size:0.74rem;padding:7px 16px;">Generate Time-Loss JSON Summary</button>
+                    <button id="fs-btn-api" class="btn btn-panel" style="font-size:0.74rem;padding:7px 16px;">Configure
+                        AI API Keys</button>
+                    <span id="fs-api-hint" style="font-size:0.68rem;color:var(--text-muted);">Gemini / Groq</span>
+                    <span id="timeloss-readiness" style="font-size:0.68rem;font-weight:600;margin-left:8px;"></span>
+                </div>
+
+                <div id="fs-json-wrap" style="display:none;margin-top:10px;">
+                    <div class="fs-json-label"
+                        style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">
+                        Time-Loss JSON Summary (Excellent focus - no suggestions needed)</div>
+                    <pre id="fs-json"
+                        style="background:#050a12;border:1px solid var(--stroke-panel);border-radius:6px;padding:10px;font-size:0.68rem;font-family:var(--font-mono);overflow:auto;max-height:220px;color:#a5b4fc;white-space:pre-wrap;">{}</pre>
                 </div>
             </div>
         </section>
@@ -311,4 +471,5 @@
 
     <script src="js/app.js"></script>
 </body>
+
 </html>

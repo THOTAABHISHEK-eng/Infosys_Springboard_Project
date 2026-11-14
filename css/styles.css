@@ -455,6 +455,58 @@ body {
     white-space: nowrap;
 }
 
+/* New KPI tiles: Focus Score & Idle Time */
+.metric-focus {
+    background: linear-gradient(145deg, var(--accent-emerald-bg) 0%, var(--surface-base) 65%);
+    border-color: var(--accent-emerald-border);
+}
+
+.metric-focus .hero-icon {
+    background: var(--accent-emerald-bg);
+    border-color: var(--accent-emerald-border);
+    color: var(--accent-emerald);
+}
+
+.metric-amber .tile-icon-box {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.25);
+    color: var(--accent-amber);
+}
+
+.tile-focus-val {
+    color: var(--accent-emerald);
+    font-family: var(--font-heading);
+}
+
+.tile-focus-grade {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 3px;
+    padding: 1px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.fs-grade-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    padding: 2px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.readiness-inline {
+    font-size: 0.68rem;
+    font-weight: 600;
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
 /* ==========================================================================
    C. CURRENT & PREVIOUS ACTIVITY STAGE (FOCAL POINT)
    ========================================================================== */
@@ -1008,6 +1060,45 @@ body {
     padding: 1px 6px;
     border-radius: 3px;
     margin-top: 2px;
+}
+
+.tl-cat-badge {
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.scope-pill-btn {
+    background: var(--surface-raised);
+    border: 1px solid var(--stroke-subtle);
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.scope-pill-btn:hover {
+    background: var(--surface-elevated);
+    color: var(--text-pure);
+}
+
+.scope-pill-btn.active {
+    background: rgba(59, 130, 246, 0.18);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #38bdf8;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+}
+
+.app-display-title {
+    font-weight: 600;
+    color: var(--text-pure);
+    cursor: default;
 }
 
 /* ==========================================================================

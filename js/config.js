@@ -42,7 +42,7 @@ const AttentionConfig = {
         },
         COMMUNICATION: {
             id: "COMMUNICATION",
-            name: "Communication & Collaboration",
+            name: "Communication",
             color: "#f59e0b", // Amber
             isProductiveDefault: true,
             icon: "💬"
@@ -56,14 +56,28 @@ const AttentionConfig = {
         },
         ENTERTAINMENT: {
             id: "ENTERTAINMENT",
-            name: "Entertainment & Streaming",
+            name: "Entertainment",
             color: "#ef4444", // Red
             isProductiveDefault: false,
             icon: "🎬"
         },
+        SHOPPING: {
+            id: "SHOPPING",
+            name: "Shopping",
+            color: "#eab308", // Yellow
+            isProductiveDefault: false,
+            icon: "🛒"
+        },
+        NEWS: {
+            id: "NEWS",
+            name: "News",
+            color: "#6366f1", // Indigo
+            isProductiveDefault: false,
+            icon: "📰"
+        },
         OTHER: {
             id: "OTHER",
-            name: "Other / Uncategorized",
+            name: "Other",
             color: "#64748b", // Slate
             isProductiveDefault: false,
             icon: "🌐"
@@ -159,7 +173,42 @@ const AttentionConfig = {
         "spotify.com": { category: "ENTERTAINMENT", productive: false, name: "Spotify" },
         "hulu.com": { category: "ENTERTAINMENT", productive: false, name: "Hulu" },
         "disneyplus.com": { category: "ENTERTAINMENT", productive: false, name: "Disney+" },
-        "crunchyroll.com": { category: "ENTERTAINMENT", productive: false, name: "Crunchyroll" }
+        "crunchyroll.com": { category: "ENTERTAINMENT", productive: false, name: "Crunchyroll" },
+
+        // Shopping
+        "amazon.com": { category: "SHOPPING", productive: false, name: "Amazon" },
+        "amazon.in": { category: "SHOPPING", productive: false, name: "Amazon India" },
+        "flipkart.com": { category: "SHOPPING", productive: false, name: "Flipkart" },
+        "ebay.com": { category: "SHOPPING", productive: false, name: "eBay" },
+        "myntra.com": { category: "SHOPPING", productive: false, name: "Myntra" },
+        "ajio.com": { category: "SHOPPING", productive: false, name: "AJIO" },
+        "target.com": { category: "SHOPPING", productive: false, name: "Target" },
+        "walmart.com": { category: "SHOPPING", productive: false, name: "Walmart" },
+
+        // News
+        "bbc.com": { category: "NEWS", productive: false, name: "BBC News" },
+        "bbc.co.uk": { category: "NEWS", productive: false, name: "BBC News" },
+        "cnn.com": { category: "NEWS", productive: false, name: "CNN" },
+        "nytimes.com": { category: "NEWS", productive: false, name: "The New York Times" },
+        "reuters.com": { category: "NEWS", productive: false, name: "Reuters" },
+        "aljazeera.com": { category: "NEWS", productive: false, name: "Al Jazeera" },
+        "theguardian.com": { category: "NEWS", productive: false, name: "The Guardian" },
+        "timesofindia.indiatimes.com": { category: "NEWS", productive: false, name: "Times of India" },
+        "ndtv.com": { category: "NEWS", productive: false, name: "NDTV" },
+        "apnews.com": { category: "NEWS", productive: false, name: "Associated Press" }
+    },
+
+    // Display-name map for the 10 user-facing distraction categories
+    CATEGORY_DISPLAY: {
+        EDUCATION: "Learning",
+        PROGRAMMING: "Development",
+        PRODUCTIVITY: "Professional",
+        COMMUNICATION: "Communication",
+        SOCIAL_MEDIA: "Social Media",
+        ENTERTAINMENT: "Entertainment",
+        SHOPPING: "Shopping",
+        NEWS: "News",
+        OTHER: "Other"
     },
 
     // Distraction Detection Parameters

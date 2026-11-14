@@ -112,9 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function extractSiteName(urlStr) {
         const domain = extractDomain(urlStr);
         if (KNOWN_SITES[domain]) return KNOWN_SITES[domain];
+        if (/^\d+\.\d+\.\d+\.\d+$/.test(domain)) return domain;
+        if (domain === "localhost") return "Localhost";
         const parts = domain.split(".");
         const brand = parts.length >= 2 ? parts[parts.length - 2] : parts[0];
-        return brand.charAt(0).toUpperCase() + brand.slice(1);
+        if (brand && isNaN(brand)) {
+            return brand.charAt(0).toUpperCase() + brand.slice(1);
+        }
+        return domain;
     }
 
     function escapeHtml(str) {

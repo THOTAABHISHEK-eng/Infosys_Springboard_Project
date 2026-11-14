@@ -153,7 +153,16 @@ function Resolve-AppDetails($processName, $rawTitle) {
 
     # Distinct website tracking inside browsers (e.g. YouTube (Brave Browser))
     $finalAppName = if ($procLower -in @("brave", "chrome", "msedge", "firefox") -and $cleanTitle -ne $name -and -not [string]::IsNullOrWhiteSpace($cleanTitle)) {
-        "$cleanTitle ($name)"
+        $siteIdentity = $cleanTitle
+        if ($cleanTitle -match "(?:-\s*|\|\s*)(YouTube|Google Search|GitHub|Reddit|Twitter|X|LinkedIn|Wikipedia|ChatGPT|Netflix|Spotify|Amazon|Stack Overflow|Coursera|LeetCode|Infosys)") {
+            $siteIdentity = $matches[1]
+        } elseif ($cleanTitle.Contains(" - ")) {
+            $parts = $cleanTitle -split "\s*-\s*"
+            $siteIdentity = $parts[-1].Trim()
+        } elseif ($cleanTitle.Length -gt 35) {
+            $siteIdentity = $cleanTitle.Substring(0, 32) + "..."
+        }
+        "$siteIdentity ($name)"
     } else {
         $name
     }
@@ -324,16 +333,50 @@ while ($true) {
     if ($proc -and -not [string]::IsNullOrWhiteSpace($windowTitle)) {
         $procName = $proc.ProcessName
 
-        # Filter out self-tracking of the terminal window itself
+        # Filter out self-tracking of tracker/dashboard windows, console, and extension pages
         $isTrackerWindow = ($windowTitle.Contains("Website Usage Tracker") -or 
                             $windowTitle.Contains("tracker-daemon") -or 
                             $windowTitle.Contains("run-terminal") -or 
-                            $windowTitle.Contains("System-Wide Application"))
+                            $windowTitle.Contains("System-Wide Application") -or
+                            $windowTitle.Contains("System Activity Tracker") -or
+                            $windowTitle.Contains("System Activity Tracker Daemon") -or
+                            $windowTitle.Contains("ActivityWatch: System and Browser Intelligence") -or
+                            $windowTitle.Contains("ActivityWatch Dashboard") -or
+                            $windowTitle.Contains("ActivityWatch") -or
+                            $windowTitle.Contains("Current & Previous Website Usage Tracker") -or
+                            $windowTitle.Contains("127.0.0.1:5500") -or
+                            $windowTitle.Contains("localhost:5500") -or
+                            $windowTitle.Contains("kmkplinihahhdkeammgenjfffccahnbi"))
 
         if (-not $isTrackerWindow) {
-            $windowChanged = ($proc.Id -ne $lastForegroundId -or ($currentState -and $currentState.Title -ne $windowTitle))
+            $isTitleRefinement = ($currentState -ne $null -and $currentState.Process -eq $procName -and ($currentState.Title -like "*Untitled*" -or $currentState.Title -like "*New Tab*") -and $currentDwell -le 4)
+            if ($isTitleRefinement) {
+                # Seamlessly refine temporary "Untitled" or "New Tab" title as page finishes loading without a false switch
+                $oldKey = $currentState.AppName
+                $resolved = Resolve-AppDetails $procName $windowTitle
+                $currentState.Title = $resolved.Title
+                $currentState.RawTitle = $windowTitle
+                $currentState.AppName = $resolved.AppName
+                $currentState.Category = $resolved.Category
+                $lastForegroundId = $proc.Id
 
-            if ($windowChanged) {
+                # If appUsage had logged under the temporary Untitled key, migrate it
+                if ($oldKey -ne $resolved.AppName -and $appUsage.ContainsKey($oldKey)) {
+                    $oldUsage = $appUsage[$oldKey]
+                    $appUsage.Remove($oldKey)
+                    if (-not $appUsage.ContainsKey($resolved.AppName)) {
+                        $appUsage[$resolved.AppName] = $oldUsage
+                        $appUsage[$resolved.AppName].name = $resolved.AppName
+                        $appUsage[$resolved.AppName].category = $resolved.Category
+                    } else {
+                        $appUsage[$resolved.AppName].totalSeconds += $oldUsage.totalSeconds
+                        $appUsage[$resolved.AppName].switchCount += $oldUsage.switchCount
+                    }
+                }
+            } else {
+                $windowChanged = ($currentState -eq $null -or $currentState.RawTitle -ne $windowTitle -or $currentState.Process -ne $procName)
+
+                if ($windowChanged) {
                 # 1. Finalize previous window
                 if ($currentState) {
                     $prevKey = $currentState.AppName
@@ -380,6 +423,7 @@ while ($true) {
                     appName = $resolved.AppName
                     category = $resolved.Category
                     title = $resolved.Title
+                    rawTitle = $windowTitle
                     process = $resolved.Process
                     activatedTime = $timeStr
                     lastUpdated = $timeStr
@@ -402,6 +446,7 @@ while ($true) {
                 $lastNotifType = "INFO"
             }
         }
+    }
     }
 
     # Increment dwell for focused app

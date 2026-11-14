@@ -13,20 +13,30 @@
             <div class="brand-group">
                 <div class="brand-badge">
                     <span class="brand-dot"></span>
-                    <span class="brand-title">ACTIVITYWATCH <span class="brand-sub">PREMIUM</span></span>
+                    <span class="brand-title">ACTIVITYWATCH <span class="brand-sub">BROWSER SCOPE</span></span>
                 </div>
-                <div class="brand-tagline">Personal Browsing Intelligence</div>
+                <div class="brand-tagline">Active Browser Tab Intelligence</div>
             </div>
             <div class="header-right-tools" style="display: flex; align-items: center; gap: 8px;">
                 <button id="btn-open-dashboard" title="Open Full System & Desktop Dashboard" style="background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); color: #38bdf8; font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; cursor: pointer;">
                     OPEN FULL DASHBOARD &#x2197;
                 </button>
-                <div class="status-indicator" id="status-pill">
+                <div class="status-indicator" id="status-pill" title="Browser Tab Monitoring Status">
                     <span class="status-dot"></span>
                     <span id="window-status">MONITORING</span>
                 </div>
+                <div class="focus-pill" id="focus-pill" title="Focus Score (Observes browser tabs)">
+                    <span class="focus-label">FOCUS</span>
+                    <strong id="focus-score-val">--</strong>
+                    <span id="focus-grade" class="grade-badge">--</span>
+                </div>
             </div>
         </header>
+
+        <!-- Pause Notice Banner (Shown when browser tracking paused) -->
+        <div id="pause-notice-banner" style="display:none;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:#fbbf24;font-size:0.68rem;padding:6px 12px;border-radius:6px;margin:6px 0;text-align:center;">
+            Browser Tab Tracking Paused (Desktop tracking continues in background)
+        </div>
 
         <!-- Time Range / Date Filter Toolbar -->
         <div class="toolbar">
@@ -104,6 +114,24 @@
                         <strong id="stat-total-visits" class="metric-value">0</strong>
                     </div>
                 </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap amber">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M15 17v5l-2.293-2.293a1 1 0 0 1-1.414-1.414l9-9a1 1 0 0 1 1.414 1.414l-9 9a1 1 0 0 1-1.414 1.414z"></path><path d="M13 9l3 3m0 0l-3 3m3-3H7m14 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"></path></svg>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Tab Switches</span>
+                        <strong id="stat-switches" class="metric-value">0</strong>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon-wrap cyan">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
+                    </div>
+                    <div class="metric-content">
+                        <span class="metric-label">Idle Time (Today)</span>
+                        <strong id="stat-idle-time" class="metric-value">0s</strong>
+                    </div>
+                </div>
             </div>
 
             <!-- Current Website Section -->
@@ -134,6 +162,11 @@
                     <div class="meta-item">
                         <span class="meta-label">Activated At:</span>
                         <span id="cur-activated">Waiting</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">User Idle For:</span>
+                        <strong id="cur-idle-for" class="meta-highlight">0s</strong>
+                        <span id="idle-state-badge" class="idle-badge">Active</span>
                     </div>
                 </div>
 
