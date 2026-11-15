@@ -122,6 +122,20 @@ function extractWebsiteName(urlStr, pageTitle) {
     return pageTitle ? pageTitle.split(" - ")[0].split(" | ")[0] : domain;
 }
 
+function categorizeSite(domain, siteName) {
+    const text = ((domain || "") + " " + (siteName || "")).toLowerCase();
+    if (text.match(/youtube|netflix|spotify|twitch|crunchyroll|anime|disney|hotstar|hulu|peacock|prime video|movie|video/)) return "Entertainment";
+    if (text.match(/github|stackoverflow|chatgpt|gemini|copilot|leetcode|codepen|openai|replit|vercel|netlify|figma|dev|developer/)) return "Development";
+    if (text.match(/coursera|udemy|khan|wikipedia|chess|typeracer|duolingo|freecodecamp|infosys|w3schools|mdn|typing|tutorial|learn/)) return "Learning";
+    if (text.match(/whatsapp|discord|slack|gmail|teams|zoom|telegram|meet|skype|mail|outlook/)) return "Communication";
+    if (text.match(/linkedin|notion|drive|trello|jira|asana|canva|docs|sheets|slides|calendar|sharepoint|office/)) return "Professional";
+    if (text.match(/instagram|twitter|x\.com|facebook|reddit|snapchat|tiktok|pinterest|tumblr/)) return "Social Media";
+    if (text.match(/amazon|flipkart|ebay|shopping|store|cart|myntra|meesho|etsy|walmart/)) return "Shopping";
+    if (text.match(/news|bbc|cnn|times|techcrunch|wired|guardian|bloomberg|reuters|hindu/)) return "News";
+    return "Other";
+}
+
+
 // Load real persisted state from chrome.storage.local
 chrome.storage.local.get(["todayDateStr", "siteUsage", "timeline", "totalTabSwitches", "currentWebsite", "previousWebsite", "historyByDate", "idleState", "totalIdleSec", "currentIdleSec", "idleStartTime", "lastActiveTime", "isWindowFocused"], res => {
     const history = res.historyByDate || {};
@@ -237,12 +251,16 @@ function scanAllOpenTabs() {
                     siteUsage[domain] = {
                         name: siteName,
                         domain: domain,
+                        category: categorizeSite(domain, siteName),
                         totalSec: 0,
                         visitCount: 1,
                         firstSeen: formatClockTime(now),
                         lastActive: formatClockTime(now),
                         lastActiveTimestamp: Date.now()
                     };
+                    changed = true;
+                } else if (!siteUsage[domain].category) {
+                    siteUsage[domain].category = categorizeSite(domain, siteName);
                     changed = true;
                 }
             }
@@ -271,15 +289,28 @@ function handleTabTransition(newUrl, newTitle, tabId) {
         return;
     }
 
+    // Sub-navigation within the same website domain on the same tab:
+    // Update URL/title seamlessly without creating a false switch or wiping previous website history
+    if (currentWebsite && currentWebsite.domain === domain && currentWebsite.tabId === tabId) {
+        currentWebsite.url = newUrl;
+        currentWebsite.name = siteName;
+        currentWebsite.lastUpdatedTime = formatClockTime(now);
+        lastTabUrls[tabId] = newUrl;
+        syncToStorage();
+        return;
+    }
+
     // 2. Finalize previous website visit
     if (currentWebsite) {
         const elapsedSec = currentDwellSec;
         const prevDomain = currentWebsite.domain;
+        const prevCategory = currentWebsite.category || categorizeSite(prevDomain, currentWebsite.name);
 
         if (!siteUsage[prevDomain]) {
             siteUsage[prevDomain] = {
                 name: currentWebsite.name,
                 domain: prevDomain,
+                category: prevCategory,
                 totalSec: elapsedSec,
                 visitCount: 1,
                 lastActiveTimestamp: Date.now()
@@ -289,15 +320,25 @@ function handleTabTransition(newUrl, newTitle, tabId) {
             if (siteUsage[prevDomain].totalSec < elapsedSec) {
                 siteUsage[prevDomain].totalSec = elapsedSec;
             }
+            if (!siteUsage[prevDomain].category) {
+                siteUsage[prevDomain].category = prevCategory;
+            }
         }
         siteUsage[prevDomain].lastActive = formatClockTime(now);
         siteUsage[prevDomain].lastActiveTimestamp = Date.now();
 
+        // Calculate accurate previous total duration: cumulative total on that site today
+        const prevTotalToday = (siteUsage[prevDomain] && siteUsage[prevDomain].totalSec > 0)
+            ? siteUsage[prevDomain].totalSec
+            : Math.max(1, elapsedSec);
+
+        // Record transition in timeline
         timeline.push({
             id: "tl_" + Date.now(),
             name: currentWebsite.name,
             appName: currentWebsite.name,
             domain: prevDomain,
+            category: prevCategory,
             title: currentWebsite.name,
             timeStr: currentWebsite.activatedTime,
             time: currentWebsite.activatedTime,
@@ -310,8 +351,10 @@ function handleTabTransition(newUrl, newTitle, tabId) {
         previousWebsite = {
             name: currentWebsite.name,
             domain: prevDomain,
+            category: prevCategory,
             url: currentWebsite.url,
-            totalActiveSpent: elapsedSec,
+            sessionDwellSec: elapsedSec,
+            totalActiveSpent: prevTotalToday,
             lastActiveTime: formatClockTime(now)
         };
     }
@@ -322,10 +365,12 @@ function handleTabTransition(newUrl, newTitle, tabId) {
     }
     currentDwellSec = 0;
 
+    const currentCategory = categorizeSite(domain, siteName);
     if (!siteUsage[domain]) {
         siteUsage[domain] = {
             name: siteName,
             domain: domain,
+            category: currentCategory,
             totalSec: 0,
             visitCount: 1,
             firstSeen: formatClockTime(now),
@@ -336,12 +381,16 @@ function handleTabTransition(newUrl, newTitle, tabId) {
         siteUsage[domain].visitCount++;
         siteUsage[domain].lastActive = formatClockTime(now);
         siteUsage[domain].lastActiveTimestamp = Date.now();
+        if (!siteUsage[domain].category) {
+            siteUsage[domain].category = currentCategory;
+        }
     }
 
     currentWebsite = {
         tabId: tabId,
         name: siteName,
         domain: domain,
+        category: currentCategory,
         url: newUrl,
         activatedTime: formatClockTime(now),
         lastUpdatedTime: formatClockTime(now),
@@ -392,11 +441,19 @@ chrome.tabs.onRemoved.addListener((tabId) => {
         // Active tab was closed: preserve previous website information cleanly
         const elapsedSec = currentDwellSec;
         const now = new Date();
+        const prevDomain = currentWebsite.domain;
+        const prevCategory = currentWebsite.category || categorizeSite(prevDomain, currentWebsite.name);
+        const prevTotalToday = (siteUsage[prevDomain] && siteUsage[prevDomain].totalSec > 0)
+            ? siteUsage[prevDomain].totalSec
+            : Math.max(1, elapsedSec);
+
         previousWebsite = {
             name: currentWebsite.name,
-            domain: currentWebsite.domain,
+            domain: prevDomain,
+            category: prevCategory,
             url: currentWebsite.url,
-            totalActiveSpent: elapsedSec,
+            sessionDwellSec: elapsedSec,
+            totalActiveSpent: prevTotalToday,
             lastActiveTime: formatClockTime(now)
         };
         currentWebsite = null;
@@ -534,3 +591,22 @@ chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     }
     scanAllOpenTabs();
 });
+
+// External message listener for web pages declared in externally_connectable (http://127.0.0.1:5500)
+if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessageExternal) {
+    chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
+        sendResponse({
+            currentWebsite: currentWebsite,
+            previousWebsite: previousWebsite,
+            currentDwellSec: currentDwellSec,
+            isWindowFocused: isWindowFocused,
+            totalTabSwitches: totalTabSwitches,
+            siteUsage: siteUsage,
+            timeline: timeline.slice(-60),
+            idleState: idleState,
+            totalIdleSec: totalIdleSec,
+            lastActiveTime: lastActiveTime
+        });
+        return true;
+    });
+}

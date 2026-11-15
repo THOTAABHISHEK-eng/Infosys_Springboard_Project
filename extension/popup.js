@@ -504,7 +504,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (prev) {
             prevName.textContent = sanitizeSiteName(prev.name, prev.domain);
             prevDomain.textContent = prev.domain || "None";
-            prevDuration.textContent = formatDurationHuman(prev.totalActiveSpent);
+            const spentSec = (prev.totalActiveSpent && prev.totalActiveSpent > 0)
+                ? prev.totalActiveSpent
+                : (prev.sessionDwellSec || 0);
+            prevDuration.textContent = formatDurationHuman(spentSec);
+            if (prev.sessionDwellSec && prev.sessionDwellSec > 0 && prev.sessionDwellSec !== spentSec) {
+                prevDuration.title = `Total today: ${formatDurationHuman(spentSec)} (last session: ${formatDurationHuman(prev.sessionDwellSec)})`;
+            } else {
+                prevDuration.title = `Active time: ${formatDurationHuman(spentSec)}`;
+            }
             prevLastTime.textContent = prev.lastActiveTime || "Waiting";
             prevUrlLink.href = prev.url || "#";
             prevUrlLink.style.display = prev.url ? "inline" : "none";
@@ -512,6 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
             prevName.textContent = "No previous website yet";
             prevDomain.textContent = "None";
             prevDuration.textContent = "0s";
+            prevDuration.title = "";
             prevLastTime.textContent = "None";
             prevUrlLink.style.display = "none";
         }

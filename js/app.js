@@ -788,10 +788,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Scope filter helper: classify each app entry
         function getAppScope(app) {
+            if (app.isBrowser || app.isWebsite) return "browser";
             const name = (app.name || "").toLowerCase();
             const cat = (app.category || "").toLowerCase();
             if (cat === "system" || name === "task switching" || name.includes("explorer")) return "system";
-            if (name.includes("brave") || name.includes("chrome") || name.includes("edge") || name.includes("firefox") || cat === "web browser") return "browser";
+            if (name.includes("brave") || name.includes("chrome") || name.includes("edge") || name.includes("firefox") || cat === "web browser" || name.includes("(browser)")) return "browser";
             return "desktop";
         }
 
@@ -823,8 +824,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const barWidth = Math.max(2, Math.round(((app.totalSeconds || 0) / maxSec) * 100));
                 const glyph = getAppGlyph(app.name);
                 const scope = getAppScope(app);
-                const isBrowserProcess = scope === "browser";
-                const browserNote = isBrowserProcess ? ' <span style="font-size:0.62rem;color:var(--text-muted);font-style:italic;">(desktop process time)</span>' : "";
+                const isBrowserProcess = scope === "browser" && !app.isBrowser;
+                const browserNote = app.isBrowser
+                    ? ' <span style="font-size:0.62rem;color:var(--accent-cyan);font-style:italic;">(browser website)</span>'
+                    : (isBrowserProcess ? ' <span style="font-size:0.62rem;color:var(--text-muted);font-style:italic;">(desktop process time)</span>' : "");
 
                 rowsHtml += `
                     <tr>
@@ -932,36 +935,334 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /**
-     * Poll activity_state.json produced by tracker-daemon.ps1
+     * Retrieve extension telemetry via direct chrome.storage (extension tab),
+     * localStorage bridge (content_bridge.js on http://127.0.0.1:5500), or external messaging
+     */
+    function getExtensionTelemetry(callback) {
+        // 1. Direct chrome.storage.local (when opened as chrome-extension://...)
+        if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+            chrome.storage.local.get([
+                "currentWebsite",
+                "previousWebsite",
+                "currentDwellSec",
+                "totalTabSwitches",
+                "siteUsage",
+                "timeline",
+                "isWindowFocused",
+                "historyByDate"
+            ], res => {
+                if (!chrome.runtime.lastError && res && (res.siteUsage || res.currentWebsite)) {
+                    callback(res);
+                    return;
+                }
+                fallbackBridge();
+            });
+            return;
+        }
+
+        fallbackBridge();
+
+        function fallbackBridge() {
+            // 2. LocalStorage bridge (populated by content_bridge.js on http://127.0.0.1:5500)
+            try {
+                const raw = localStorage.getItem("ACTIVITYWATCH_EXTENSION_STATE");
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && (parsed.siteUsage || parsed.currentWebsite)) {
+                        callback(parsed);
+                        return;
+                    }
+                }
+            } catch (e) {}
+
+            // 3. Direct runtime messaging via externally_connectable
+            if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+                try {
+                    chrome.runtime.sendMessage("kmkplinihahhdkeammgenjfffccahnbi", { type: "GET_TELEMETRY" }, resp => {
+                        if (!chrome.runtime.lastError && resp && (resp.siteUsage || resp.currentWebsite)) {
+                            callback(resp);
+                            return;
+                        }
+                        callback(null);
+                    });
+                    return;
+                } catch (e) {}
+            }
+
+            callback(null);
+        }
+    }
+
+    // Listen for real-time live push messages from content_bridge.js on http://127.0.0.1:5500
+    window.addEventListener("message", ev => {
+        if (ev.data && ev.data.source === "ACTIVITYWATCH_EXTENSION_BRIDGE" && ev.data.payload) {
+            const extRes = ev.data.payload;
+            try {
+                localStorage.setItem("ACTIVITYWATCH_EXTENSION_STATE", JSON.stringify(extRes));
+            } catch (e) {}
+            if (!isHistoricalView) {
+                if (isDaemonConnected && latestDaemonData && latestDaemonData.summary && latestDaemonData.summary.totalActiveSeconds > 0) {
+                    const merged = mergeDaemonAndExtension(latestDaemonData, extRes);
+                    renderState(merged);
+                } else {
+                    const extState = mapExtensionToState(extRes);
+                    renderState(extState);
+                    if (statusLabel) statusLabel.textContent = "Browser Extension Connected";
+                }
+            }
+        }
+    });
+
+    // Request fresh telemetry state on load
+    window.postMessage({ source: "ACTIVITYWATCH_DASHBOARD_REQUEST" }, "*");
+
+    /**
+     * Convert standalone browser extension telemetry into full dashboard state model
+     */
+    function mapExtensionToState(extRes) {
+        if (!extRes) return null;
+        const sites = Object.values(extRes.siteUsage || {});
+        const totalSec = sites.reduce((sum, s) => sum + (s.totalSec || 0), 0);
+        const switches = extRes.totalTabSwitches || 0;
+
+        const appUsage = sites.map(s => ({
+            name: s.name,
+            domain: s.domain,
+            category: s.category || displayCategory("Web Browser", s.name).label,
+            totalSeconds: s.totalSec || 0,
+            switchCount: s.visitCount || 1,
+            isBrowser: true
+        })).sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
+
+        const top = appUsage[0];
+        const mostUsed = top ? {
+            name: top.name,
+            category: top.category,
+            durationSeconds: top.totalSeconds,
+            durationFormatted: formatDurationHuman(top.totalSeconds),
+            percentage: Math.round(((top.totalSeconds || 0) / Math.max(1, totalSec)) * 100)
+        } : null;
+
+        const prevSite = extRes.previousWebsite;
+        const prevSpent = prevSite ? (prevSite.totalActiveSpent || prevSite.sessionDwellSec || 0) : 0;
+
+        return {
+            current: extRes.currentWebsite ? {
+                appName: extRes.currentWebsite.name,
+                category: extRes.currentWebsite.category || displayCategory("Web Browser", extRes.currentWebsite.name).label,
+                title: extRes.currentWebsite.url,
+                dwellSeconds: extRes.currentDwellSec || 0,
+                activatedTime: extRes.currentWebsite.activatedTime,
+                lastUpdated: extRes.currentWebsite.lastUpdatedTime,
+                isBrowser: true
+            } : null,
+            previous: prevSite ? {
+                appName: prevSite.name,
+                category: prevSite.category || displayCategory("Web Browser", prevSite.name).label,
+                title: prevSite.url,
+                activeDurationSec: prevSpent,
+                activeDurationFormatted: formatDurationHuman(prevSpent),
+                lastActiveTime: prevSite.lastActiveTime,
+                isBrowser: true
+            } : null,
+            summary: {
+                totalActiveSeconds: totalSec,
+                totalActiveFormatted: formatDurationHuman(totalSec),
+                totalSwitches: switches,
+                distinctAppsCount: appUsage.length,
+                mostUsedApp: mostUsed
+            },
+            appUsage: appUsage,
+            timeline: (extRes.timeline || []).map(t => ({
+                time: t.timeStr || t.time,
+                appName: t.name,
+                title: t.actionText || t.title,
+                category: displayCategory("Web Browser", t.name).label,
+                durationSec: t.durationSec || 0,
+                durationFormatted: formatDurationHuman(t.durationSec || 0)
+            }))
+        };
+    }
+
+    /**
+     * Unify desktop daemon state and browser extension state into one consistent, synchronized model
+     */
+    function mergeDaemonAndExtension(daemonData, extRes) {
+        if (!daemonData && !extRes) return null;
+        if (!daemonData) return mapExtensionToState(extRes);
+        if (!extRes || !extRes.siteUsage || Object.keys(extRes.siteUsage).length === 0) return daemonData;
+
+        // 1. Browser websites tracked by the extension
+        const extSites = Object.values(extRes.siteUsage || {});
+        const extTotalSec = extSites.reduce((sum, s) => sum + (s.totalSec || 0), 0);
+        const extSwitches = extRes.totalTabSwitches || 0;
+
+        const browserApps = extSites.map(s => ({
+            name: s.name,
+            domain: s.domain,
+            category: s.category || displayCategory("Web Browser", s.name).label,
+            totalSeconds: s.totalSec || 0,
+            switchCount: s.visitCount || 1,
+            isBrowser: true
+        }));
+
+        // 2. Desktop apps from daemon (keep native applications, drop duplicate raw browser wrappers)
+        const desktopApps = [];
+        let desktopSec = 0;
+        let desktopSwitches = 0;
+
+        (daemonData.appUsage || []).forEach(app => {
+            const nameLower = (app.name || "").toLowerCase();
+            const isRawBrowserWindow = nameLower.includes("(brave browser)") ||
+                                       nameLower.includes("(google chrome)") ||
+                                       nameLower.includes("(microsoft edge)") ||
+                                       nameLower.includes("(mozilla firefox)") ||
+                                       nameLower === "brave" ||
+                                       nameLower === "brave browser" ||
+                                       nameLower === "chrome" ||
+                                       nameLower === "google chrome";
+            if (!isRawBrowserWindow) {
+                desktopApps.push({
+                    name: app.name,
+                    category: app.category || "General Application",
+                    totalSeconds: app.totalSeconds || 0,
+                    switchCount: app.switchCount || 1,
+                    isBrowser: false
+                });
+                desktopSec += (app.totalSeconds || 0);
+                desktopSwitches += (app.switchCount || 0);
+            }
+        });
+
+        // Combine all applications and websites, sorted by totalSeconds descending
+        const combinedApps = [...browserApps, ...desktopApps].sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
+
+        // Combined total seconds & switches
+        const unifiedTotalSec = extTotalSec + desktopSec;
+        const unifiedSwitches = extSwitches + (daemonData.summary ? (daemonData.summary.totalSwitches || 0) : desktopSwitches);
+
+        const top = combinedApps[0];
+        const mostUsed = top ? {
+            name: top.name,
+            category: top.category,
+            durationSeconds: top.totalSeconds,
+            durationFormatted: formatDurationHuman(top.totalSeconds),
+            percentage: Math.round(((top.totalSeconds || 0) / Math.max(1, unifiedTotalSec)) * 100)
+        } : null;
+
+        // Current active window:
+        let current = daemonData.current;
+        if (extRes.currentWebsite && extRes.isWindowFocused !== false) {
+            current = {
+                appName: extRes.currentWebsite.name,
+                category: extRes.currentWebsite.category || displayCategory("Web Browser", extRes.currentWebsite.name).label,
+                title: extRes.currentWebsite.url,
+                dwellSeconds: extRes.currentDwellSec || 0,
+                activatedTime: extRes.currentWebsite.activatedTime,
+                lastUpdated: extRes.currentWebsite.lastUpdatedTime,
+                isBrowser: true
+            };
+        }
+
+        // Previous active window:
+        let previous = daemonData.previous;
+        if (extRes.previousWebsite) {
+            const prevSite = extRes.previousWebsite;
+            const prevSpent = prevSite.totalActiveSpent || prevSite.sessionDwellSec || 0;
+            previous = {
+                appName: prevSite.name,
+                category: prevSite.category || displayCategory("Web Browser", prevSite.name).label,
+                title: prevSite.url,
+                activeDurationSec: prevSpent,
+                activeDurationFormatted: formatDurationHuman(prevSpent),
+                lastActiveTime: prevSite.lastActiveTime,
+                isBrowser: true
+            };
+        }
+
+        // Combine timelines
+        const combinedTimeline = [
+            ...(extRes.timeline || []).map(t => ({
+                time: t.timeStr || t.time,
+                appName: t.name,
+                title: t.actionText || t.title,
+                category: displayCategory("Web Browser", t.name).label,
+                durationSec: t.durationSec || 0,
+                durationFormatted: formatDurationHuman(t.durationSec || 0)
+            })),
+            ...(daemonData.timeline || []).map(t => ({
+                time: t.Time || t.time,
+                appName: t.AppName || t.appName,
+                title: t.Title || t.title,
+                category: t.Category || t.category || "General Application",
+                durationSec: t.DurationSec || t.durationSec || 0,
+                durationFormatted: t.DurationFormatted || formatDurationHuman(t.DurationSec || t.durationSec || 0)
+            }))
+        ].slice(-60);
+
+        return {
+            current: current,
+            previous: previous,
+            summary: {
+                totalActiveSeconds: unifiedTotalSec,
+                totalActiveFormatted: formatDurationHuman(unifiedTotalSec),
+                totalSwitches: unifiedSwitches,
+                distinctAppsCount: combinedApps.length,
+                mostUsedApp: mostUsed
+            },
+            appUsage: combinedApps,
+            timeline: combinedTimeline,
+            browserTotalSec: extTotalSec,
+            desktopTotalSec: desktopSec
+        };
+    }
+
+    let latestDaemonData = null;
+
+    /**
+     * Poll desktop daemon state and seamlessly merge with browser extension telemetry in real time
      */
     async function pollDaemonState() {
         if (isHistoricalView) return; // Retain past date inspection
+
+        let daemonData = null;
         try {
             const res = await fetch(`activity_state.json?t=${Date.now()}`);
             if (res.ok) {
-                const data = await res.json();
+                daemonData = await res.json();
                 isDaemonConnected = true;
-                hasLoadedFirstState = true;
-                renderState(data);
-                if (statusLabel) statusLabel.textContent = "Desktop Daemon Connected";
-                return;
+                latestDaemonData = daemonData;
             } else {
                 isDaemonConnected = false;
             }
         } catch {
             isDaemonConnected = false;
         }
-        // Never reset to zero: keep showing the last collected data
-        if (latestState) {
-            renderState(latestState);
-            if (statusLabel) statusLabel.textContent = isDaemonConnected ? "Desktop Daemon Connected" : "Daemon Offline - Showing last collected data";
-            return;
-        }
-        checkExtensionBridge();
+
+        getExtensionTelemetry(extRes => {
+            if (daemonData && extRes && extRes.siteUsage && Object.keys(extRes.siteUsage).length > 0) {
+                hasLoadedFirstState = true;
+                const merged = mergeDaemonAndExtension(daemonData, extRes);
+                renderState(merged);
+                if (statusLabel) statusLabel.textContent = "Desktop Daemon & Browser Extension Connected";
+            } else if (extRes && (extRes.currentWebsite || (extRes.siteUsage && Object.keys(extRes.siteUsage).length > 0))) {
+                hasLoadedFirstState = true;
+                const extState = mapExtensionToState(extRes);
+                renderState(extState);
+                if (statusLabel) statusLabel.textContent = "Browser Extension Connected";
+            } else if (daemonData) {
+                hasLoadedFirstState = true;
+                renderState(daemonData);
+                if (statusLabel) statusLabel.textContent = "Desktop Daemon Connected";
+            } else if (latestState) {
+                renderState(latestState);
+                if (statusLabel) statusLabel.textContent = isDaemonConnected ? "Desktop Daemon Connected" : "Daemon Offline - Showing last collected data";
+            }
+        });
     }
 
     /**
-     * Poll and populate multi-day activity history
+     * Poll and populate multi-day activity history from both activity_history.json and chrome.storage.local
      */
     async function fetchHistory() {
         try {
@@ -969,11 +1270,96 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
                 const hist = await res.json();
                 allHistory = hist || {};
-                updateHistoryDropdown();
             }
         } catch {
-            // No history file yet or local access restricted
+            // No local history file or running inside browser extension sandbox
         }
+
+        // Bridge and merge multi-day browser extension history
+        getExtensionTelemetry(res => {
+            if (!res) {
+                updateHistoryDropdown();
+                return;
+            }
+            const todayKey = new Date().toISOString().slice(0, 10);
+
+            // Mirror today's live extension data into allHistory for accurate historical deltas
+            if (res.siteUsage && Object.keys(res.siteUsage).length > 0) {
+                const todaySites = Object.values(res.siteUsage);
+                const todayTotal = todaySites.reduce((sum, s) => sum + (s.totalSec || 0), 0);
+                allHistory[todayKey] = {
+                    totalActiveSeconds: todayTotal,
+                    totalActiveFormatted: formatDurationHuman(todayTotal),
+                    totalSwitches: res.totalTabSwitches || 0,
+                    distinctAppsCount: todaySites.length,
+                    appUsage: todaySites.map(s => ({
+                        name: s.name,
+                        category: s.category || displayCategory("Web Browser", s.name).label,
+                        totalSeconds: s.totalSec || 0,
+                        switchCount: s.visitCount || 1,
+                        isBrowser: true
+                    })),
+                    timeline: (res.timeline || []).map(t => ({
+                        time: t.timeStr || t.time || "",
+                        appName: t.name || t.appName || "Website",
+                        title: t.actionText || t.title || t.name,
+                        category: displayCategory("Web Browser", t.name || t.appName).label,
+                        durationSec: t.durationSec || 0,
+                        durationFormatted: formatDurationHuman(t.durationSec || 0)
+                    }))
+                };
+            }
+
+            // Merge past days from historyByDate
+            if (res.historyByDate && Object.keys(res.historyByDate).length > 0) {
+                Object.entries(res.historyByDate).forEach(([dKey, dVal]) => {
+                    const sites = Object.values(dVal.siteUsage || {});
+                    const extTotalSec = sites.reduce((sum, s) => sum + (s.totalSec || 0), 0);
+                    const extSwitches = dVal.totalTabSwitches || 0;
+                    const extAppUsage = sites.map(s => ({
+                        name: s.name,
+                        category: s.category || displayCategory("Web Browser", s.name).label,
+                        totalSeconds: s.totalSec || 0,
+                        switchCount: s.visitCount || 1,
+                        isBrowser: true
+                    })).sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
+
+                    const extTimeline = (dVal.timeline || []).map(t => ({
+                        time: t.timeStr || t.time || "",
+                        appName: t.name || t.appName || "Website",
+                        title: t.actionText || t.title || t.name,
+                        category: displayCategory("Web Browser", t.name).label,
+                        durationSec: t.durationSec || 0,
+                        durationFormatted: formatDurationHuman(t.durationSec || 0)
+                    }));
+
+                    if (!allHistory[dKey]) {
+                        allHistory[dKey] = {
+                            totalActiveSeconds: extTotalSec,
+                            totalActiveFormatted: formatDurationHuman(extTotalSec),
+                            totalSwitches: extSwitches,
+                            distinctAppsCount: extAppUsage.length,
+                            appUsage: extAppUsage,
+                            timeline: extTimeline
+                        };
+                    } else {
+                        // Merge missing sites into existing date history
+                        const existing = allHistory[dKey];
+                        existing.appUsage = existing.appUsage || [];
+                        const appMap = {};
+                        existing.appUsage.forEach(a => { appMap[a.name] = a; });
+                        extAppUsage.forEach(a => {
+                            if (!appMap[a.name]) {
+                                existing.appUsage.push(a);
+                                existing.totalActiveSeconds = (existing.totalActiveSeconds || 0) + a.totalSeconds;
+                                existing.totalActiveFormatted = formatDurationHuman(existing.totalActiveSeconds);
+                            }
+                        });
+                    }
+                });
+            }
+            updateHistoryDropdown();
+        });
     }
 
     function updateHistoryDropdown() {
@@ -981,20 +1367,120 @@ document.addEventListener("DOMContentLoaded", () => {
         const currentVal = historyDatePicker.value;
         const dates = Object.keys(allHistory).sort().reverse();
         
-        let html = `<option value="today">Today (Live)</option><option value="alltime">All Time (All Days)</option>`;
+        let html = `
+            <option value="today">Today (Live)</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="7days">Past 7 Days</option>
+            <option value="30days">Past 30 Days</option>
+            <option value="alltime">All Time (All Days)</option>
+        `;
         const todayStr = new Date().toISOString().slice(0, 10);
-        dates.forEach(d => {
-            // Skip today's date key - "Today (Live)" already covers it.
-            // Only show past dates to avoid duplicate "Today" entries.
-            if (d === todayStr) return;
-            html += `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`;
-        });
+        const pastDates = dates.filter(d => d !== todayStr);
+        if (pastDates.length > 0) {
+            html += `<optgroup label="Specific Past Dates">`;
+            pastDates.forEach(d => {
+                html += `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`;
+            });
+            html += `</optgroup>`;
+        }
         historyDatePicker.innerHTML = html;
-        if (dates.includes(currentVal) || currentVal === "today" || currentVal === "alltime") {
+        const validValues = ["today", "yesterday", "7days", "30days", "alltime", ...pastDates];
+        if (validValues.includes(currentVal)) {
             historyDatePicker.value = currentVal;
         } else {
             historyDatePicker.value = "today";
         }
+    }
+
+    function mapYesterdayHistory() {
+        const now = new Date();
+        now.setDate(now.getDate() - 1);
+        const yStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        if (allHistory[yStr]) {
+            return {
+                current: null,
+                previous: null,
+                summary: {
+                    totalActiveSeconds: allHistory[yStr].totalActiveSeconds || 0,
+                    totalActiveFormatted: allHistory[yStr].totalActiveFormatted || formatDurationHuman(allHistory[yStr].totalActiveSeconds || 0),
+                    totalSwitches: allHistory[yStr].totalSwitches || 0,
+                    distinctAppsCount: (allHistory[yStr].appUsage || []).length,
+                    mostUsedApp: (allHistory[yStr].appUsage && allHistory[yStr].appUsage[0]) ? {
+                        name: allHistory[yStr].appUsage[0].name,
+                        category: allHistory[yStr].appUsage[0].category,
+                        durationFormatted: formatDurationHuman(allHistory[yStr].appUsage[0].totalSeconds || 0),
+                        percentage: Math.round(((allHistory[yStr].appUsage[0].totalSeconds || 0) / Math.max(1, allHistory[yStr].totalActiveSeconds || 1)) * 100)
+                    } : null
+                },
+                appUsage: allHistory[yStr].appUsage || [],
+                timeline: allHistory[yStr].timeline || []
+            };
+        }
+        return mapRangeHistory([yStr]);
+    }
+
+    function mapRangeHistory(targetDates) {
+        let totalActiveSeconds = 0;
+        let totalSwitches = 0;
+        const appMap = {};
+        const timeline = [];
+
+        targetDates.forEach(dt => {
+            const day = allHistory[dt];
+            if (day) {
+                totalActiveSeconds += (day.totalActiveSeconds || 0);
+                totalSwitches += (day.totalSwitches || 0);
+                (day.timeline || []).forEach(t => timeline.push(t));
+                (day.appUsage || []).forEach(a => {
+                    const key = a.name || "Unknown";
+                    if (!appMap[key]) {
+                        appMap[key] = {
+                            name: key,
+                            category: a.category || "Other",
+                            totalSeconds: 0,
+                            switchCount: 0
+                        };
+                    }
+                    appMap[key].totalSeconds += (a.totalSeconds || 0);
+                    appMap[key].switchCount += (a.switchCount || 0);
+                });
+            }
+        });
+
+        const appUsage = Object.values(appMap).sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
+        const top = appUsage[0];
+        const mostUsedApp = top ? {
+            name: top.name,
+            category: top.category,
+            durationFormatted: formatDurationHuman(top.totalSeconds),
+            percentage: Math.round((top.totalSeconds / Math.max(1, totalActiveSeconds)) * 100)
+        } : null;
+
+        return {
+            current: null,
+            previous: null,
+            summary: {
+                totalActiveSeconds: totalActiveSeconds,
+                totalActiveFormatted: formatDurationHuman(totalActiveSeconds),
+                totalSwitches: totalSwitches,
+                distinctAppsCount: appUsage.length,
+                mostUsedApp: mostUsedApp
+            },
+            appUsage: appUsage,
+            timeline: timeline.slice(0, 200)
+        };
+    }
+
+    function mapPastDays(daysCount) {
+        const targetDates = [];
+        const now = new Date();
+        for (let i = 0; i < daysCount; i++) {
+            const d = new Date();
+            d.setDate(now.getDate() - i);
+            const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+            targetDates.push(dStr);
+        }
+        return mapRangeHistory(targetDates);
     }
 
     /**
@@ -1002,48 +1488,48 @@ document.addEventListener("DOMContentLoaded", () => {
      * starts from zero when a new day begins.
      */
     function mapAllTimeHistory() {
-    let totalActiveSeconds = 0;
-    let totalSwitches = 0;
-    const appMap = {};
-    const timeline = [];
+        let totalActiveSeconds = 0;
+        let totalSwitches = 0;
+        const appMap = {};
+        const timeline = [];
 
-    Object.values(allHistory || {}).forEach(day => {
-        totalActiveSeconds += (day.totalActiveSeconds || 0);
-        totalSwitches += (day.totalSwitches || 0);
-        (day.timeline || []).forEach(t => timeline.push(t));
-        (day.appUsage || []).forEach(a => {
-            const key = a.name || "Unknown";
-            if (!appMap[key]) {
-                appMap[key] = { name: key, category: a.category || "Other", totalSeconds: 0, switchCount: 0 };
-            }
-            appMap[key].totalSeconds += (a.totalSeconds || 0);
-            appMap[key].switchCount += (a.switchCount || 0);
+        Object.values(allHistory || {}).forEach(day => {
+            totalActiveSeconds += (day.totalActiveSeconds || 0);
+            totalSwitches += (day.totalSwitches || 0);
+            (day.timeline || []).forEach(t => timeline.push(t));
+            (day.appUsage || []).forEach(a => {
+                const key = a.name || "Unknown";
+                if (!appMap[key]) {
+                    appMap[key] = { name: key, category: a.category || "Other", totalSeconds: 0, switchCount: 0 };
+                }
+                appMap[key].totalSeconds += (a.totalSeconds || 0);
+                appMap[key].switchCount += (a.switchCount || 0);
+            });
         });
-    });
 
-    const appUsage = Object.values(appMap).sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
-    const top = appUsage[0];
-    const mostUsedApp = top ? {
-        name: top.name,
-        category: top.category,
-        durationFormatted: formatDurationHuman(top.totalSeconds),
-        percentage: Math.round((top.totalSeconds / Math.max(1, totalActiveSeconds)) * 100)
-    } : null;
+        const appUsage = Object.values(appMap).sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
+        const top = appUsage[0];
+        const mostUsedApp = top ? {
+            name: top.name,
+            category: top.category,
+            durationFormatted: formatDurationHuman(top.totalSeconds),
+            percentage: Math.round((top.totalSeconds / Math.max(1, totalActiveSeconds)) * 100)
+        } : null;
 
-    return {
-        current: null,
-        previous: null,
-        summary: {
-            totalActiveSeconds: totalActiveSeconds,
-            totalActiveFormatted: formatDurationHuman(totalActiveSeconds),
-            totalSwitches: totalSwitches,
-            distinctAppsCount: appUsage.length,
-            mostUsedApp: mostUsedApp
-        },
-        appUsage: appUsage,
-        timeline: timeline.slice(0, 200)
-    };
-}
+        return {
+            current: null,
+            previous: null,
+            summary: {
+                totalActiveSeconds: totalActiveSeconds,
+                totalActiveFormatted: formatDurationHuman(totalActiveSeconds),
+                totalSwitches: totalSwitches,
+                distinctAppsCount: appUsage.length,
+                mostUsedApp: mostUsedApp
+            },
+            appUsage: appUsage,
+            timeline: timeline.slice(0, 200)
+        };
+    }
 
     if (historyDatePicker) {
         historyDatePicker.addEventListener("change", () => {
@@ -1051,6 +1537,22 @@ document.addEventListener("DOMContentLoaded", () => {
             if (val === "today") {
                 isHistoricalView = false;
                 pollDaemonState();
+                if (statusLabel) statusLabel.textContent = isDaemonConnected ? "Desktop Daemon Connected" : "Browser Extension Connected";
+            } else if (val === "yesterday") {
+                isHistoricalView = true;
+                renderState(mapYesterdayHistory());
+                renderFocusPanel();
+                if (statusLabel) statusLabel.textContent = "Historical View: Yesterday";
+            } else if (val === "7days") {
+                isHistoricalView = true;
+                renderState(mapPastDays(7));
+                renderFocusPanel();
+                if (statusLabel) statusLabel.textContent = "Historical View: Past 7 Days";
+            } else if (val === "30days") {
+                isHistoricalView = true;
+                renderState(mapPastDays(30));
+                renderFocusPanel();
+                if (statusLabel) statusLabel.textContent = "Historical View: Past 30 Days";
             } else if (val === "alltime") {
                 isHistoricalView = true;
                 renderState(mapAllTimeHistory());
@@ -1064,7 +1566,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     previous: null,
                     summary: {
                         totalActiveSeconds: histDay.totalActiveSeconds || 0,
-                        totalActiveFormatted: histDay.totalActiveFormatted || formatDurationHuman(histDay.totalActiveSeconds),
+                        totalActiveFormatted: histDay.totalActiveFormatted || formatDurationHuman(histDay.totalActiveSeconds || 0),
                         totalSwitches: histDay.totalSwitches || 0,
                         distinctAppsCount: histDay.distinctAppsCount || (histDay.appUsage ? histDay.appUsage.length : 0),
                         mostUsedApp: histDay.appUsage && histDay.appUsage.length > 0 ? {
@@ -1084,64 +1586,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /**
-     * Check if Chrome/Edge Extension has written to localStorage
-     */
-    function checkExtensionBridge() {
-        if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-            chrome.storage.local.get([
-                "currentWebsite",
-                "previousWebsite",
-                "currentDwellSec",
-                "totalTabSwitches",
-                "siteUsage",
-                "timeline"
-            ], res => {
-                if (res.currentWebsite || res.siteUsage) {
-                    const mapped = {
-                        current: res.currentWebsite ? {
-                            appName: res.currentWebsite.name,
-                            category: "Web Browser",
-                            title: res.currentWebsite.url,
-                            dwellSeconds: res.currentDwellSec,
-                            activatedTime: res.currentWebsite.activatedTime,
-                            lastUpdated: res.currentWebsite.lastUpdatedTime
-                        } : null,
-                        previous: res.previousWebsite ? {
-                            appName: res.previousWebsite.name,
-                            category: "Web Browser",
-                            title: res.previousWebsite.url,
-                            activeDurationSec: res.previousWebsite.totalActiveSpent,
-                            activeDurationFormatted: formatDurationHuman(res.previousWebsite.totalActiveSpent),
-                            lastActiveTime: res.previousWebsite.lastActiveTime
-                        } : null,
-                        summary: {
-                            totalActiveSeconds: Object.values(res.siteUsage || {}).reduce((acc, s) => acc + (s.totalSec || 0), 0),
-                            totalSwitches: res.totalTabSwitches || 0,
-                            distinctAppsCount: Object.keys(res.siteUsage || {}).length
-                        },
-                        appUsage: Object.values(res.siteUsage || {}).map(s => ({
-                            name: s.name,
-                            category: "Web Browser",
-                            totalSeconds: s.totalSec,
-                            switchCount: s.visitCount
-                        })),
-                        timeline: (res.timeline || []).map(t => ({
-                            time: t.timeStr,
-                            appName: t.name,
-                            title: t.actionText,
-                            durationSec: t.durationSec,
-                            durationFormatted: formatDurationHuman(t.durationSec)
-                        }))
-                    };
-                    renderState(mapped);
-                    if (statusLabel) statusLabel.textContent = "Browser Extension Connected";
-                }
-            });
-        }
-    }
-
-    // 1-Second Refresh Poll Loop and 5-Second History Sync
+        // 1-Second Refresh Poll Loop and 5-Second History Sync
     setInterval(pollDaemonState, 1000);
     setInterval(fetchHistory, 5000);
     pollDaemonState();

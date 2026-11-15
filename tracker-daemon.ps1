@@ -227,6 +227,55 @@ if (Test-Path $historyFile) {
     }
 }
 
+# Restore today's existing active state if available to prevent 0s reset on daemon restart
+if (Test-Path $stateFile) {
+    try {
+        $rawState = Get-Content $stateFile -Raw -Encoding UTF8 | ConvertFrom-Json
+        $todayStr = (Get-Date).ToString("yyyy-MM-dd")
+        if ($rawState -and $rawState.date -eq $todayStr -and $rawState.summary) {
+            $totalActiveSeconds = [int]$rawState.summary.totalActiveSeconds
+            $totalSwitches = [int]$rawState.summary.totalSwitches
+            if ($rawState.appUsage) {
+                foreach ($app in $rawState.appUsage) {
+                    $appUsage[$app.name] = @{
+                        name = $app.name
+                        category = $app.category
+                        totalSeconds = [int]$app.totalSeconds
+                        switchCount = [int]$app.switchCount
+                        lastSeen = $app.lastSeen
+                    }
+                }
+            }
+            if ($rawState.timeline) {
+                foreach ($tl in $rawState.timeline) {
+                    $recentEvents += @{
+                        Time = $tl.Time
+                        AppName = $tl.AppName
+                        Title = $tl.Title
+                        DurationSec = [int]$tl.DurationSec
+                        DurationFormatted = $tl.DurationFormatted
+                        Category = $tl.Category
+                    }
+                }
+            }
+            if ($rawState.previous) {
+                $previousState = @{
+                    appName = $rawState.previous.appName
+                    title = $rawState.previous.title
+                    process = $rawState.previous.process
+                    category = $rawState.previous.category
+                    sessionDwellSec = [int]$rawState.previous.sessionDwellSec
+                    activeDurationSec = [int]$rawState.previous.activeDurationSec
+                    activeDurationFormatted = $rawState.previous.activeDurationFormatted
+                    lastActiveTime = $rawState.previous.lastActiveTime
+                }
+            }
+        }
+    } catch {
+        # ignore parse errors
+    }
+}
+
 # Clear screen once on startup
 Clear-Host
 
@@ -426,13 +475,20 @@ while ($true) {
                     }
                     if ($recentEvents.Count -gt 50) { $recentEvents = $recentEvents[-50..-1] }
 
+                    $prevAccrued = if ($appUsage.ContainsKey($prevKey) -and $appUsage[$prevKey].totalSeconds -gt 0) {
+                        $appUsage[$prevKey].totalSeconds
+                    } else {
+                        [Math]::Max(1, $currentDwell)
+                    }
+
                     $previousState = @{
                         appName = $currentState.AppName
                         title = $currentState.Title
                         process = $currentState.Process
                         category = $currentState.Category
-                        activeDurationSec = $currentDwell
-                        activeDurationFormatted = (Format-Duration $currentDwell)
+                        sessionDwellSec = $currentDwell
+                        activeDurationSec = $prevAccrued
+                        activeDurationFormatted = (Format-Duration $prevAccrued)
                         lastActiveTime = $timeStr
                     }
                 }
