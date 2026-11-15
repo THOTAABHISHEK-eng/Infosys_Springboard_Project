@@ -1,0 +1,532 @@
+﻿{
+    "current":  {
+                    "lastUpdated":  "10:55:38 PM",
+                    "activatedTime":  "10:55:38 PM",
+                    "title":  "Task Switching",
+                    "category":  "System",
+                    "dwellFormatted":  "1s",
+                    "dwellSeconds":  1,
+                    "appName":  "Task Switching",
+                    "process":  "explorer"
+                },
+    "appUsage":  [
+                     {
+                         "lastSeen":  "10:30:50 PM",
+                         "category":  "Other",
+                         "name":  "Untitled (Brave Browser)",
+                         "totalSeconds":  20,
+                         "switchCount":  1
+                     },
+                     {
+                         "switchCount":  7,
+                         "category":  "General Application",
+                         "name":  "Snippingtool",
+                         "totalSeconds":  238,
+                         "lastSeen":  "10:43:43 PM"
+                     },
+                     {
+                         "switchCount":  6,
+                         "category":  "General Application",
+                         "name":  "Antigravity Ide",
+                         "totalSeconds":  584,
+                         "lastSeen":  "10:55:38 PM"
+                     },
+                     {
+                         "switchCount":  1,
+                         "category":  "Utilities",
+                         "name":  "Windows Terminal",
+                         "totalSeconds":  26,
+                         "lastSeen":  "10:33:00 PM"
+                     },
+                     {
+                         "switchCount":  7,
+                         "category":  "Development",
+                         "name":  "Visual Studio Code",
+                         "totalSeconds":  41,
+                         "lastSeen":  "10:43:21 PM"
+                     },
+                     {
+                         "switchCount":  3,
+                         "category":  "Professional",
+                         "name":  "drive.google.com wants to open (Brave Browser)",
+                         "totalSeconds":  84,
+                         "lastSeen":  "10:49:30 PM"
+                     },
+                     {
+                         "switchCount":  32,
+                         "category":  "Professional",
+                         "name":  "Google Drive (Brave Browser)",
+                         "totalSeconds":  379,
+                         "lastSeen":  "10:50:20 PM"
+                     },
+                     {
+                         "switchCount":  2,
+                         "category":  "General Application",
+                         "name":  "Pickerhost",
+                         "totalSeconds":  14,
+                         "lastSeen":  "10:45:53 PM"
+                     },
+                     {
+                         "switchCount":  6,
+                         "category":  "System",
+                         "name":  "Task Switching",
+                         "totalSeconds":  57,
+                         "lastSeen":  "10:43:45 PM"
+                     },
+                     {
+                         "switchCount":  53,
+                         "category":  "System",
+                         "name":  "File Explorer",
+                         "totalSeconds":  382,
+                         "lastSeen":  "10:49:16 PM"
+                     },
+                     {
+                         "switchCount":  141,
+                         "category":  "General Application",
+                         "name":  "Photos",
+                         "totalSeconds":  876,
+                         "lastSeen":  "10:49:09 PM"
+                     },
+                     {
+                         "switchCount":  2,
+                         "category":  "Communication",
+                         "name":  "Gmail (Brave Browser)",
+                         "totalSeconds":  32,
+                         "lastSeen":  "10:50:34 PM"
+                     },
+                     {
+                         "switchCount":  2,
+                         "category":  "Other",
+                         "name":  "History (Brave Browser)",
+                         "totalSeconds":  6,
+                         "lastSeen":  "10:36:07 PM"
+                     }
+                 ],
+    "timestamp":  "2026-11-15T22:55:39.9998839+05:30",
+    "previous":  {
+                     "activeDurationFormatted":  "9m 44s",
+                     "title":  "infosys_springboard - Antigravity IDE",
+                     "appName":  "Antigravity Ide",
+                     "process":  "Antigravity IDE",
+                     "category":  "General Application",
+                     "lastActiveTime":  "10:55:38 PM",
+                     "sessionDwellSec":  252,
+                     "activeDurationSec":  584
+                 },
+    "date":  "2026-11-15",
+    "summary":  {
+                    "totalActiveSeconds":  1383,
+                    "mostUsedApp":  {
+                                        "durationSeconds":  876,
+                                        "category":  "General Application",
+                                        "name":  "Photos",
+                                        "durationFormatted":  "14m 36s",
+                                        "percentage":  63
+                                    },
+                    "totalActiveFormatted":  "23m 3s",
+                    "distinctAppsCount":  13,
+                    "totalSwitches":  263
+                },
+    "timeline":  [
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:47:31 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "10:47:32 PM",
+                         "Title":  "4.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "10:47:35 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:47:38 PM",
+                         "Title":  "5.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "10:47:39 PM",
+                         "Title":  "Screenshot 2026-11-15 005820.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "10:47:42 PM",
+                         "Title":  "7.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:47:47 PM",
+                         "Title":  "6.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:47:48 PM",
+                         "Title":  "4.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:47:49 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "2s",
+                         "Category":  "General Application",
+                         "DurationSec":  2,
+                         "Time":  "10:47:50 PM",
+                         "Title":  "1.png"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "3s",
+                         "Category":  "System",
+                         "DurationSec":  3,
+                         "Time":  "10:47:52 PM",
+                         "Title":  "Screenshots - File Explorer"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "4s",
+                         "Category":  "System",
+                         "DurationSec":  4,
+                         "Time":  "10:47:56 PM",
+                         "Title":  "ABHI - File Explorer"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "3s",
+                         "Category":  "System",
+                         "DurationSec":  3,
+                         "Time":  "10:48:00 PM",
+                         "Title":  "Gallery - File Explorer"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "10:48:03 PM",
+                         "Title":  "3.png"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "6s",
+                         "Category":  "System",
+                         "DurationSec":  6,
+                         "Time":  "10:48:08 PM",
+                         "Title":  "Gallery - File Explorer"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "10:48:15 PM",
+                         "Title":  "3.png"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "10:48:20 PM",
+                         "Title":  "Gallery - File Explorer"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "10:48:21 PM",
+                         "Title":  "Screenshots - File Explorer"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "6s",
+                         "Category":  "General Application",
+                         "DurationSec":  6,
+                         "Time":  "10:48:23 PM",
+                         "Title":  "1.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "7s",
+                         "Category":  "General Application",
+                         "DurationSec":  7,
+                         "Time":  "10:48:29 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "10:48:37 PM",
+                         "Title":  "1.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "10:48:41 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:48:45 PM",
+                         "Title":  "3.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:48:46 PM",
+                         "Title":  "5.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:48:47 PM",
+                         "Title":  "6.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "8s",
+                         "Category":  "General Application",
+                         "DurationSec":  8,
+                         "Time":  "10:48:48 PM",
+                         "Title":  "Screenshot 2026-11-15 005820.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "2s",
+                         "Category":  "General Application",
+                         "DurationSec":  2,
+                         "Time":  "10:48:56 PM",
+                         "Title":  "7.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:48:58 PM",
+                         "Title":  "6.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:00 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:01 PM",
+                         "Title":  "1.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:02 PM",
+                         "Title":  "2.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:03 PM",
+                         "Title":  "3.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:04 PM",
+                         "Title":  "5.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "2s",
+                         "Category":  "General Application",
+                         "DurationSec":  2,
+                         "Time":  "10:49:05 PM",
+                         "Title":  "Screenshot 2026-11-15 005820.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:07 PM",
+                         "Title":  "6.png"
+                     },
+                     {
+                         "AppName":  "Photos",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:49:08 PM",
+                         "Title":  "5.png"
+                     },
+                     {
+                         "AppName":  "File Explorer",
+                         "DurationFormatted":  "6s",
+                         "Category":  "System",
+                         "DurationSec":  6,
+                         "Time":  "10:49:09 PM",
+                         "Title":  "Screenshots - File Explorer"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Professional",
+                         "DurationSec":  2,
+                         "Time":  "10:49:16 PM",
+                         "Title":  "Milestone1 - Google Drive"
+                     },
+                     {
+                         "AppName":  "drive.google.com wants to open (Brave Browser)",
+                         "DurationFormatted":  "11s",
+                         "Category":  "Professional",
+                         "DurationSec":  11,
+                         "Time":  "10:49:18 PM",
+                         "Title":  "drive.google.com wants to open"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "28s",
+                         "Category":  "Professional",
+                         "DurationSec":  28,
+                         "Time":  "10:49:30 PM",
+                         "Title":  "Milestone1 - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "4s",
+                         "Category":  "Professional",
+                         "DurationSec":  4,
+                         "Time":  "10:50:01 PM",
+                         "Title":  "Milestone1 - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Professional",
+                         "DurationSec":  1,
+                         "Time":  "10:50:06 PM",
+                         "Title":  "Thota_Abhishek - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "4s",
+                         "Category":  "Professional",
+                         "DurationSec":  4,
+                         "Time":  "10:50:07 PM",
+                         "Title":  "Milestone 1 - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Professional",
+                         "DurationSec":  1,
+                         "Time":  "10:50:11 PM",
+                         "Title":  "Thota_Abhishek - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Professional",
+                         "DurationSec":  3,
+                         "Time":  "10:50:12 PM",
+                         "Title":  "Milestone1 - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Professional",
+                         "DurationSec":  1,
+                         "Time":  "10:50:15 PM",
+                         "Title":  "Thota_Abhishek - Google Drive"
+                     },
+                     {
+                         "AppName":  "Google Drive (Brave Browser)",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Professional",
+                         "DurationSec":  3,
+                         "Time":  "10:50:16 PM",
+                         "Title":  "Milestone 1 - Google Drive"
+                     },
+                     {
+                         "AppName":  "Gmail (Brave Browser)",
+                         "DurationFormatted":  "13s",
+                         "Category":  "Communication",
+                         "DurationSec":  13,
+                         "Time":  "10:50:20 PM",
+                         "Title":  "Milestone 1 Submission Deadline - 16 November 2026 - thotaabhishek2006@gmail.com - Gmail"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "10:50:34 PM",
+                         "Title":  "Antigravity IDE"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "4m 12s",
+                         "Category":  "General Application",
+                         "DurationSec":  252,
+                         "Time":  "10:50:36 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE"
+                     }
+                 ]
+}
