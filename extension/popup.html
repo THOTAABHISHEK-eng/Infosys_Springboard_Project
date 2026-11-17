@@ -76,14 +76,80 @@
         <!-- TAB 1: OVERVIEW                            -->
         <!-- ========================================== -->
         <section id="tab-overview" class="tab-panel active">
-            <!-- 4 Main Statistics Grid -->
+            <!-- Current Website Section (Top Priority View) -->
+            <div class="panel-card current-panel">
+                <div class="panel-header">
+                    <div class="header-left">
+                        <span class="pulsing-radar"></span>
+                        <span class="panel-label">Current Website</span>
+                    </div>
+                    <span id="cur-tab-badge" class="active-badge">Active Tab</span>
+                </div>
+                <div class="site-identity">
+                    <div class="site-main">
+                        <h2 id="cur-name" class="site-name">No active tab detected</h2>
+                        <span id="cur-domain" class="domain-pill">None</span>
+                    </div>
+                    <div class="counter-display">
+                        <span id="cur-dwell-label" class="dwell-subtext">Current Active Dwell</span>
+                        <div id="cur-counter" class="counter-val">00:00:00</div>
+                    </div>
+                </div>
+
+                <div class="card-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Period Total for Site:</span>
+                        <strong id="cur-site-today" class="meta-highlight">0s</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Activated At:</span>
+                        <span id="cur-activated">Waiting</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">User Idle Status:</span>
+                        <strong id="cur-idle-for" class="meta-highlight">0s</strong>
+                        <span id="idle-state-badge" class="idle-badge">Active</span>
+                    </div>
+                </div>
+
+                <div class="url-row">
+                    <span class="url-label">URL</span>
+                    <a id="cur-url-link" href="#" target="_blank" class="url-text" title="Open in new tab">
+                        <span id="cur-url">None</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Previous Website Section -->
+            <div class="panel-card previous-panel">
+                <div class="panel-header">
+                    <span class="panel-label">Previous Website</span>
+                    <span class="history-badge">Last Active</span>
+                </div>
+                <div class="site-identity prev-identity">
+                    <div>
+                        <h3 id="prev-name" class="site-name-sm">No previous website yet</h3>
+                        <span id="prev-domain" class="domain-pill">None</span>
+                    </div>
+                    <div class="prev-time-block">
+                        <span id="prev-dwell-label" class="prev-dwell-label">Previous Active Dwell</span>
+                        <strong id="prev-duration" class="prev-duration-val">0s</strong>
+                    </div>
+                </div>
+                <div class="prev-meta-row">
+                    <span>Switched At: <strong id="prev-last-time">None</strong></span>
+                    <a id="prev-url-link" href="#" target="_blank" class="url-mini-link">Visit URL &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Main Statistics Grid -->
             <div class="metrics-grid">
                 <div class="metric-card">
                     <div class="metric-icon-wrap emerald">
                         <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     </div>
                     <div class="metric-content">
-                        <span class="metric-label">Total Usage</span>
+                        <span id="stat-usage-label" class="metric-label">Total Active Time</span>
                         <strong id="stat-total-usage" class="metric-value">0s</strong>
                     </div>
                 </div>
@@ -128,75 +194,9 @@
                         <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path></svg>
                     </div>
                     <div class="metric-content">
-                        <span class="metric-label">Idle Time (Today)</span>
+                        <span id="stat-idle-label" class="metric-label">Idle Time (Today)</span>
                         <strong id="stat-idle-time" class="metric-value">0s</strong>
                     </div>
-                </div>
-            </div>
-
-            <!-- Current Website Section -->
-            <div class="panel-card current-panel">
-                <div class="panel-header">
-                    <div class="header-left">
-                        <span class="pulsing-radar"></span>
-                        <span class="panel-label">Current Website</span>
-                    </div>
-                    <span class="active-badge">Active Tab</span>
-                </div>
-                <div class="site-identity">
-                    <div class="site-main">
-                        <h2 id="cur-name" class="site-name">No active tab detected</h2>
-                        <span id="cur-domain" class="domain-pill">None</span>
-                    </div>
-                    <div class="counter-display">
-                        <span class="dwell-subtext">Current Session Dwell</span>
-                        <div id="cur-counter" class="counter-val">00:00:00</div>
-                    </div>
-                </div>
-
-                <div class="card-meta-grid">
-                    <div class="meta-item">
-                        <span class="meta-label">Today's Total for Site:</span>
-                        <strong id="cur-site-today" class="meta-highlight">0s</strong>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Activated At:</span>
-                        <span id="cur-activated">Waiting</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">User Idle For:</span>
-                        <strong id="cur-idle-for" class="meta-highlight">0s</strong>
-                        <span id="idle-state-badge" class="idle-badge">Active</span>
-                    </div>
-                </div>
-
-                <div class="url-row">
-                    <span class="url-label">URL</span>
-                    <a id="cur-url-link" href="#" target="_blank" class="url-text" title="Open in new tab">
-                        <span id="cur-url">None</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Previous Website Section -->
-            <div class="panel-card previous-panel">
-                <div class="panel-header">
-                    <span class="panel-label">Previous Website</span>
-                    <span class="history-badge">Last Active</span>
-                </div>
-                <div class="site-identity prev-identity">
-                    <div>
-                        <h3 id="prev-name" class="site-name-sm">No previous website yet</h3>
-                        <span id="prev-domain" class="domain-pill">None</span>
-                    </div>
-                    <div class="prev-time-block">
-                        <span class="prev-dwell-label">Active Time Spent</span>
-                        <strong id="prev-duration" class="prev-duration-val">0s</strong>
-                    </div>
-                </div>
-                <div class="prev-meta-row">
-                    <span>Switched At: <strong id="prev-last-time">None</strong></span>
-                    <a id="prev-url-link" href="#" target="_blank" class="url-mini-link">Visit URL &rarr;</a>
                 </div>
             </div>
 

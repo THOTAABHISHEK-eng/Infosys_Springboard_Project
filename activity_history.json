@@ -2,238 +2,6 @@
     "2026-11-17":  {
                        "timeline":  [
                                         {
-                                            "AppName":  "YouTube (Brave Browser)",
-                                            "DurationFormatted":  "24s",
-                                            "Category":  "Entertainment",
-                                            "DurationSec":  24,
-                                            "Time":  "05:29:30 PM",
-                                            "Title":  "YouTube"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "6s",
-                                            "Category":  "System",
-                                            "DurationSec":  6,
-                                            "Time":  "05:29:58 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "Visual Studio Code",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "Development",
-                                            "DurationSec":  3,
-                                            "Time":  "05:30:04 PM",
-                                            "Title":  "Welcome - infosys_springboard - Visual Studio Code"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "9s",
-                                            "Category":  "Other",
-                                            "DurationSec":  9,
-                                            "Time":  "05:30:07 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "6s",
-                                            "Category":  "System",
-                                            "DurationSec":  6,
-                                            "Time":  "05:30:19 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "8s",
-                                            "Category":  "Other",
-                                            "DurationSec":  8,
-                                            "Time":  "05:30:27 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "29s",
-                                            "Category":  "System",
-                                            "DurationSec":  29,
-                                            "Time":  "05:30:35 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "YouTube (Brave Browser)",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Entertainment",
-                                            "DurationSec":  1,
-                                            "Time":  "05:31:06 PM",
-                                            "Title":  "YouTube"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "7s",
-                                            "Category":  "Other",
-                                            "DurationSec":  7,
-                                            "Time":  "05:31:07 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "YouTube (Brave Browser)",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "Entertainment",
-                                            "DurationSec":  2,
-                                            "Time":  "05:31:14 PM",
-                                            "Title":  "YouTube"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "43s",
-                                            "Category":  "Other",
-                                            "DurationSec":  43,
-                                            "Time":  "05:31:16 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Shellhost",
-                                            "DurationFormatted":  "26s",
-                                            "Category":  "General Application",
-                                            "DurationSec":  26,
-                                            "Time":  "05:32:04 PM",
-                                            "Title":  "Quick settings"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "24s",
-                                            "Category":  "Other",
-                                            "DurationSec":  24,
-                                            "Time":  "05:32:34 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "127.0.0.1 (Brave Browser)",
-                                            "DurationFormatted":  "14s",
-                                            "Category":  "Other",
-                                            "DurationSec":  14,
-                                            "Time":  "05:33:00 PM",
-                                            "Title":  "127.0.0.1"
-                                        },
-                                        {
-                                            "AppName":  "YouTube (Brave Browser)",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Entertainment",
-                                            "DurationSec":  1,
-                                            "Time":  "05:33:15 PM",
-                                            "Title":  "YouTube"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "Other",
-                                            "DurationSec":  2,
-                                            "Time":  "05:33:16 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "System",
-                                            "DurationSec":  1,
-                                            "Time":  "05:33:18 PM",
-                                            "Title":  "Task View"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "4s",
-                                            "Category":  "Other",
-                                            "DurationSec":  4,
-                                            "Time":  "05:33:19 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Untitled (Brave Browser)",
-                                            "DurationFormatted":  "31s",
-                                            "Category":  "Other",
-                                            "DurationSec":  31,
-                                            "Time":  "05:33:35 PM",
-                                            "Title":  "Untitled"
-                                        },
-                                        {
-                                            "AppName":  "YouTube (Brave Browser)",
-                                            "DurationFormatted":  "4s",
-                                            "Category":  "Entertainment",
-                                            "DurationSec":  4,
-                                            "Time":  "05:34:08 PM",
-                                            "Title":  "YouTube"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "1m 34s",
-                                            "Category":  "Other",
-                                            "DurationSec":  94,
-                                            "Time":  "05:34:13 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Windows Terminal",
-                                            "DurationFormatted":  "2s",
-                                            "Category":  "Utilities",
-                                            "DurationSec":  2,
-                                            "Time":  "05:46:05 PM",
-                                            "Title":  "Dashboard Server"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "3s",
-                                            "Category":  "System",
-                                            "DurationSec":  3,
-                                            "Time":  "05:46:08 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "Visual Studio Code",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Development",
-                                            "DurationSec":  1,
-                                            "Time":  "05:46:11 PM",
-                                            "Title":  "Welcome - infosys_springboard - Visual Studio Code"
-                                        },
-                                        {
-                                            "AppName":  "Task Switching",
-                                            "DurationFormatted":  "6s",
-                                            "Category":  "System",
-                                            "DurationSec":  6,
-                                            "Time":  "05:46:12 PM",
-                                            "Title":  "Task Switching"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "2m 37s",
-                                            "Category":  "Other",
-                                            "DurationSec":  157,
-                                            "Time":  "05:46:19 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Snippingtool",
-                                            "DurationFormatted":  "4s",
-                                            "Category":  "General Application",
-                                            "DurationSec":  4,
-                                            "Time":  "05:49:10 PM",
-                                            "Title":  "Snipping Tool Overlay"
-                                        },
-                                        {
-                                            "AppName":  "umw (Brave Browser)",
-                                            "DurationFormatted":  "3m 3s",
-                                            "Category":  "Other",
-                                            "DurationSec":  183,
-                                            "Time":  "05:49:15 PM",
-                                            "Title":  "Meet - sdh-iycm-umw"
-                                        },
-                                        {
-                                            "AppName":  "Visual Studio Code",
-                                            "DurationFormatted":  "1s",
-                                            "Category":  "Development",
-                                            "DurationSec":  1,
-                                            "Time":  "05:52:37 PM",
-                                            "Title":  "Welcome - infosys_springboard - Visual Studio Code"
-                                        },
-                                        {
                                             "AppName":  "Task Switching",
                                             "DurationFormatted":  "1s",
                                             "Category":  "System",
@@ -400,25 +168,285 @@
                                             "DurationSec":  1,
                                             "Time":  "09:46:36 PM",
                                             "Title":  "Dashboard Server"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "4s",
+                                            "Category":  "System",
+                                            "DurationSec":  4,
+                                            "Time":  "10:47:35 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "2m 16s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  136,
+                                            "Time":  "10:47:40 PM",
+                                            "Title":  "How Fish Skin Heals Burn Victims 😮 Surgeon Reacts - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "New Tab (Brave Browser)",
+                                            "DurationFormatted":  "9s",
+                                            "Category":  "Other",
+                                            "DurationSec":  9,
+                                            "Time":  "10:50:09 PM",
+                                            "Title":  "New Tab"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "4s",
+                                            "Category":  "Other",
+                                            "DurationSec":  4,
+                                            "Time":  "10:50:19 PM",
+                                            "Title":  "gemini api key - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "aistudio.google.com/app/apikey (Brave Browser)",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Other",
+                                            "DurationSec":  2,
+                                            "Time":  "10:50:24 PM",
+                                            "Title":  "aistudio.google.com/app/apikey"
+                                        },
+                                        {
+                                            "AppName":  "API keys | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "8s",
+                                            "Category":  "Other",
+                                            "DurationSec":  8,
+                                            "Time":  "10:50:26 PM",
+                                            "Title":  "API keys | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "System",
+                                            "DurationSec":  3,
+                                            "Time":  "10:50:35 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "API keys | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "28s",
+                                            "Category":  "Other",
+                                            "DurationSec":  28,
+                                            "Time":  "10:50:38 PM",
+                                            "Title":  "API keys | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Logs and Datasets | Google AI St... (Brave Browser)",
+                                            "DurationFormatted":  "18s",
+                                            "Category":  "Other",
+                                            "DurationSec":  18,
+                                            "Time":  "10:51:09 PM",
+                                            "Title":  "Logs and Datasets | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "10:51:32 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Logs and Datasets | Google AI St... (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "10:51:33 PM",
+                                            "Title":  "Logs and Datasets | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "10:51:35 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Logs and Datasets | Google AI St... (Brave Browser)",
+                                            "DurationFormatted":  "12s",
+                                            "Category":  "Other",
+                                            "DurationSec":  12,
+                                            "Time":  "10:51:36 PM",
+                                            "Title":  "Logs and Datasets | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "API keys | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "10:51:49 PM",
+                                            "Title":  "API keys | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Usage | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "10s",
+                                            "Category":  "Other",
+                                            "DurationSec":  10,
+                                            "Time":  "10:51:50 PM",
+                                            "Title":  "Usage | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Rate Limit | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "10:52:02 PM",
+                                            "Title":  "Rate Limit | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Spend | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "2s",
+                                            "Category":  "Other",
+                                            "DurationSec":  2,
+                                            "Time":  "10:52:03 PM",
+                                            "Title":  "Spend | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Rate Limit | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "8s",
+                                            "Category":  "Other",
+                                            "DurationSec":  8,
+                                            "Time":  "10:52:05 PM",
+                                            "Title":  "Rate Limit | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "API keys | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "10:52:14 PM",
+                                            "Title":  "API keys | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Projects | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "10s",
+                                            "Category":  "Other",
+                                            "DurationSec":  10,
+                                            "Time":  "10:52:16 PM",
+                                            "Title":  "Projects | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Usage | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "7s",
+                                            "Category":  "Other",
+                                            "DurationSec":  7,
+                                            "Time":  "10:52:26 PM",
+                                            "Title":  "Usage | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "API keys | Google AI Studio (Brave Browser)",
+                                            "DurationFormatted":  "31s",
+                                            "Category":  "Other",
+                                            "DurationSec":  31,
+                                            "Time":  "10:52:34 PM",
+                                            "Title":  "API keys | Google AI Studio"
+                                        },
+                                        {
+                                            "AppName":  "Google Search (Brave Browser)",
+                                            "DurationFormatted":  "4s",
+                                            "Category":  "Other",
+                                            "DurationSec":  4,
+                                            "Time":  "10:53:08 PM",
+                                            "Title":  "gemini api key - Google Search"
+                                        },
+                                        {
+                                            "AppName":  "Explain ML Topics (1) (Brave Browser)",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Other",
+                                            "DurationSec":  1,
+                                            "Time":  "10:53:12 PM",
+                                            "Title":  "Explain ML Topics (1)"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  3,
+                                            "Time":  "10:53:13 PM",
+                                            "Title":  "How Fish Skin Heals Burn Victims 😮 Surgeon Reacts - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "Explain ML Topics (1) (Brave Browser)",
+                                            "DurationFormatted":  "40s",
+                                            "Category":  "Other",
+                                            "DurationSec":  40,
+                                            "Time":  "10:53:16 PM",
+                                            "Title":  "Explain ML Topics (1)"
+                                        },
+                                        {
+                                            "AppName":  "Snipping Tool",
+                                            "DurationFormatted":  "1m 22s",
+                                            "Category":  "Utilities",
+                                            "DurationSec":  82,
+                                            "Time":  "10:56:34 PM",
+                                            "Title":  "Recording toolbar"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "6s",
+                                            "Category":  "System",
+                                            "DurationSec":  6,
+                                            "Time":  "10:58:25 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Windows Terminal",
+                                            "DurationFormatted":  "40s",
+                                            "Category":  "Utilities",
+                                            "DurationSec":  40,
+                                            "Time":  "10:58:34 PM",
+                                            "Title":  "Dashboard Server"
                                         }
                                     ],
-                       "totalActiveSeconds":  1093,
-                       "lastUpdated":  "2026-11-17T21:51:19.0303132+05:30",
-                       "totalSwitches":  70,
+                       "totalActiveSeconds":  1571,
+                       "lastUpdated":  "2026-11-17T23:15:38.4137900+05:30",
+                       "totalSwitches":  100,
                        "appUsage":  [
                                         {
-                                            "lastSeen":  "05:34:08 PM",
-                                            "category":  "Other",
-                                            "name":  "Untitled (Brave Browser)",
-                                            "totalSeconds":  62,
+                                            "lastSeen":  "05:32:34 PM",
+                                            "category":  "General Application",
+                                            "name":  "Shellhost",
+                                            "totalSeconds":  52,
                                             "switchCount":  1
                                         },
                                         {
-                                            "lastSeen":  "08:44:21 PM",
-                                            "category":  "General Application",
-                                            "name":  "Snippingtool",
-                                            "totalSeconds":  52,
+                                            "lastSeen":  "10:51:49 PM",
+                                            "category":  "Other",
+                                            "name":  "Logs and Datasets | Google AI St... (Brave Browser)",
+                                            "totalSeconds":  62,
                                             "switchCount":  3
+                                        },
+                                        {
+                                            "lastSeen":  "08:43:32 PM",
+                                            "category":  "General Application",
+                                            "name":  "Photos",
+                                            "totalSeconds":  14,
+                                            "switchCount":  1
+                                        },
+                                        {
+                                            "lastSeen":  "10:50:26 PM",
+                                            "category":  "Other",
+                                            "name":  "aistudio.google.com/app/apikey (Brave Browser)",
+                                            "totalSeconds":  66,
+                                            "switchCount":  2
+                                        },
+                                        {
+                                            "lastSeen":  "10:58:25 PM",
+                                            "category":  "Utilities",
+                                            "name":  "Snipping Tool",
+                                            "totalSeconds":  164,
+                                            "switchCount":  1
+                                        },
+                                        {
+                                            "lastSeen":  "10:52:34 PM",
+                                            "category":  "Other",
+                                            "name":  "Usage | Google AI Studio (Brave Browser)",
+                                            "totalSeconds":  34,
+                                            "switchCount":  2
                                         },
                                         {
                                             "lastSeen":  "05:29:30 PM",
@@ -428,11 +456,11 @@
                                             "switchCount":  2
                                         },
                                         {
-                                            "lastSeen":  "05:32:34 PM",
-                                            "category":  "General Application",
-                                            "name":  "Shellhost",
-                                            "totalSeconds":  52,
-                                            "switchCount":  1
+                                            "switchCount":  11,
+                                            "category":  "Utilities",
+                                            "name":  "Windows Terminal",
+                                            "totalSeconds":  425,
+                                            "lastSeen":  "11:15:35 PM"
                                         },
                                         {
                                             "lastSeen":  "05:52:38 PM",
@@ -442,31 +470,45 @@
                                             "switchCount":  4
                                         },
                                         {
-                                            "lastSeen":  "08:43:06 PM",
-                                            "category":  "Entertainment",
-                                            "name":  "YouTube (Brave Browser)",
-                                            "totalSeconds":  140,
-                                            "switchCount":  10
-                                        },
-                                        {
-                                            "lastSeen":  "05:28:31 PM",
+                                            "lastSeen":  "10:52:05 PM",
                                             "category":  "Other",
-                                            "name":  "Just a moment... (Brave Browser)",
-                                            "totalSeconds":  46,
+                                            "name":  "Spend | Google AI Studio (Brave Browser)",
+                                            "totalSeconds":  4,
                                             "switchCount":  1
                                         },
                                         {
-                                            "lastSeen":  "09:46:36 PM",
-                                            "category":  "System",
-                                            "name":  "Task Switching",
-                                            "totalSeconds":  209,
-                                            "switchCount":  21
+                                            "lastSeen":  "10:53:16 PM",
+                                            "category":  "Entertainment",
+                                            "name":  "YouTube (Brave Browser)",
+                                            "totalSeconds":  418,
+                                            "switchCount":  12
+                                        },
+                                        {
+                                            "lastSeen":  "10:50:19 PM",
+                                            "category":  "Other",
+                                            "name":  "New Tab (Brave Browser)",
+                                            "totalSeconds":  18,
+                                            "switchCount":  1
+                                        },
+                                        {
+                                            "lastSeen":  "10:53:12 PM",
+                                            "category":  "Other",
+                                            "name":  "Google Search (Brave Browser)",
+                                            "totalSeconds":  16,
+                                            "switchCount":  2
                                         },
                                         {
                                             "lastSeen":  "05:28:37 PM",
                                             "category":  "Communication",
                                             "name":  "WhatsApp Desktop",
                                             "totalSeconds":  10,
+                                            "switchCount":  1
+                                        },
+                                        {
+                                            "lastSeen":  "08:44:32 PM",
+                                            "category":  "Other",
+                                            "name":  "RedFlix (Brave Browser)",
+                                            "totalSeconds":  18,
                                             "switchCount":  1
                                         },
                                         {
@@ -477,6 +519,13 @@
                                             "switchCount":  10
                                         },
                                         {
+                                            "lastSeen":  "08:44:21 PM",
+                                            "category":  "General Application",
+                                            "name":  "Snippingtool",
+                                            "totalSeconds":  52,
+                                            "switchCount":  3
+                                        },
+                                        {
                                             "lastSeen":  "08:43:25 PM",
                                             "category":  "System",
                                             "name":  "File Explorer",
@@ -484,18 +533,39 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "lastSeen":  "08:43:32 PM",
-                                            "category":  "General Application",
-                                            "name":  "Photos",
-                                            "totalSeconds":  14,
+                                            "lastSeen":  "10:52:26 PM",
+                                            "category":  "Other",
+                                            "name":  "Projects | Google AI Studio (Brave Browser)",
+                                            "totalSeconds":  20,
                                             "switchCount":  1
                                         },
                                         {
-                                            "lastSeen":  "09:46:37 PM",
-                                            "category":  "Utilities",
-                                            "name":  "Windows Terminal",
-                                            "totalSeconds":  345,
-                                            "switchCount":  10
+                                            "lastSeen":  "05:28:31 PM",
+                                            "category":  "Other",
+                                            "name":  "Just a moment... (Brave Browser)",
+                                            "totalSeconds":  46,
+                                            "switchCount":  1
+                                        },
+                                        {
+                                            "lastSeen":  "10:56:34 PM",
+                                            "category":  "Other",
+                                            "name":  "Explain ML Topics (1) (Brave Browser)",
+                                            "totalSeconds":  82,
+                                            "switchCount":  2
+                                        },
+                                        {
+                                            "lastSeen":  "10:52:14 PM",
+                                            "category":  "Other",
+                                            "name":  "Rate Limit | Google AI Studio (Brave Browser)",
+                                            "totalSeconds":  18,
+                                            "switchCount":  2
+                                        },
+                                        {
+                                            "lastSeen":  "10:53:08 PM",
+                                            "category":  "Other",
+                                            "name":  "API keys | Google AI Studio (Brave Browser)",
+                                            "totalSeconds":  138,
+                                            "switchCount":  5
                                         },
                                         {
                                             "lastSeen":  "05:33:15 PM",
@@ -512,16 +582,16 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "lastSeen":  "08:44:32 PM",
-                                            "category":  "Other",
-                                            "name":  "RedFlix (Brave Browser)",
-                                            "totalSeconds":  18,
-                                            "switchCount":  1
+                                            "switchCount":  27,
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  243,
+                                            "lastSeen":  "10:58:34 PM"
                                         }
                                     ],
-                       "distinctAppsCount":  16,
+                       "distinctAppsCount":  26,
                        "date":  "2026-11-17",
-                       "totalActiveFormatted":  "18m 13s"
+                       "totalActiveFormatted":  "26m 11s"
                    },
     "2026-11-15":  {
                        "timeline":  [
@@ -2013,5 +2083,69 @@
                                                            "percentage":  83
                                                        }
                                    }
+                   },
+    "2026-11-18":  {
+                       "timeline":  [
+                                        {
+                                            "AppName":  "Review File Errors (Brave Browser)",
+                                            "DurationFormatted":  "38s",
+                                            "Category":  "Other",
+                                            "DurationSec":  38,
+                                            "Time":  "12:07:21 AM",
+                                            "Title":  "Review File Errors"
+                                        },
+                                        {
+                                            "AppName":  "YouTube (Brave Browser)",
+                                            "DurationFormatted":  "4s",
+                                            "Category":  "Entertainment",
+                                            "DurationSec":  4,
+                                            "Time":  "12:08:02 AM",
+                                            "Title":  "Faint (Official Music Video) [4K UPGRADE] - Linkin Park - YouTube"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "System",
+                                            "DurationSec":  1,
+                                            "Time":  "12:08:07 AM",
+                                            "Title":  "Task Switching"
+                                        }
+                                    ],
+                       "totalActiveSeconds":  46,
+                       "lastUpdated":  "2026-11-18T00:08:10.5401785+05:30",
+                       "totalSwitches":  4,
+                       "appUsage":  [
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Utilities",
+                                            "name":  "Windows Terminal",
+                                            "totalSeconds":  3,
+                                            "lastSeen":  "12:08:08 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Other",
+                                            "name":  "Review File Errors (Brave Browser)",
+                                            "totalSeconds":  76,
+                                            "lastSeen":  "12:08:02 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  2,
+                                            "lastSeen":  "12:08:08 AM"
+                                        },
+                                        {
+                                            "switchCount":  1,
+                                            "category":  "Entertainment",
+                                            "name":  "YouTube (Brave Browser)",
+                                            "totalSeconds":  8,
+                                            "lastSeen":  "12:08:07 AM"
+                                        }
+                                    ],
+                       "distinctAppsCount":  4,
+                       "date":  "2026-11-18",
+                       "totalActiveFormatted":  "46s"
                    }
 }

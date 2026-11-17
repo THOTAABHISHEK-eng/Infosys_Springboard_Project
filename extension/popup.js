@@ -114,6 +114,22 @@ document.addEventListener("DOMContentLoaded", () => {
     function applyDateFilter() {
         if (!latestState) return;
 
+        // Dynamic label updates based on selected date filter
+        const statIdleLabel = document.getElementById("stat-idle-label");
+        const statUsageLabel = document.getElementById("stat-usage-label");
+        if (statIdleLabel) {
+            if (selectedRange === "today") statIdleLabel.textContent = "Idle Time (Today)";
+            else if (selectedRange === "yesterday") statIdleLabel.textContent = "Idle Time (Yesterday)";
+            else if (selectedRange === "7d") statIdleLabel.textContent = "Idle Time (7 Days)";
+            else if (selectedRange === "30d") statIdleLabel.textContent = "Idle Time (30 Days)";
+        }
+        if (statUsageLabel) {
+            if (selectedRange === "today") statUsageLabel.textContent = "Total Active Time";
+            else if (selectedRange === "yesterday") statUsageLabel.textContent = "Total Time (Yesterday)";
+            else if (selectedRange === "7d") statUsageLabel.textContent = "Total Time (7 Days)";
+            else if (selectedRange === "30d") statUsageLabel.textContent = "Total Time (30 Days)";
+        }
+
         if (selectedRange === "today" || !historyByDate || Object.keys(historyByDate).length === 0) {
             renderDashboard();
             return;
@@ -429,7 +445,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     statIdleTime.textContent = `${idleProgress}/180s`;
                 }
             } else {
-                statIdleTime.textContent = `0/180s`;
+                statIdleTime.textContent = idleProgress > 0 ? `${idleProgress}/180s` : `0/180s`;
             }
         }
         if (curIdleFor) {
@@ -439,8 +455,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (idleStateBadge) {
             const isIdle = stIdleState === "idle" || stIdleState === "locked";
-            idleStateBadge.textContent = isIdle ? "IDLE" : "ACTIVE";
-            idleStateBadge.style.color = isIdle ? "#f59e0b" : "#10b981";
+            const isStandby = !cur;
+            if (isIdle) {
+                idleStateBadge.textContent = "IDLE";
+                idleStateBadge.className = "idle-badge";
+                idleStateBadge.style.color = "#f59e0b";
+            } else if (isStandby) {
+                idleStateBadge.textContent = "STANDBY";
+                idleStateBadge.className = "idle-badge standby";
+                idleStateBadge.style.color = "#94a3b8";
+            } else {
+                idleStateBadge.textContent = "ACTIVE";
+                idleStateBadge.className = "idle-badge";
+                idleStateBadge.style.color = "#10b981";
+            }
             if (focusPill) focusPill.style.display = isIdle ? "none" : "flex";
         }
 
@@ -511,24 +539,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 4. Current Website Section
+        const curTabBadge = document.getElementById("cur-tab-badge");
         if (cur) {
+            if (curTabBadge) {
+                curTabBadge.textContent = "ACTIVE TAB";
+                curTabBadge.className = "active-badge";
+            }
             curName.textContent = sanitizeSiteName(cur.name, cur.domain);
-            curDomain.textContent = cur.domain || "None";
+            curDomain.textContent = cur.domain || "Web Page";
             curCounter.textContent = formatCounterDigits(dwell);
             curActivated.textContent = cur.activatedTime || "Waiting";
             curUrl.textContent = cur.url || "None";
             curUrlLink.href = cur.url || "#";
+            curUrlLink.title = cur.url || "";
 
             // Today's total for this specific domain
             const thisDomainTotal = (siteUsage[cur.domain] && siteUsage[cur.domain].totalSec) || dwell;
             curSiteToday.textContent = formatDurationHuman(thisDomainTotal);
         } else {
-            curName.textContent = "No active tab detected";
-            curDomain.textContent = "None";
+            if (curTabBadge) {
+                curTabBadge.textContent = "STANDBY";
+                curTabBadge.className = "active-badge standby";
+            }
+            curName.textContent = "Dashboard / Internal Page";
+            curDomain.textContent = "Internal Scope";
             curCounter.textContent = "00:00:00";
-            curActivated.textContent = "Waiting";
-            curUrl.textContent = "None";
+            curActivated.textContent = "Paused";
+            curUrl.textContent = "ActivityWatch Dashboard (Tracking paused to protect privacy and prevent self-monitoring)";
             curUrlLink.href = "#";
+            curUrlLink.title = "Internal or local dashboard page";
             curSiteToday.textContent = "0s";
         }
 

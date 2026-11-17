@@ -142,8 +142,8 @@ function Resolve-AppDetails($processName, $rawTitle) {
         $name = (Get-Culture).TextInfo.ToTitleCase($procLower)
     }
 
-    # Clean browser window titles
-    $cleanTitle = $rawTitle
+    # Clean browser window titles and normalize dashes
+    $cleanTitle = if ($rawTitle) { $rawTitle -replace '[\u2013\u2014]', '-' } else { "" }
     if ($procLower -in @("brave", "chrome", "msedge", "firefox")) {
         $suffixes = @(" - Brave", " - Google Chrome", " - Microsoft Edge", " - Mozilla Firefox")
         foreach ($s in $suffixes) {
@@ -468,7 +468,18 @@ while ($true) {
                     }
                 }
             } else {
-                $windowChanged = ($currentState -eq $null -or $currentState.RawTitle -ne $windowTitle -or $currentState.Process -ne $procName)
+                $resolved = Resolve-AppDetails $procName $windowTitle
+                $isSameApp = ($currentState -ne $null -and $currentState.Process -eq $procName -and $currentState.AppName -eq $resolved.AppName)
+
+                if ($isSameApp -and ($currentDwell -lt 3 -or $currentState.Title -eq $resolved.Title)) {
+                    # Intra-app update (e.g. video progress or minor title jitter): update title metadata without a false switch
+                    $currentState.Title = $resolved.Title
+                    $currentState.RawTitle = $windowTitle
+                    $currentState.Category = $resolved.Category
+                    $windowChanged = $false
+                } else {
+                    $windowChanged = ($currentState -eq $null -or $currentState.AppName -ne $resolved.AppName -or $currentState.Title -ne $resolved.Title -or $currentState.Process -ne $procName)
+                }
 
                 if ($windowChanged) {
                 # 1. Finalize previous window
@@ -515,7 +526,6 @@ while ($true) {
                 }
 
                 # 2. Setup new active window
-                $resolved = Resolve-AppDetails $procName $windowTitle
                 if ($currentState -eq $null -or $currentDwell -ge 1) {
                     $totalSwitches++
                 }
@@ -612,6 +622,8 @@ while ($true) {
                     }
                 } else { $null }
             }
+            idleSeconds = $totalIdleSec
+            totalIdleSec = $totalIdleSec
             appUsage = $appUsage.Values
             timeline = $recentEvents
         }
@@ -628,6 +640,8 @@ while ($true) {
                 totalActiveSeconds = $totalActiveSeconds
                 totalActiveFormatted = (Format-Duration $totalActiveSeconds)
                 totalSwitches = $totalSwitches
+                totalIdleSec = $totalIdleSec
+                idleSeconds = $totalIdleSec
                 distinctAppsCount = $appUsage.Keys.Count
                 appUsage = @($appUsage.Values)
                 timeline = @($recentEvents)

@@ -361,6 +361,24 @@ body {
     border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+.active-badge.standby {
+    background: rgba(100, 116, 139, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.active-badge.paused {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.idle-badge.standby {
+    background: rgba(100, 116, 139, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
 .site-identity {
     display: flex;
     justify-content: space-between;

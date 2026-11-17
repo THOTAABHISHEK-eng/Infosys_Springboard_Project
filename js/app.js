@@ -225,6 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnResetSession = document.getElementById("btn-reset-session");
 
     let latestState = null;
+    let currentActiveViewState = null;
 
     function formatCounter(totalSeconds) {
         const s = totalSeconds || 0;
@@ -582,12 +583,93 @@ document.addEventListener("DOMContentLoaded", () => {
         return (state.summary && state.summary.totalSwitches !== undefined) ? state.summary.totalSwitches : 0;
     }
 
+    function renderAuditCards(targetState, breakdown) {
+        const fsWrap = document.getElementById("fs-json-wrap");
+        if (!fsWrap || !targetState) return;
+        const score = breakdown.score;
+        const apps = targetState.appUsage || [];
+        let entSec = 0, commSec = 0;
+        apps.forEach(a => {
+            const cat = displayCategory(a.category, a.name);
+            if (cat.label === "Entertainment") entSec += (a.totalSeconds || 0);
+            if (cat.label === "Communication") commSec += (a.totalSeconds || 0);
+        });
+        const totalSec2 = targetState.summary ? (targetState.summary.totalActiveSeconds || 1) : 1;
+        const topSink = apps[0];
+        const prodSec = apps.filter(a => PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category, a.name).label)).reduce((s,a)=>s+(a.totalSeconds||0),0);
+        const rawProdPct2 = (prodSec / Math.max(1, totalSec2)) * 100;
+        const prodPct2Display = (rawProdPct2 > 0 && rawProdPct2 < 1) ? rawProdPct2.toFixed(1) + "%" : Math.round(rawProdPct2) + "%";
+        const switchCount = (targetState.summary || {}).totalSwitches || 0;
+        const distractPct = Math.round(((entSec + commSec) / Math.max(1, totalSec2)) * 100);
+
+        const auditCardsHtml = `<div id="fs-audit-cards" style="margin-bottom:14px;">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;">
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Top Time Sink</div>
+                    <div style="font-weight:700;font-size:0.85rem;color:var(--text-pure);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${topSink ? escapeHtml(topSink.name) : 'None'}">${topSink ? escapeHtml(topSink.name) : 'None'}</div>
+                    <div style="font-size:0.72rem;color:#ef4444;margin-top:2px;">${topSink ? formatDurationHuman(topSink.totalSeconds) : '0s'}</div>
+                </div>
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Attention Purity</div>
+                    <div style="font-weight:700;font-size:0.85rem;color:${rawProdPct2 >= 60 ? 'var(--accent-emerald)' : rawProdPct2 >= 35 ? '#38bdf8' : '#f59e0b'};">${prodPct2Display} Productive</div>
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${distractPct}% distraction</div>
+                </div>
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Switch Friction</div>
+                    <div style="font-weight:700;font-size:0.85rem;color:#f59e0b;">${switchCount} transitions</div>
+                    <div style="font-size:0.72rem;color:${score >= 80 ? 'var(--accent-emerald)' : '#f59e0b'};margin-top:2px;">Focus: ${score}/100</div>
+                </div>
+            </div>
+
+            <!-- Deduction Breakdown & Analysis Block matching meeting guidance -->
+            <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:14px;margin-bottom:10px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+                    <span style="font-size:0.72rem;font-weight:700;color:var(--text-pure);text-transform:uppercase;letter-spacing:0.05em;">Deduction Breakdown (Base: 100 pts)</span>
+                    <span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:rgba(59,130,246,0.15);color:#38bdf8;">${breakdown.sessionType}</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px;">
+                    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                        <div style="font-size:0.65rem;color:var(--text-muted);">Tab Switching</div>
+                        <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.tab_switching > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.tab_switching} pts</div>
+                    </div>
+                    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                        <div style="font-size:0.65rem;color:var(--text-muted);">Distraction Usage</div>
+                        <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.category_usage > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.category_usage} pts</div>
+                    </div>
+                    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                        <div style="font-size:0.65rem;color:var(--text-muted);">Idle Drift (${breakdown.inTabIdleRatio})</div>
+                        <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.idle_time > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.idle_time} pts</div>
+                    </div>
+                    <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                        <div style="font-size:0.65rem;color:var(--text-muted);">Focus Sessions</div>
+                        <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.focus_sessions > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.focus_sessions} pts</div>
+                    </div>
+                </div>
+                <div style="font-size:0.75rem;color:#cbd5e1;line-height:1.45;background:rgba(255,255,255,0.03);border-left:3px solid var(--accent-emerald);padding:8px 10px;border-radius:0 4px 4px 0;margin-bottom:10px;">
+                    <strong>Analysis:</strong> ${escapeHtml(breakdown.analysis)}
+                </div>
+                <div style="font-size:0.75rem;color:#cbd5e1;">
+                    <strong style="color:var(--text-pure);display:block;margin-bottom:4px;">Recommendations:</strong>
+                    <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;">
+                        ${breakdown.recommendations.map(r => `<li>${escapeHtml(r)}</li>`).join("")}
+                    </ol>
+                </div>
+            </div>
+        </div>`;
+
+        const prevCards = document.getElementById("fs-audit-cards");
+        if (prevCards) prevCards.remove();
+        fsWrap.insertAdjacentHTML("afterbegin", auditCardsHtml);
+        fsWrap.style.display = "block";
+    }
+
     async function generateTimeLossSummary() {
-        if (!latestState) {
+        const stateToUse = currentActiveViewState || latestState;
+        if (!stateToUse) {
             alert("No activity data available yet. Start tracking first.");
             return;
         }
-        const breakdown = computeFocusBreakdown(latestState);
+        const breakdown = computeFocusBreakdown(stateToUse);
         const score = breakdown.score;
         const fsScore = document.getElementById("fs-score");
         const fsGrade = document.getElementById("fs-grade");
@@ -605,7 +687,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 fsJsonLabel.textContent = `Time-Loss JSON Summary & Attention Audit (${g.label} Focus - ${score}/100)`;
             }
         }
-        const summaryObj = buildTimeLossJson(latestState);
+        const summaryObj = buildTimeLossJson(stateToUse);
         let jsonText = JSON.stringify(summaryObj, null, 2);
 
         // Optional AI API Key enhancement (Gemini/Groq)
@@ -629,85 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         if (fsJson) fsJson.textContent = jsonText;
-
-        // Render human-readable AI audit summary cards above the JSON block
-        if (fsWrap) {
-            const apps = latestState.appUsage || [];
-            let entSec = 0, commSec = 0;
-            apps.forEach(a => {
-                const cat = displayCategory(a.category, a.name);
-                if (cat.label === "Entertainment") entSec += (a.totalSeconds || 0);
-                if (cat.label === "Communication") commSec += (a.totalSeconds || 0);
-            });
-            const totalSec2 = latestState.summary ? (latestState.summary.totalActiveSeconds || 1) : 1;
-            const topSink = apps[0];
-            const prodSec = apps.filter(a => PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category, a.name).label)).reduce((s,a)=>s+(a.totalSeconds||0),0);
-            const rawProdPct2 = (prodSec / Math.max(1, totalSec2)) * 100;
-            const prodPct2Display = (rawProdPct2 > 0 && rawProdPct2 < 1) ? rawProdPct2.toFixed(1) + "%" : Math.round(rawProdPct2) + "%";
-            const switchCount = (latestState.summary || {}).totalSwitches || 0;
-            const distractPct = Math.round(((entSec + commSec) / Math.max(1, totalSec2)) * 100);
-
-            const auditCardsHtml = `<div id="fs-audit-cards" style="margin-bottom:14px;">
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;">
-                    <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
-                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Top Time Sink</div>
-                        <div style="font-weight:700;font-size:0.85rem;color:var(--text-pure);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${topSink ? escapeHtml(topSink.name) : 'None'}">${topSink ? escapeHtml(topSink.name) : 'None'}</div>
-                        <div style="font-size:0.72rem;color:#ef4444;margin-top:2px;">${topSink ? formatDurationHuman(topSink.totalSeconds) : '0s'}</div>
-                    </div>
-                    <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
-                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Attention Purity</div>
-                        <div style="font-weight:700;font-size:0.85rem;color:${rawProdPct2 >= 60 ? 'var(--accent-emerald)' : rawProdPct2 >= 35 ? '#38bdf8' : '#f59e0b'};">${prodPct2Display} Productive</div>
-                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${distractPct}% distraction</div>
-                    </div>
-                    <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
-                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Switch Friction</div>
-                        <div style="font-weight:700;font-size:0.85rem;color:#f59e0b;">${switchCount} transitions</div>
-                        <div style="font-size:0.72rem;color:${score >= 80 ? 'var(--accent-emerald)' : '#f59e0b'};margin-top:2px;">Focus: ${score}/100</div>
-                    </div>
-                </div>
-
-                <!-- Deduction Breakdown & Analysis Block matching meeting guidance -->
-                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:14px;margin-bottom:10px;">
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
-                        <span style="font-size:0.72rem;font-weight:700;color:var(--text-pure);text-transform:uppercase;letter-spacing:0.05em;">Deduction Breakdown (Base: 100 pts)</span>
-                        <span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:rgba(59,130,246,0.15);color:#38bdf8;">${breakdown.sessionType}</span>
-                    </div>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px;">
-                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
-                            <div style="font-size:0.65rem;color:var(--text-muted);">Tab Switching</div>
-                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.tab_switching > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.tab_switching} pts</div>
-                        </div>
-                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
-                            <div style="font-size:0.65rem;color:var(--text-muted);">Distraction Usage</div>
-                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.category_usage > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.category_usage} pts</div>
-                        </div>
-                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
-                            <div style="font-size:0.65rem;color:var(--text-muted);">Idle Drift (${breakdown.inTabIdleRatio})</div>
-                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.idle_time > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.idle_time} pts</div>
-                        </div>
-                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
-                            <div style="font-size:0.65rem;color:var(--text-muted);">Focus Sessions</div>
-                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.focus_sessions > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.focus_sessions} pts</div>
-                        </div>
-                    </div>
-                    <div style="font-size:0.75rem;color:#cbd5e1;line-height:1.45;background:rgba(255,255,255,0.03);border-left:3px solid var(--accent-emerald);padding:8px 10px;border-radius:0 4px 4px 0;margin-bottom:10px;">
-                        <strong>Analysis:</strong> ${escapeHtml(breakdown.analysis)}
-                    </div>
-                    <div style="font-size:0.75rem;color:#cbd5e1;">
-                        <strong style="color:var(--text-pure);display:block;margin-bottom:4px;">Recommendations:</strong>
-                        <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;">
-                            ${breakdown.recommendations.map(r => `<li>${escapeHtml(r)}</li>`).join("")}
-                        </ol>
-                    </div>
-                </div>
-            </div>`;
-
-            // Remove any previous audit cards before inserting
-            const prevCards = document.getElementById("fs-audit-cards");
-            if (prevCards) prevCards.remove();
-            fsWrap.insertAdjacentHTML("afterbegin", auditCardsHtml);
-            fsWrap.style.display = "block";
-        }
+        renderAuditCards(stateToUse, breakdown);
     }
 
     function getAppGlyph(name) {
@@ -736,7 +740,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderState(state) {
         if (!state) return;
-        latestState = state;
+        currentActiveViewState = state;
+        if (!isHistoricalView) {
+            latestState = state;
+        }
 
         const cur = state.current;
         const prev = state.previous;
@@ -783,10 +790,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isHistoricalView) {
                 curAppName.textContent = "Historical Snapshot";
                 curAppCategory.textContent = "Archived";
-                curWindowTitle.textContent = `Viewing archived data for ${historyDatePicker ? historyDatePicker.value : "selected date"}`;
-                curCounter.textContent = "--:--:--";
-                curActivated.textContent = "Concluded";
-                curUpdated.textContent = "Concluded";
+                curWindowTitle.textContent = `Archived session log for ${historyDatePicker ? historyDatePicker.value : "selected date"}`;
+                curCounter.textContent = formatCounter(summary.totalActiveSeconds || 0);
+                curActivated.textContent = "Archived Record";
+                curUpdated.textContent = summary.totalActiveFormatted || formatDurationHuman(summary.totalActiveSeconds || 0);
             } else if (!hasLoadedFirstState && !latestState) {
                 curAppName.textContent = "Data loading...";
                 curAppCategory.textContent = "Connecting";
@@ -918,6 +925,27 @@ document.addEventListener("DOMContentLoaded", () => {
             if (deltaSwitches) deltaSwitches.style.display = "none";
         }
 
+        // Dynamic labels for Tile 1 and Tile 6 based on selected view
+        const idleTileLabel = document.getElementById("idle-tile-label");
+        const totalUsageTileLabel = document.getElementById("total-usage-tile-label");
+        const selectedVal = historyDatePicker ? historyDatePicker.value : "today";
+        if (idleTileLabel) {
+            if (selectedVal === "today") idleTileLabel.textContent = "Idle Time (Today)";
+            else if (selectedVal === "yesterday") idleTileLabel.textContent = "Idle Time (Yesterday)";
+            else if (selectedVal === "7days") idleTileLabel.textContent = "Idle Time (Past 7 Days)";
+            else if (selectedVal === "30days") idleTileLabel.textContent = "Idle Time (Past 30 Days)";
+            else if (selectedVal === "alltime") idleTileLabel.textContent = "Idle Time (All Time)";
+            else idleTileLabel.textContent = `Idle Time (${selectedVal})`;
+        }
+        if (totalUsageTileLabel) {
+            if (selectedVal === "today") totalUsageTileLabel.textContent = "Total Active Usage";
+            else if (selectedVal === "yesterday") totalUsageTileLabel.textContent = "Total Time (Yesterday)";
+            else if (selectedVal === "7days") totalUsageTileLabel.textContent = "Total Time (Past 7 Days)";
+            else if (selectedVal === "30days") totalUsageTileLabel.textContent = "Total Time (Past 30 Days)";
+            else if (selectedVal === "alltime") totalUsageTileLabel.textContent = "Total Time (All Time)";
+            else totalUsageTileLabel.textContent = `Total Time (${selectedVal})`;
+        }
+
         // Idle Time tile (accurate Active vs Idle ratio - no misleading 100% focus purity label)
         const idleSec = state.idleSeconds || 0;
         const idleTimeVal = document.getElementById("idle-time-val");
@@ -926,7 +954,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (idleTimeVal) idleTimeVal.textContent = formatDurationHuman(idleSec);
         if (idleStateText) {
             if (isHistoricalView) {
-                idleStateText.textContent = "Historical record";
+                idleStateText.textContent = idleSec > 0 ? ("Archived idle: " + formatDurationHuman(idleSec)) : "Archived record (idle unrecorded)";
                 idleStateText.style.color = "var(--text-muted)";
             } else if (idleSec >= 600) {
                 idleStateText.textContent = "Idle confirmed: " + formatDurationHuman(idleSec);
@@ -941,7 +969,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (idleRatioText) {
             const totalObserved = (summary.totalActiveSeconds || 0) + idleSec;
-            if (totalObserved > 0) {
+            if (isHistoricalView && idleSec === 0) {
+                idleRatioText.style.display = "inline-block";
+                idleRatioText.textContent = "Idle: Unrecorded";
+                idleRatioText.className = "kpi-delta-tag delta-neutral";
+            } else if (totalObserved > 0) {
                 const activePct = Math.round(((summary.totalActiveSeconds || 0) / totalObserved) * 100);
                 idleRatioText.style.display = "inline-block";
                 idleRatioText.textContent = `Active Ratio: ${activePct}% active`;
@@ -960,7 +992,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 4. Application Usage Table (Shows 4 most recent by default, More button to show all)
-        const appList = Array.isArray(apps) ? apps : Object.values(apps);
+        const rawApps = Array.isArray(apps) ? apps : Object.values(apps);
+        const appList = rawApps.filter(app => {
+            const n = String(app.name || "").trim();
+            return n && n !== "0" && !/^\d+$/.test(n);
+        });
         appList.sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0));
 
         // Scope filter helper: classify each app entry
@@ -1068,29 +1104,49 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             if (timelineCount) timelineCount.textContent = "0 events";
         } else {
-            if (timelineCount) timelineCount.textContent = `${timeline.length} events`;
             const reversed = [...timeline].reverse();
+            // Deduplicate consecutive identical items (e.g. from 1-second polling ticks)
+            const deduplicated = [];
+            reversed.forEach(item => {
+                const name = item.appName || item.name || item.AppName || "Application";
+                const title = item.title || item.domain || item.Title || name;
+                const durSec = item.durationSec || item.DurationSec || 0;
+                const prev = deduplicated[deduplicated.length - 1];
+                if (prev && prev.name === name && prev.title === title) {
+                    prev.durSec += durSec;
+                    prev.durFormatted = formatDurationHuman(prev.durSec);
+                } else {
+                    deduplicated.push({
+                        ...item,
+                        name,
+                        title,
+                        durSec,
+                        durFormatted: item.durationFormatted || item.DurationFormatted || formatDurationHuman(durSec)
+                    });
+                }
+            });
+
+            if (timelineCount) timelineCount.textContent = `${deduplicated.length} events`;
             let tlHtml = "";
 
             // Activity Stream search filter
             const tlSearchEl = document.getElementById("timeline-search");
             const tlSearchVal = tlSearchEl ? tlSearchEl.value.toLowerCase().trim() : "";
             const tlItems = tlSearchVal
-                ? reversed.filter(item => {
-                    const name = (item.appName || item.name || item.AppName || "").toLowerCase();
-                    const title = (item.title || item.Title || "").toLowerCase();
+                ? deduplicated.filter(item => {
+                    const name = (item.name || "").toLowerCase();
+                    const title = (item.title || "").toLowerCase();
                     const cat = (item.category || item.Category || "").toLowerCase();
                     return name.includes(tlSearchVal) || title.includes(tlSearchVal) || cat.includes(tlSearchVal);
                 })
-                : reversed;
+                : deduplicated;
 
             tlItems.slice(0, 40).forEach(item => {
-                const appName = item.appName || item.name || item.AppName || "Application";
+                const appName = item.name || "Application";
                 const timeVal = item.time || item.timeStr || item.Time || "";
-                const titleVal = item.title || item.domain || item.Title || appName;
-                const durSec = item.durationSec || item.DurationSec || 0;
-                const durFormatted = item.durationFormatted || item.DurationFormatted || formatDurationHuman(durSec);
-                const itemCat = displayCategory(item.category || item.Category || "Other", item.appName || item.AppName || "");
+                const titleVal = item.title || item.domain || appName;
+                const durFormatted = item.durFormatted || formatDurationHuman(item.durSec || 0);
+                const itemCat = displayCategory(item.category || item.Category || "Other", appName);
 
                 tlHtml += `
                     <div class="timeline-item">
@@ -1109,6 +1165,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             timelineContainer.innerHTML = tlHtml;
         }
+
+        // Keep Focus Panel in immediate lockstep with active state
+        renderFocusPanel(state);
     }
 
     /**
@@ -1426,16 +1485,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         getExtensionTelemetry(extRes => {
+            const isPaused = extRes && (extRes.isWindowFocused === false || extRes.isPaused === true || !extRes.currentWebsite);
+            const extTrackingLabel = isPaused ? "Connected (Tracking Standby/Paused)" : "Connected & Monitoring";
             if (daemonData && extRes && extRes.siteUsage && Object.keys(extRes.siteUsage).length > 0) {
                 hasLoadedFirstState = true;
                 const merged = mergeDaemonAndExtension(daemonData, extRes);
                 renderState(merged);
-                if (statusLabel) statusLabel.textContent = "Desktop Daemon & Browser Extension Connected";
+                if (statusLabel) statusLabel.textContent = `Desktop Daemon Connected | Browser Extension ${extTrackingLabel}`;
             } else if (extRes && (extRes.currentWebsite || (extRes.siteUsage && Object.keys(extRes.siteUsage).length > 0))) {
                 hasLoadedFirstState = true;
                 const extState = mapExtensionToState(extRes);
                 renderState(extState);
-                if (statusLabel) statusLabel.textContent = "Browser Extension Connected";
+                if (statusLabel) statusLabel.textContent = `Browser Extension ${extTrackingLabel}`;
             } else if (daemonData) {
                 hasLoadedFirstState = true;
                 renderState(daemonData);
@@ -1597,23 +1658,30 @@ document.addEventListener("DOMContentLoaded", () => {
         now.setDate(now.getDate() - 1);
         const yStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
         if (allHistory[yStr]) {
+            const day = allHistory[yStr];
+            const cleanApps = (day.appUsage || []).filter(a => {
+                const n = String(a.name || "").trim();
+                return n && n !== "0" && !/^\d+$/.test(n);
+            });
+            const top = cleanApps[0];
             return {
                 current: null,
                 previous: null,
                 summary: {
-                    totalActiveSeconds: allHistory[yStr].totalActiveSeconds || 0,
-                    totalActiveFormatted: allHistory[yStr].totalActiveFormatted || formatDurationHuman(allHistory[yStr].totalActiveSeconds || 0),
-                    totalSwitches: allHistory[yStr].totalSwitches || 0,
-                    distinctAppsCount: (allHistory[yStr].appUsage || []).length,
-                    mostUsedApp: (allHistory[yStr].appUsage && allHistory[yStr].appUsage[0]) ? {
-                        name: allHistory[yStr].appUsage[0].name,
-                        category: allHistory[yStr].appUsage[0].category,
-                        durationFormatted: formatDurationHuman(allHistory[yStr].appUsage[0].totalSeconds || 0),
-                        percentage: Math.round(((allHistory[yStr].appUsage[0].totalSeconds || 0) / Math.max(1, allHistory[yStr].totalActiveSeconds || 1)) * 100)
+                    totalActiveSeconds: day.totalActiveSeconds || 0,
+                    totalActiveFormatted: day.totalActiveFormatted || formatDurationHuman(day.totalActiveSeconds || 0),
+                    totalSwitches: day.totalSwitches || 0,
+                    distinctAppsCount: cleanApps.length,
+                    mostUsedApp: top ? {
+                        name: top.name,
+                        category: top.category,
+                        durationFormatted: formatDurationHuman(top.totalSeconds || 0),
+                        percentage: Math.round(((top.totalSeconds || 0) / Math.max(1, day.totalActiveSeconds || 1)) * 100)
                     } : null
                 },
-                appUsage: allHistory[yStr].appUsage || [],
-                timeline: allHistory[yStr].timeline || []
+                idleSeconds: day.totalIdleSec || day.idleSeconds || 0,
+                appUsage: cleanApps,
+                timeline: day.timeline || []
             };
         }
         return mapRangeHistory([yStr]);
@@ -1622,6 +1690,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function mapRangeHistory(targetDates) {
         let totalActiveSeconds = 0;
         let totalSwitches = 0;
+        let totalIdleSeconds = 0;
         const appMap = {};
         const timeline = [];
 
@@ -1630,9 +1699,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (day) {
                 totalActiveSeconds += (day.totalActiveSeconds || 0);
                 totalSwitches += (day.totalSwitches || 0);
+                totalIdleSeconds += (day.totalIdleSec || day.idleSeconds || 0);
                 (day.timeline || []).forEach(t => timeline.push(t));
                 (day.appUsage || []).forEach(a => {
-                    const key = a.name || "Unknown";
+                    const rawName = String(a.name || "").trim();
+                    if (!rawName || rawName === "0" || /^\d+$/.test(rawName)) return;
+                    const key = rawName;
                     if (!appMap[key]) {
                         appMap[key] = {
                             name: key,
@@ -1666,6 +1738,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 distinctAppsCount: appUsage.length,
                 mostUsedApp: mostUsedApp
             },
+            idleSeconds: totalIdleSeconds,
             appUsage: appUsage,
             timeline: timeline.slice(0, 200)
         };
@@ -1690,15 +1763,19 @@ document.addEventListener("DOMContentLoaded", () => {
     function mapAllTimeHistory() {
         let totalActiveSeconds = 0;
         let totalSwitches = 0;
+        let totalIdleSeconds = 0;
         const appMap = {};
         const timeline = [];
 
         Object.values(allHistory || {}).forEach(day => {
             totalActiveSeconds += (day.totalActiveSeconds || 0);
             totalSwitches += (day.totalSwitches || 0);
+            totalIdleSeconds += (day.totalIdleSec || day.idleSeconds || 0);
             (day.timeline || []).forEach(t => timeline.push(t));
             (day.appUsage || []).forEach(a => {
-                const key = a.name || "Unknown";
+                const rawName = String(a.name || "").trim();
+                if (!rawName || rawName === "0" || /^\d+$/.test(rawName)) return;
+                const key = rawName;
                 if (!appMap[key]) {
                     appMap[key] = { name: key, category: a.category || "Other", totalSeconds: 0, switchCount: 0 };
                 }
@@ -1726,6 +1803,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 distinctAppsCount: appUsage.length,
                 mostUsedApp: mostUsedApp
             },
+            idleSeconds: totalIdleSeconds,
             appUsage: appUsage,
             timeline: timeline.slice(0, 200)
         };
@@ -1740,27 +1818,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (statusLabel) statusLabel.textContent = isDaemonConnected ? "Desktop Daemon Connected" : "Browser Extension Connected";
             } else if (val === "yesterday") {
                 isHistoricalView = true;
-                renderState(mapYesterdayHistory());
-                renderFocusPanel();
+                const state = mapYesterdayHistory();
+                renderState(state);
+                renderFocusPanel(state);
                 if (statusLabel) statusLabel.textContent = "Historical View: Yesterday";
             } else if (val === "7days") {
                 isHistoricalView = true;
-                renderState(mapPastDays(7));
-                renderFocusPanel();
+                const state = mapPastDays(7);
+                renderState(state);
+                renderFocusPanel(state);
                 if (statusLabel) statusLabel.textContent = "Historical View: Past 7 Days";
             } else if (val === "30days") {
                 isHistoricalView = true;
-                renderState(mapPastDays(30));
-                renderFocusPanel();
+                const state = mapPastDays(30);
+                renderState(state);
+                renderFocusPanel(state);
                 if (statusLabel) statusLabel.textContent = "Historical View: Past 30 Days";
             } else if (val === "alltime") {
                 isHistoricalView = true;
-                renderState(mapAllTimeHistory());
-                renderFocusPanel();
+                const state = mapAllTimeHistory();
+                renderState(state);
+                renderFocusPanel(state);
                 if (statusLabel) statusLabel.textContent = "Historical View: All Time (All Days)";
             } else if (allHistory[val]) {
                 isHistoricalView = true;
                 const histDay = allHistory[val];
+                const cleanApps = (histDay.appUsage || []).filter(a => {
+                    const n = String(a.name || "").trim();
+                    return n && n !== "0" && !/^\d+$/.test(n);
+                });
                 const mappedHist = {
                     current: null,
                     previous: null,
@@ -1768,19 +1854,20 @@ document.addEventListener("DOMContentLoaded", () => {
                         totalActiveSeconds: histDay.totalActiveSeconds || 0,
                         totalActiveFormatted: histDay.totalActiveFormatted || formatDurationHuman(histDay.totalActiveSeconds || 0),
                         totalSwitches: histDay.totalSwitches || 0,
-                        distinctAppsCount: histDay.distinctAppsCount || (histDay.appUsage ? histDay.appUsage.length : 0),
-                        mostUsedApp: histDay.appUsage && histDay.appUsage.length > 0 ? {
-                            name: histDay.appUsage[0].name,
-                            category: histDay.appUsage[0].category,
-                            durationFormatted: formatDurationHuman(histDay.appUsage[0].totalSeconds),
-                            percentage: Math.round(((histDay.appUsage[0].totalSeconds || 0) / Math.max(1, histDay.totalActiveSeconds || 1)) * 100)
+                        distinctAppsCount: cleanApps.length,
+                        mostUsedApp: cleanApps.length > 0 ? {
+                            name: cleanApps[0].name,
+                            category: cleanApps[0].category,
+                            durationFormatted: formatDurationHuman(cleanApps[0].totalSeconds),
+                            percentage: Math.round(((cleanApps[0].totalSeconds || 0) / Math.max(1, histDay.totalActiveSeconds || 1)) * 100)
                         } : null
                     },
-                    appUsage: histDay.appUsage || [],
+                    idleSeconds: histDay.totalIdleSec || histDay.idleSeconds || 0,
+                    appUsage: cleanApps,
                     timeline: histDay.timeline || []
                 };
                 renderState(mappedHist);
-                renderFocusPanel();
+                renderFocusPanel(mappedHist);
                 if (statusLabel) statusLabel.textContent = `Historical View: ${val}`;
             }
         });
@@ -1933,15 +2020,18 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ========================================================================
        FOCUS PANEL: live score + time-loss breakdown + AI JSON summary
        ======================================================================== */
-    function renderFocusPanel() {
-        if (!latestState) return;
-        const summary = latestState.summary || {};
+    function renderFocusPanel(targetState) {
+        const stateToUse = targetState || currentActiveViewState || latestState;
+        if (!stateToUse) return;
+        const summary = stateToUse.summary || {};
         const totalActiveSec = summary.totalActiveSeconds || 0;
         const panelCalibrating = totalActiveSec < 60 && !isHistoricalView;
-        const score = computeFocusScore(latestState);
+        const breakdown = computeFocusBreakdown(stateToUse);
+        const score = breakdown.score;
         const g = focusGrade(score);
         const fsScore = document.getElementById("fs-score");
         const fsGrade = document.getElementById("fs-grade");
+        const fsJsonLabel = document.getElementById("fs-json-label");
         if (panelCalibrating) {
             if (fsScore) fsScore.textContent = "--";
             if (fsGrade) {
@@ -1958,8 +2048,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 fsGrade.style.color = g.color;
                 fsGrade.style.borderColor = g.color + "40";
             }
+            if (fsJsonLabel) {
+                fsJsonLabel.textContent = `Time-Loss JSON Summary & Attention Audit (${g.label} Focus - ${score}/100)`;
+            }
         }
-        const apps = latestState.appUsage || [];
+        const apps = stateToUse.appUsage || [];
         let entSec = 0, commSec = 0;
         apps.forEach(a => {
             const cat = displayCategory(a.category, a.name);
@@ -1967,10 +2060,21 @@ document.addEventListener("DOMContentLoaded", () => {
             if (cat.label === "Communication") commSec += (a.totalSeconds || 0);
         });
         const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
-        el("fs-switches", latestState.summary ? latestState.summary.totalSwitches : 0);
-        el("fs-idle", formatDurationHuman(latestState.idleSeconds || 0));
+        el("fs-switches", stateToUse.summary ? (stateToUse.summary.totalSwitches !== undefined ? stateToUse.summary.totalSwitches : 0) : 0);
+        el("fs-idle", formatDurationHuman(stateToUse.idleSeconds || 0));
         el("fs-ent", formatDurationHuman(entSec));
         el("fs-comm", formatDurationHuman(commSec));
+
+        // Keep audit cards and JSON in sync if already displayed
+        const fsWrap = document.getElementById("fs-json-wrap");
+        if (fsWrap && fsWrap.style.display !== "none" && document.getElementById("fs-audit-cards")) {
+            renderAuditCards(stateToUse, breakdown);
+            const fsJson = document.getElementById("fs-json");
+            if (fsJson) {
+                const summaryObj = buildTimeLossJson(stateToUse);
+                fsJson.textContent = JSON.stringify(summaryObj, null, 2);
+            }
+        }
 
         // Readiness badges
         const fsReady = document.getElementById("fs-readiness");
