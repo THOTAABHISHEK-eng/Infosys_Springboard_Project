@@ -262,39 +262,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Focus Score: starts at 100
-    // -20 : too much tab switching  (> 20 switches today)
-    // -5  : communication used
-    // -N  : entertainment reduces score proportionally to its share ("reduce all")
-    // -10 : idle for 10 minutes or more
+    // Standardized Deduction Breakdown Engine
     function computeFocusScore(state) {
-        if (!state) return { score: 100, isCalibrating: true, elapsed: 0 };
+        if (!state) return { score: 100, isCalibrating: true, elapsed: 0, deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0 } };
         const switches = state.totalTabSwitches || 0;
         const siteUsage = state.siteUsage || {};
         const sites = Object.values(siteUsage);
         const totalActiveSec = sites.reduce((acc, s) => acc + (s.totalSec || 0), 0);
 
         if (totalActiveSec < 60) {
-            return { score: 100, isCalibrating: true, elapsed: totalActiveSec };
+            return { score: 100, isCalibrating: true, elapsed: totalActiveSec, deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0 } };
         }
 
-        let score = 100;
-        let entertainmentSec = 0;
-        let communicationSec = 0;
+        let distractSec = 0;
         sites.forEach(s => {
             const cat = guessCategory(s.domain, s.name);
             const sec = s.totalSec || 0;
-            if (cat === "Entertainment") entertainmentSec += sec;
-            if (cat === "Communication") communicationSec += sec;
+            if (cat === "Entertainment" || cat === "Social Media" || cat === "Shopping") {
+                distractSec += sec;
+            }
         });
 
-        if (switches > 20) score -= 20;
-        if (communicationSec > 0) score -= 5;
-        score -= Math.round((entertainmentSec / Math.max(1, totalActiveSec)) * 30);
+        // 1. Tab switching (0 to 20 pts)
+        let tabDeduction = 0;
+        if (switches > 50) tabDeduction = 20;
+        else if (switches > 25) tabDeduction = 15;
+        else if (switches > 10) tabDeduction = 10;
+        else if (switches > 5) tabDeduction = 5;
 
+        // 2. Category usage (0 to 30 pts)
+        const distractRatio = totalActiveSec > 0 ? (distractSec / totalActiveSec) : 0;
+        const categoryDeduction = Math.min(30, Math.round(distractRatio * 35));
+
+        // 3. Idle time (0 to 20 pts)
         const idleSec = state.totalIdleSec || 0;
-        if (idleSec >= 600) score -= 10;
+        const totalTime = Math.max(1, totalActiveSec + idleSec);
+        const idleRatio = (idleSec / totalTime) * 100;
+        let idleDeduction = 0;
+        if (idleRatio >= 35) idleDeduction = 20;
+        else if (idleRatio >= 20) idleDeduction = 15;
+        else if (idleRatio >= 10) idleDeduction = 10;
+        else if (idleRatio >= 5) idleDeduction = 5;
 
-        return { score: Math.max(0, Math.min(100, Math.round(score))), isCalibrating: false, elapsed: totalActiveSec };
+        // 4. Focus sessions / dwell depth (0 to 20 pts)
+        const avgDwell = totalActiveSec / Math.max(1, switches + 1);
+        let focusSessionDeduction = 0;
+        if (avgDwell < 30) focusSessionDeduction = 20;
+        else if (avgDwell < 60) focusSessionDeduction = 15;
+        else if (avgDwell < 120) focusSessionDeduction = 10;
+
+        const deductions = {
+            tab_switching: tabDeduction,
+            category_usage: categoryDeduction,
+            idle_time: idleDeduction,
+            focus_sessions: focusSessionDeduction
+        };
+        const totalDeduction = tabDeduction + categoryDeduction + idleDeduction + focusSessionDeduction;
+        const score = Math.max(10, Math.min(100, 100 - totalDeduction));
+
+        return {
+            score: score,
+            isCalibrating: false,
+            elapsed: totalActiveSec,
+            deductions: deductions,
+            idleRatio: idleRatio.toFixed(2) + "%"
+        };
     }
 
     function focusGradeLabel(score) {

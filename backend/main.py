@@ -3,15 +3,26 @@ FastAPI Main Application Server
 AI-Powered Digital Attention Management System REST API
 """
 
-from fastapi import FastAPI, Depends, HTTPException, Query
+from datetime import datetime, date
+from typing import Any, Dict, List, Optional
+from urllib.parse import urlparse, urlunparse
+
+from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from typing import List, Dict, Any, Optional
-from datetime import datetime, date
 
-from .database import engine, get_db, Base
-from .models import ActivityRecord, FocusSession, DistractionEvent, CategoryOverride
+from .database import Base, engine, get_db
 from .ml_engine import MLAttentionEngine
+from .models import ActivityRecord, CategoryOverride, DistractionEvent, FocusSession
+
+
+def strip_url(url: str) -> str:
+    """Strips query parameters and fragments from URL for clean privacy-safe storage."""
+    if not url:
+        return ""
+    p = urlparse(url)
+    return urlunparse((p.scheme, p.netloc, p.path, "", "", ""))
+
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -33,6 +44,7 @@ app.add_middleware(
 
 ml_engine = MLAttentionEngine()
 
+
 @app.get("/api/health")
 def health_check():
     return {
@@ -41,13 +53,19 @@ def health_check():
         "timestamp": datetime.utcnow().isoformat()
     }
 
+
 @app.post("/api/activities")
 def create_activity(data: Dict[str, Any], db: Session = Depends(get_db)):
-    """
-    Ingests activity records from Browser Extension or Web Dashboard
-    """
+    """Ingests activity records from Browser Extension or Web Dashboard."""
     event_id = data.get("eventId") or data.get("event_id") or f"evt_{int(datetime.utcnow().timestamp())}"
-    
+
+    # Duration validation
+    dur = data.get("durationSeconds") if "durationSeconds" in data else data.get("duration_seconds", 1)
+    if dur is not None and (dur < 0 or dur > 86400):
+        raise HTTPException(status_code=422, detail="Duration must be between 0 and 86400 seconds")
+
+    clean_url = strip_url(data.get("url", ""))
+
     # Check if duplicate
     existing = db.query(ActivityRecord).filter(ActivityRecord.event_id == event_id).first()
     if existing:
@@ -60,11 +78,11 @@ def create_activity(data: Dict[str, Any], db: Session = Depends(get_db)):
         tab_id=data.get("tabId") or data.get("tab_id", 1),
         website_name=data.get("websiteName") or data.get("website_name", "Unknown"),
         domain=data.get("domain", "unknown"),
-        url=data.get("url", ""),
+        url=clean_url,
         event_type=data.get("eventType") or data.get("event_type", "TAB_DWELL"),
         category=data.get("category", "OTHER"),
         is_productive=data.get("isProductive") if "isProductive" in data else data.get("is_productive", True),
-        duration_seconds=data.get("durationSeconds") or data.get("duration_seconds", 1),
+        duration_seconds=dur if dur is not None else 1,
         timestamp=datetime.utcnow()
     )
 
@@ -73,12 +91,12 @@ def create_activity(data: Dict[str, Any], db: Session = Depends(get_db)):
     db.refresh(record)
     return {"status": "created", "id": record.id, "event_id": record.event_id}
 
+
 @app.get("/api/activities/today")
 def get_today_activities(db: Session = Depends(get_db)):
-    """
-    Aggregated telemetry for the current calendar day
-    """
-    records = db.query(ActivityRecord).all()
+    """Aggregated telemetry for the current calendar day."""
+    today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    records = db.query(ActivityRecord).filter(ActivityRecord.timestamp >= today_start).all()
     total_seconds = sum(r.duration_seconds for r in records)
     total_switches = len(records)
     unique_domains = len(set(r.domain for r in records))
@@ -96,10 +114,26 @@ def get_today_activities(db: Session = Depends(get_db)):
         "record_count": len(records)
     }
 
+
 @app.post("/api/focus/session")
 def save_focus_session(data: Dict[str, Any], db: Session = Depends(get_db)):
     session_id = data.get("id") or f"focus_{int(datetime.utcnow().timestamp())}"
-    
+
+    # Parse custom start/end time if caller provides it
+    start_time = datetime.utcnow()
+    if data.get("startTime"):
+        try:
+            start_time = datetime.fromisoformat(data["startTime"])
+        except ValueError:
+            pass
+
+    end_time = datetime.utcnow()
+    if data.get("endTime"):
+        try:
+            end_time = datetime.fromisoformat(data["endTime"])
+        except ValueError:
+            pass
+
     session = FocusSession(
         session_id=session_id,
         goal=data.get("goal", "Deep Focus"),
@@ -108,14 +142,15 @@ def save_focus_session(data: Dict[str, Any], db: Session = Depends(get_db)):
         interruptions_count=data.get("interruptions", 0),
         focus_score=data.get("focusScore", 100.0),
         status=data.get("status", "COMPLETED"),
-        start_time=datetime.utcnow(),
-        end_time=datetime.utcnow()
+        start_time=start_time,
+        end_time=end_time
     )
 
     db.add(session)
     db.commit()
     db.refresh(session)
     return {"status": "saved", "session_id": session.session_id}
+
 
 @app.get("/api/focus/history")
 def get_focus_history(db: Session = Depends(get_db)):
@@ -128,8 +163,10 @@ def get_focus_history(db: Session = Depends(get_db)):
         "interruptions": s.interruptions_count,
         "focus_score": s.focus_score,
         "status": s.status,
-        "start_time": s.start_time.isoformat()
+        "start_time": s.start_time.isoformat(),
+        "end_time": s.end_time.isoformat()
     } for s in sessions]
+
 
 @app.post("/api/distractions")
 def log_distraction(data: Dict[str, Any], db: Session = Depends(get_db)):
@@ -146,6 +183,7 @@ def log_distraction(data: Dict[str, Any], db: Session = Depends(get_db)):
     db.refresh(event)
     return {"status": "logged", "id": event.id}
 
+
 @app.get("/api/distractions")
 def get_distractions(limit: int = 20, db: Session = Depends(get_db)):
     events = db.query(DistractionEvent).order_by(DistractionEvent.timestamp.desc()).limit(limit).all()
@@ -159,11 +197,10 @@ def get_distractions(limit: int = 20, db: Session = Depends(get_db)):
         "timestamp": e.timestamp.isoformat()
     } for e in events]
 
+
 @app.get("/api/ml/analyze")
 def run_ml_analysis(db: Session = Depends(get_db)):
-    """
-    Executes K-Means behavioral clustering on real stored activity records
-    """
+    """Executes K-Means behavioral clustering on real stored activity records."""
     records = db.query(ActivityRecord).all()
     activity_dicts = [{
         "duration_seconds": r.duration_seconds,
@@ -174,6 +211,7 @@ def run_ml_analysis(db: Session = Depends(get_db)):
 
     analysis = ml_engine.analyze(activity_dicts)
     return analysis
+
 
 @app.post("/api/settings/override")
 def set_category_override(data: Dict[str, Any], db: Session = Depends(get_db)):
@@ -196,15 +234,18 @@ def set_category_override(data: Dict[str, Any], db: Session = Depends(get_db)):
     db.commit()
     return {"status": "saved", "domain": domain}
 
+
 @app.delete("/api/data/clear")
-def clear_all_data(db: Session = Depends(get_db)):
+def clear_all_data(x_confirm_clear: Optional[str] = Header(None), db: Session = Depends(get_db)):
+    if x_confirm_clear != "yes":
+        raise HTTPException(status_code=400, detail="Missing confirmation header: X-Confirm-Clear: yes")
     db.query(ActivityRecord).delete()
     db.query(FocusSession).delete()
     db.query(DistractionEvent).delete()
     db.commit()
     return {"status": "cleared", "message": "All database records have been wiped."}
 
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("backend.main:app", host="127.0.0.1", port=8000, reload=True)
-

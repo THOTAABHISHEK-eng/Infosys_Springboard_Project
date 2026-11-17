@@ -170,9 +170,9 @@ function Resolve-AppDetails($processName, $rawTitle) {
     # Infer real category from browser site identity (overrides "Web Browser")
     if ($procLower -in @("brave", "chrome", "msedge", "firefox") -and $finalAppName -ne $name) {
         $siteLower = $siteIdentity.ToLower()
-        if ($siteLower -match "youtube|netflix|spotify|twitch|disney|prime video|hotstar|crunchyroll|anime|hulu|peacock") {
+        if ($siteLower -match "youtube|netflix|spotify|redflix|twitch|disney|prime video|hotstar|crunchyroll|anime|hulu|peacock|cinema|movie|stream|video") {
             $category = "Entertainment"
-        } elseif ($siteLower -match "github|stackoverflow|stack overflow|chatgpt|gemini|copilot|replit|codepen|leetcode|vercel|netlify|npm|openai|figma") {
+        } elseif ($siteLower -match "github|stackoverflow|stack overflow|chatgpt|claude|gemini|copilot|replit|codepen|leetcode|vercel|netlify|npm|openai|figma") {
             $category = "Development"
         } elseif ($siteLower -match "coursera|udemy|khan|wikipedia|infosys|w3schools|mdn|freecodecamp|chess|typeracer|duolingo|edx|skillshare|typing|tutorial") {
             $category = "Learning"

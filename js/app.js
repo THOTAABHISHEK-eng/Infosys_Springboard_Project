@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const prodSummary = document.getElementById("cat-productivity-summary");
         if (!chipsGrid) return;
 
-        // Tally dwell for all 9 categories
+        // Tally dwell for all 10 unified categories
         const catTotals = {
             Development: 0,
             Learning: 0,
@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Social Media": 0,
             Shopping: 0,
             News: 0,
+            Utilities: 0,
             Other: 0
         };
 
@@ -150,11 +151,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const effectiveTotal = Math.max(1, totalSec || Object.values(catTotals).reduce((s, v) => s + v, 0));
         const productiveSec = catTotals.Development + catTotals.Learning + catTotals.Professional;
-        const prodPct = Math.round((productiveSec / effectiveTotal) * 100);
+        const rawProdPct = (productiveSec / effectiveTotal) * 100;
+        let prodPctDisplay = Math.round(rawProdPct) + "%";
+        if (rawProdPct > 0 && rawProdPct < 1) {
+            prodPctDisplay = rawProdPct.toFixed(1) + "%";
+        }
 
         if (prodSummary) {
-            prodSummary.textContent = `Productive Dwell: ${prodPct}%`;
-            prodSummary.style.color = prodPct >= 60 ? "var(--accent-emerald)" : prodPct >= 35 ? "#38bdf8" : "#f59e0b";
+            prodSummary.textContent = `Productive Dwell: ${prodPctDisplay}`;
+            prodSummary.style.color = rawProdPct >= 60 ? "var(--accent-emerald)" : rawProdPct >= 35 ? "#38bdf8" : "#f59e0b";
         }
 
         // Render Multi-Color Horizontal Stacked Progress Bar
@@ -166,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Object.entries(catTotals).forEach(([catName, sec]) => {
                     if (sec > 0) {
                         const pct = Math.max(1, Math.round((sec / effectiveTotal) * 100));
-                        const color = CAT_DISPLAY[catName].color;
+                        const color = (CAT_DISPLAY[catName] && CAT_DISPLAY[catName].color) || "#64748b";
                         barHtml += `<div title="${catName}: ${formatDurationHuman(sec)} (${pct}%)" style="width: ${pct}%; background: ${color}; transition: width 0.3s ease;"></div>`;
                     }
                 });
@@ -174,11 +179,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // Render 9 Category Chips
+        // Render Category Chips
         let chipsHtml = "";
         Object.entries(CAT_DISPLAY).forEach(([catName, catInfo]) => {
             const sec = catTotals[catName] || 0;
-            const pct = Math.round((sec / effectiveTotal) * 100);
+            let pctDisplay = Math.round((sec / effectiveTotal) * 100) + "%";
+            if (sec > 0 && Math.round((sec / effectiveTotal) * 100) === 0) {
+                pctDisplay = "<1%";
+            }
             const isProd = PRODUCTIVE_CATEGORIES.includes(catName);
             const isActive = activeCatFilter === catName;
             chipsHtml += `
@@ -188,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <span class="cat-chip-dot" style="background: ${catInfo.color};"></span>
                             ${catName}
                         </span>
-                        <span class="cat-chip-pct">${pct}%</span>
+                        <span class="cat-chip-pct">${pctDisplay}</span>
                     </div>
                     <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 2px;">
                         <span class="cat-chip-val">${formatDurationHuman(sec)}</span>
@@ -248,9 +256,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ========================================================================
-       10 USER-FACING DISTRACTION CATEGORIES
+       UNIFIED 10-CATEGORY SYSTEM
        Development, Learning, Professional, Communication, Entertainment,
-       Social Media, Shopping, News, Other
+       Social Media, Shopping, News, Utilities, Other
        ======================================================================== */
     const CAT_DISPLAY = {
         Development: { label: "Development", color: "#3b82f6" },
@@ -261,6 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Social Media": { label: "Social Media", color: "#ec4899" },
         Shopping: { label: "Shopping", color: "#eab308" },
         News: { label: "News", color: "#6366f1" },
+        Utilities: { label: "Utilities", color: "#14b8a6" },
         Other: { label: "Other", color: "#64748b" }
     };
 
@@ -271,6 +280,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const direct = CAT_DISPLAY[cat];
         if (direct) return direct;
         const c = cat.toLowerCase();
+        const n = (appName || "").toLowerCase();
+
+        // Check streaming / entertainment keywords first across both title & app name
+        if (n.match(/youtube|netflix|spotify|redflix|hotstar|crunchyroll|anime|disney|hulu|peacock|twitch|movie|stream|cinema|tv|video/)) return CAT_DISPLAY.Entertainment;
+        if (n.match(/github|stackoverflow|chatgpt|claude|gemini|copilot|leetcode|codepen|openai|replit|vercel|netlify|figma|vs code|code/)) return CAT_DISPLAY.Development;
+        if (n.match(/coursera|udemy|khan|wikipedia|chess|typeracer|duolingo|freecodecamp|infosys|w3schools|mdn|typing|tutorial/)) return CAT_DISPLAY.Learning;
+        if (n.match(/whatsapp|discord|slack|gmail|teams|zoom|telegram|meet|skype|mail/)) return CAT_DISPLAY.Communication;
+        if (n.match(/linkedin|notion|drive|trello|jira|asana|canva|docs|sheets|slides|calendar|sharepoint/)) return CAT_DISPLAY.Professional;
+        if (n.match(/instagram|twitter|x\.com|facebook|reddit|snapchat|tiktok|pinterest/)) return CAT_DISPLAY["Social Media"];
+        if (n.match(/amazon|flipkart|ebay|shopping|store|cart|myntra|meesho|etsy|walmart/)) return CAT_DISPLAY.Shopping;
+        if (n.match(/news|bbc|cnn|times|techcrunch|wired|guardian|bloomberg|reuters|hindu/)) return CAT_DISPLAY.News;
+        if (n.match(/terminal|powershell|cmd|notepad|settings|explorer|calculator/)) return CAT_DISPLAY.Utilities;
+
         if (c === "development") return CAT_DISPLAY.Development;
         if (c === "learning" || c === "education") return CAT_DISPLAY.Learning;
         if (c === "professional" || c === "productivity") return CAT_DISPLAY.Professional;
@@ -279,53 +301,154 @@ document.addEventListener("DOMContentLoaded", () => {
         if (c === "social media") return CAT_DISPLAY["Social Media"];
         if (c === "shopping") return CAT_DISPLAY.Shopping;
         if (c === "news") return CAT_DISPLAY.News;
-        if (c === "web browser") {
-            const n = (appName || "").toLowerCase();
-            if (n.match(/youtube|netflix|spotify|twitch|crunchyroll|anime|disney|hotstar|hulu|peacock/)) return CAT_DISPLAY.Entertainment;
-            if (n.match(/github|stackoverflow|chatgpt|gemini|copilot|leetcode|codepen|openai|replit|vercel|netlify|figma/)) return CAT_DISPLAY.Development;
-            if (n.match(/coursera|udemy|khan|wikipedia|chess|typeracer|duolingo|freecodecamp|infosys|w3schools|mdn|typing|tutorial/)) return CAT_DISPLAY.Learning;
-            if (n.match(/whatsapp|discord|slack|gmail|teams|zoom|telegram|meet|skype|mail/)) return CAT_DISPLAY.Communication;
-            if (n.match(/linkedin|notion|drive|trello|jira|asana|canva|docs|sheets|slides|calendar|sharepoint/)) return CAT_DISPLAY.Professional;
-            if (n.match(/instagram|twitter|x\.com|facebook|reddit|snapchat|tiktok|pinterest/)) return CAT_DISPLAY["Social Media"];
-            if (n.match(/amazon|flipkart|ebay|shopping|store|cart|myntra|meesho|etsy|walmart/)) return CAT_DISPLAY.Shopping;
-            if (n.match(/news|bbc|cnn|times|techcrunch|wired|guardian|bloomberg|reuters|hindu/)) return CAT_DISPLAY.News;
-            return CAT_DISPLAY.Other;
-        }
-        if (c === "utilities" || c === "system" || c === "general application") return CAT_DISPLAY.Other;
+        if (c === "utilities") return CAT_DISPLAY.Utilities;
+        if (c === "system" || c === "general application") return CAT_DISPLAY.Utilities;
         return CAT_DISPLAY.Other;
     }
 
     /* ========================================================================
-       FOCUS SCORE
-       Starts at 100.
-       -20 : too much tab switching (> 20 switches today)
-       -5  : any communication time
-       -N  : entertainment reduces score proportionally to its share
-       -10 : idle for 10 minutes or more
-       Grades: >80 Excellent, 60-79 Good, 40-59 Fair, <40 Needs Work
+       TRANSPARENT FOCUS SCORE & DEDUCTION BREAKDOWN ENGINE
+       Base score: 100
+       Deductions:
+       - Tab switching (0 to 20 pts)
+       - Category usage (Entertainment/Social Media/Shopping: 0 to 30 pts)
+       - Idle time ratio (0 to 20 pts)
+       - Focus sessions / dwell depth (0 to 20 pts)
        ======================================================================== */
-    function computeFocusScore(state) {
-        if (!state) return 100;
-        let score = 100;
+    function computeFocusBreakdown(state) {
+        if (!state) {
+            return {
+                score: 100,
+                classification: "Excellent",
+                deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0 },
+                totalDeductions: 0,
+                sessionType: "Focused Session (0 items)",
+                inTabIdleRatio: "0.00%",
+                analysis: "No activity records detected yet.",
+                recommendations: ["Maintain a focused workflow with structured Pomodoro intervals."],
+                topDistractionSite: null
+            };
+        }
         const summary = state.summary || {};
-        const switches = summary.totalSwitches || 0;
+        const switches = summary.totalSwitches !== undefined ? summary.totalSwitches : 0;
         const apps = state.appUsage || [];
-        let totalSec = 0;
-        let entSec = 0;
-        let commSec = 0;
+        let totalActiveSec = 0;
+        let distractSec = 0;
+        let topDistractionSite = null;
+        let maxDistractSec = 0;
+
         apps.forEach(a => {
             const sec = a.totalSeconds || 0;
-            totalSec += sec;
+            totalActiveSec += sec;
             const cat = displayCategory(a.category, a.name);
-            if (cat.label === "Entertainment") entSec += sec;
-            if (cat.label === "Communication") commSec += sec;
+            if (cat.label === "Entertainment" || cat.label === "Social Media" || cat.label === "Shopping") {
+                distractSec += sec;
+                if (sec > maxDistractSec) {
+                    maxDistractSec = sec;
+                    topDistractionSite = a.name;
+                }
+            }
         });
-        if (switches > 20) score -= 20;
-        if (commSec > 0) score -= 5;
-        score -= Math.round((entSec / Math.max(1, totalSec)) * 30);
-        const idleSec = state.idleSeconds || 0;
-        if (idleSec >= 600) score -= 10;
-        return Math.max(0, Math.min(100, Math.round(score)));
+
+        const idleSec = state.idleSeconds || state.totalIdleSec || 0;
+        const totalTimeSec = Math.max(1, totalActiveSec + idleSec);
+        const idleRatio = (idleSec / totalTimeSec) * 100;
+
+        // 1. Tab switching deduction (0 to 20 pts)
+        let tabDeduction = 0;
+        if (switches > 50) tabDeduction = 20;
+        else if (switches > 25) tabDeduction = 15;
+        else if (switches > 10) tabDeduction = 10;
+        else if (switches > 5) tabDeduction = 5;
+
+        // 2. Category usage deduction (0 to 30 pts)
+        const distractRatio = totalActiveSec > 0 ? (distractSec / totalActiveSec) : 0;
+        const categoryDeduction = Math.min(30, Math.round(distractRatio * 35));
+
+        // 3. Idle time deduction (0 to 20 pts)
+        let idleDeduction = 0;
+        if (idleRatio >= 35) idleDeduction = 20;
+        else if (idleRatio >= 20) idleDeduction = 15;
+        else if (idleRatio >= 10) idleDeduction = 10;
+        else if (idleRatio >= 5) idleDeduction = 5;
+
+        // 4. Focus sessions / dwell depth (0 to 20 pts)
+        const avgDwell = totalActiveSec / Math.max(1, switches + 1);
+        let focusSessionDeduction = 0;
+        if (avgDwell < 30) focusSessionDeduction = 20;
+        else if (avgDwell < 60) focusSessionDeduction = 15;
+        else if (avgDwell < 120) focusSessionDeduction = 10;
+
+        const deductions = {
+            tab_switching: tabDeduction,
+            category_usage: categoryDeduction,
+            idle_time: idleDeduction,
+            focus_sessions: focusSessionDeduction
+        };
+        const totalDeductions = tabDeduction + categoryDeduction + idleDeduction + focusSessionDeduction;
+        const score = Math.max(10, Math.min(100, 100 - totalDeductions));
+
+        let classification = "Average";
+        if (score >= 85) classification = "Excellent";
+        else if (score >= 70) classification = "Good";
+        else if (score >= 50) classification = "Average";
+        else classification = "Poor";
+
+        const totalItems = apps.length || 1;
+        const sessionType = (totalItems > 10 || switches > 20) ? `Multi-Tab Session (${totalItems} items)` : `Focused Session (${totalItems} items)`;
+
+        // Narrative Analysis explaining exactly where marks were lost
+        const reasons = [];
+        if (tabDeduction > 0) reasons.push(`heavy tab switching (-${tabDeduction} points)`);
+        if (categoryDeduction > 0) reasons.push(`distraction category usage (-${categoryDeduction} points)`);
+        if (idleDeduction > 0) reasons.push(`significant idle time (-${idleDeduction} points)`);
+        if (focusSessionDeduction > 0) reasons.push(`a lack of tracked focus sessions (-${focusSessionDeduction} points)`);
+
+        let analysis = "";
+        if (reasons.length > 0) {
+            analysis = `The user's focus score decreased due to ${reasons.join(", ")}.`;
+            if (topDistractionSite) {
+                const mins = Math.round(maxDistractSec / 60);
+                analysis += ` Distractions were primarily driven by non-productive browsing on ${topDistractionSite}${mins > 0 ? ` (${mins}m)` : ""}, which accounted for the bulk of distraction duration.`;
+            }
+        } else {
+            analysis = "The user maintained optimal focus with zero deductions across all monitored metrics. Browsing was disciplined with strong dwell times and minimal cognitive reorientation.";
+        }
+
+        // Varied recommendations (ALWAYS POPULATED, IRRESPECTIVE OF FOCUS SCORE)
+        const recs = [];
+        if (focusSessionDeduction > 0) recs.push("Integrate a Pomodoro focus timer into your routine to structure work intervals and properly log focus sessions.");
+        if (tabDeduction > 0) recs.push("Minimize frequent tab switching by closing unrelated tabs and focusing on a single task at a time.");
+        if (idleDeduction > 0) recs.push("Reduce idle time by setting clear session goals and taking designated breaks rather than drifting between tabs.");
+        if (categoryDeduction > 0 && topDistractionSite) recs.push(`Limit visits to entertainment sites like ${topDistractionSite} during active work periods to maintain continuous concentration.`);
+
+        if (recs.length < 4) {
+            if (score >= 80) {
+                recs.push("Protect your high flow state by pre-scheduling dedicated 45-minute deep work intervals.");
+                recs.push("Take structured 5-minute cognitive rest breaks between major research milestones.");
+                recs.push("Consolidate open tabs into browser tab groups at the end of each session to prevent cognitive clutter.");
+                recs.push("Mute non-critical instant messaging notifications during peak concentration periods.");
+            } else {
+                recs.push("Group tabs by task using Chrome Tab Groups to maintain clear mental boundaries.");
+                recs.push("Keep a single primary application in the foreground and minimize background distractions.");
+            }
+        }
+
+        return {
+            score,
+            classification,
+            deductions,
+            totalDeductions,
+            sessionType,
+            inTabIdleRatio: `${idleRatio.toFixed(2)}%`,
+            analysis,
+            recommendations: recs.slice(0, 4),
+            topDistractionSite
+        };
+    }
+
+    function computeFocusScore(state) {
+        return computeFocusBreakdown(state).score;
     }
 
     function focusGrade(score) {
@@ -434,16 +557,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 category: displayCategory(a.category, a.name).label,
                 seconds: a.totalSeconds || 0
             }));
+
+        const breakdown = computeFocusBreakdown(state);
+
         return {
             generatedAt: new Date().toISOString(),
             totalActiveSeconds: total,
             totalActiveFormatted: formatDurationHuman(total),
-            focusScore: computeFocusScore(state),
-            switches: summaryTotalSwitches(state),
+            focusScore: breakdown.score,
+            classification: breakdown.classification,
+            deductionBreakdown: breakdown.deductions,
+            sessionType: breakdown.sessionType,
+            realTabSwitches: summaryTotalSwitches(state),
+            inTabIdleRatio: breakdown.inTabIdleRatio,
             idleSeconds: state.idleSeconds || 0,
             timeLostByCategory: timeLost,
             topDistractions: topDistractions,
-            suggestions: []
+            analysis: breakdown.analysis,
+            suggestions: breakdown.recommendations
         };
     }
 
@@ -456,7 +587,8 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("No activity data available yet. Start tracking first.");
             return;
         }
-        const score = computeFocusScore(latestState);
+        const breakdown = computeFocusBreakdown(latestState);
+        const score = breakdown.score;
         const fsScore = document.getElementById("fs-score");
         const fsGrade = document.getElementById("fs-grade");
         const fsJson = document.getElementById("fs-json");
@@ -471,28 +603,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         const summaryObj = buildTimeLossJson(latestState);
         let jsonText = JSON.stringify(summaryObj, null, 2);
-        if (score > 80) {
-            // Excellent focus: no suggestions, just a JSON summary of time lost (via Gemini/Groq if keys configured)
-            const keys = getApiKeys();
-            const provider = keys.gemini ? "gemini" : (keys.groq ? "groq" : null);
-            if (provider) {
-                try {
-                    const prompt = "Given this browsing-activity JSON, rewrite it as a clean JSON summary of where the user LOST time. " +
-                        "Return ONLY valid JSON with keys: focusScore, totalActiveSeconds, timeLostByCategory (category, seconds, percent), topDistractions (name, category, seconds), suggestions (empty array). " +
-                        "Data: " + JSON.stringify(summaryObj);
-                    const aiText = provider === "gemini" ? await callGemini(keys.gemini, prompt) : await callGroq(keys.groq, prompt);
-                    const parsed = JSON.parse(aiText.replace(/```json/g, "").replace(/```/g, "").trim());
-                    jsonText = JSON.stringify(parsed, null, 2);
-                } catch (e) {
-                    console.warn("AI summary unavailable, using local summary:", e);
+
+        // Optional AI API Key enhancement (Gemini/Groq)
+        const keys = getApiKeys();
+        const provider = keys.gemini ? "gemini" : (keys.groq ? "groq" : null);
+        if (provider) {
+            try {
+                const prompt = "Given this browsing activity and attention deduction JSON, review and optimize the analysis and recommendations while preserving exact deductions. " +
+                    "Return ONLY valid JSON with identical schema: focusScore, classification, deductionBreakdown, analysis, suggestions. Data: " + JSON.stringify(summaryObj);
+                const aiText = provider === "gemini" ? await callGemini(keys.gemini, prompt) : await callGroq(keys.groq, prompt);
+                const parsed = JSON.parse(aiText.replace(/```json/g, "").replace(/```/g, "").trim());
+                if (parsed.suggestions && parsed.suggestions.length > 0) {
+                    summaryObj.suggestions = parsed.suggestions;
                 }
+                if (parsed.analysis) {
+                    summaryObj.analysis = parsed.analysis;
+                }
+                jsonText = JSON.stringify(summaryObj, null, 2);
+            } catch (e) {
+                console.warn("AI summary refinement unavailable, using local engine:", e);
             }
         }
         if (fsJson) fsJson.textContent = jsonText;
 
         // Render human-readable AI audit summary cards above the JSON block
         if (fsWrap) {
-            const summaryParsed = (() => { try { return JSON.parse(jsonText); } catch(e) { return null; } })();
             const apps = latestState.appUsage || [];
             let entSec = 0, commSec = 0;
             apps.forEach(a => {
@@ -503,25 +638,63 @@ document.addEventListener("DOMContentLoaded", () => {
             const totalSec2 = latestState.summary ? (latestState.summary.totalActiveSeconds || 1) : 1;
             const topSink = apps[0];
             const prodSec = apps.filter(a => PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category, a.name).label)).reduce((s,a)=>s+(a.totalSeconds||0),0);
-            const prodPct2 = Math.round((prodSec / Math.max(1, totalSec2)) * 100);
+            const rawProdPct2 = (prodSec / Math.max(1, totalSec2)) * 100;
+            const prodPct2Display = (rawProdPct2 > 0 && rawProdPct2 < 1) ? rawProdPct2.toFixed(1) + "%" : Math.round(rawProdPct2) + "%";
             const switchCount = (latestState.summary || {}).totalSwitches || 0;
             const distractPct = Math.round(((entSec + commSec) / Math.max(1, totalSec2)) * 100);
 
-            const auditCardsHtml = `<div id="fs-audit-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
-                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
-                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Top Time Sink</div>
-                    <div style="font-weight:700;font-size:0.85rem;color:var(--text-pure);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${topSink ? escapeHtml(topSink.name) : 'None'}">${topSink ? escapeHtml(topSink.name) : 'None'}</div>
-                    <div style="font-size:0.72rem;color:#ef4444;margin-top:2px;">${topSink ? formatDurationHuman(topSink.totalSeconds) : '0s'}</div>
+            const auditCardsHtml = `<div id="fs-audit-cards" style="margin-bottom:14px;">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;">
+                    <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Top Time Sink</div>
+                        <div style="font-weight:700;font-size:0.85rem;color:var(--text-pure);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${topSink ? escapeHtml(topSink.name) : 'None'}">${topSink ? escapeHtml(topSink.name) : 'None'}</div>
+                        <div style="font-size:0.72rem;color:#ef4444;margin-top:2px;">${topSink ? formatDurationHuman(topSink.totalSeconds) : '0s'}</div>
+                    </div>
+                    <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Attention Purity</div>
+                        <div style="font-weight:700;font-size:0.85rem;color:${rawProdPct2 >= 60 ? 'var(--accent-emerald)' : rawProdPct2 >= 35 ? '#38bdf8' : '#f59e0b'};">${prodPct2Display} Productive</div>
+                        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${distractPct}% distraction</div>
+                    </div>
+                    <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
+                        <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Switch Friction</div>
+                        <div style="font-weight:700;font-size:0.85rem;color:#f59e0b;">${switchCount} transitions</div>
+                        <div style="font-size:0.72rem;color:${score >= 80 ? 'var(--accent-emerald)' : '#f59e0b'};margin-top:2px;">Focus: ${score}/100</div>
+                    </div>
                 </div>
-                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
-                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Attention Purity</div>
-                    <div style="font-weight:700;font-size:0.85rem;color:${prodPct2 >= 60 ? 'var(--accent-emerald)' : prodPct2 >= 35 ? '#38bdf8' : '#f59e0b'};">${prodPct2}% Productive</div>
-                    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${distractPct}% distraction</div>
-                </div>
-                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:12px 14px;">
-                    <div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:4px;">Switch Friction</div>
-                    <div style="font-weight:700;font-size:0.85rem;color:#f59e0b;">${switchCount} transitions</div>
-                    <div style="font-size:0.72rem;color:${score >= 80 ? 'var(--accent-emerald)' : '#f59e0b'};margin-top:2px;">Focus: ${score}/100</div>
+
+                <!-- Deduction Breakdown & Analysis Block matching meeting guidance -->
+                <div style="background:var(--surface-raised);border:1px solid var(--stroke-subtle);border-radius:8px;padding:14px;margin-bottom:10px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+                        <span style="font-size:0.72rem;font-weight:700;color:var(--text-pure);text-transform:uppercase;letter-spacing:0.05em;">Deduction Breakdown (Base: 100 pts)</span>
+                        <span style="font-size:0.68rem;padding:2px 8px;border-radius:4px;background:rgba(59,130,246,0.15);color:#38bdf8;">${breakdown.sessionType}</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px;">
+                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                            <div style="font-size:0.65rem;color:var(--text-muted);">Tab Switching</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.tab_switching > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.tab_switching} pts</div>
+                        </div>
+                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                            <div style="font-size:0.65rem;color:var(--text-muted);">Distraction Usage</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.category_usage > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.category_usage} pts</div>
+                        </div>
+                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                            <div style="font-size:0.65rem;color:var(--text-muted);">Idle Drift (${breakdown.inTabIdleRatio})</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.idle_time > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.idle_time} pts</div>
+                        </div>
+                        <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:8px 10px;">
+                            <div style="font-size:0.65rem;color:var(--text-muted);">Focus Sessions</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.focus_sessions > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.focus_sessions} pts</div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.75rem;color:#cbd5e1;line-height:1.45;background:rgba(255,255,255,0.03);border-left:3px solid var(--accent-emerald);padding:8px 10px;border-radius:0 4px 4px 0;margin-bottom:10px;">
+                        <strong>Analysis:</strong> ${escapeHtml(breakdown.analysis)}
+                    </div>
+                    <div style="font-size:0.75rem;color:#cbd5e1;">
+                        <strong style="color:var(--text-pure);display:block;margin-bottom:4px;">Recommendations:</strong>
+                        <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;">
+                            ${breakdown.recommendations.map(r => `<li>${escapeHtml(r)}</li>`).join("")}
+                        </ol>
+                    </div>
                 </div>
             </div>`;
 
@@ -741,7 +914,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (deltaSwitches) deltaSwitches.style.display = "none";
         }
 
-        // Idle Time tile (enhanced messaging & Focus Purity)
+        // Idle Time tile (accurate Active vs Idle ratio - no misleading 100% focus purity label)
         const idleSec = state.idleSeconds || 0;
         const idleTimeVal = document.getElementById("idle-time-val");
         const idleStateText = document.getElementById("idle-state-text");
@@ -767,7 +940,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (totalObserved > 0) {
                 const activePct = Math.round(((summary.totalActiveSeconds || 0) / totalObserved) * 100);
                 idleRatioText.style.display = "inline-block";
-                idleRatioText.textContent = `Focus Purity: ${activePct}% active`;
+                idleRatioText.textContent = `Active Ratio: ${activePct}% active`;
                 idleRatioText.className = activePct >= 80 ? "kpi-delta-tag delta-positive" : "kpi-delta-tag delta-neutral";
             } else {
                 idleRatioText.style.display = "none";
@@ -1113,21 +1286,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         (daemonData.appUsage || []).forEach(app => {
             const nameLower = (app.name || "").toLowerCase();
-            const isRawBrowserWindow = nameLower.includes("(brave browser)") ||
-                                       nameLower.includes("(google chrome)") ||
-                                       nameLower.includes("(microsoft edge)") ||
-                                       nameLower.includes("(mozilla firefox)") ||
-                                       nameLower === "brave" ||
-                                       nameLower === "brave browser" ||
-                                       nameLower === "chrome" ||
-                                       nameLower === "google chrome";
-            if (!isRawBrowserWindow) {
+
+            // Check if extension is already tracking this specific site/domain
+            const isTrackedByExtension = extSites.some(s => {
+                const sName = (s.name || "").toLowerCase();
+                const sDom = (s.domain || "").toLowerCase();
+                return nameLower.includes(sName) || (sDom && nameLower.includes(sDom));
+            });
+
+            // Only drop bare browser process wrappers without site context
+            const isGenericBrowserWrapper = nameLower === "brave" ||
+                                            nameLower === "brave browser" ||
+                                            nameLower === "chrome" ||
+                                            nameLower === "google chrome" ||
+                                            nameLower === "msedge" ||
+                                            nameLower === "microsoft edge";
+
+            // Preserve all Brave Browser and other browser sites if extension is not tracking them
+            if (!isTrackedByExtension && !isGenericBrowserWrapper) {
                 desktopApps.push({
                     name: app.name,
-                    category: app.category || "General Application",
+                    category: app.category || displayCategory(app.category, app.name).label,
                     totalSeconds: app.totalSeconds || 0,
                     switchCount: app.switchCount || 1,
-                    isBrowser: false
+                    isBrowser: nameLower.includes("browser")
                 });
                 desktopSec += (app.totalSeconds || 0);
                 desktopSwitches += (app.switchCount || 0);

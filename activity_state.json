@@ -1,532 +1,553 @@
 ﻿{
     "current":  {
-                    "lastUpdated":  "10:55:38 PM",
-                    "activatedTime":  "10:55:38 PM",
-                    "title":  "Task Switching",
-                    "category":  "System",
-                    "dwellFormatted":  "1s",
-                    "dwellSeconds":  1,
-                    "appName":  "Task Switching",
-                    "process":  "explorer"
+                    "lastUpdated":  "08:48:13 PM",
+                    "activatedTime":  "08:48:08 PM",
+                    "title":  "Dashboard Server",
+                    "category":  "Utilities",
+                    "dwellFormatted":  "5s",
+                    "dwellSeconds":  5,
+                    "appName":  "Windows Terminal",
+                    "process":  "WindowsTerminal"
                 },
     "appUsage":  [
                      {
-                         "lastSeen":  "10:30:50 PM",
+                         "lastSeen":  "05:34:08 PM",
                          "category":  "Other",
                          "name":  "Untitled (Brave Browser)",
-                         "totalSeconds":  20,
+                         "totalSeconds":  62,
                          "switchCount":  1
                      },
                      {
-                         "switchCount":  7,
+                         "lastSeen":  "08:44:21 PM",
                          "category":  "General Application",
                          "name":  "Snippingtool",
-                         "totalSeconds":  238,
-                         "lastSeen":  "10:43:43 PM"
+                         "totalSeconds":  52,
+                         "switchCount":  3
                      },
                      {
-                         "switchCount":  6,
+                         "lastSeen":  "05:29:30 PM",
+                         "category":  "Learning",
+                         "name":  "Play Typing Games and Race Friends (Brave Browser)",
+                         "totalSeconds":  90,
+                         "switchCount":  2
+                     },
+                     {
+                         "lastSeen":  "05:32:34 PM",
                          "category":  "General Application",
-                         "name":  "Antigravity Ide",
-                         "totalSeconds":  584,
-                         "lastSeen":  "10:55:38 PM"
+                         "name":  "Shellhost",
+                         "totalSeconds":  52,
+                         "switchCount":  1
                      },
                      {
-                         "switchCount":  1,
-                         "category":  "Utilities",
-                         "name":  "Windows Terminal",
-                         "totalSeconds":  26,
-                         "lastSeen":  "10:33:00 PM"
-                     },
-                     {
-                         "switchCount":  7,
+                         "lastSeen":  "05:52:38 PM",
                          "category":  "Development",
                          "name":  "Visual Studio Code",
-                         "totalSeconds":  41,
-                         "lastSeen":  "10:43:21 PM"
+                         "totalSeconds":  18,
+                         "switchCount":  4
                      },
                      {
-                         "switchCount":  3,
-                         "category":  "Professional",
-                         "name":  "drive.google.com wants to open (Brave Browser)",
-                         "totalSeconds":  84,
-                         "lastSeen":  "10:49:30 PM"
+                         "lastSeen":  "08:43:06 PM",
+                         "category":  "Entertainment",
+                         "name":  "YouTube (Brave Browser)",
+                         "totalSeconds":  140,
+                         "switchCount":  10
                      },
                      {
-                         "switchCount":  32,
-                         "category":  "Professional",
-                         "name":  "Google Drive (Brave Browser)",
-                         "totalSeconds":  379,
-                         "lastSeen":  "10:50:20 PM"
+                         "lastSeen":  "05:28:31 PM",
+                         "category":  "Other",
+                         "name":  "Just a moment... (Brave Browser)",
+                         "totalSeconds":  46,
+                         "switchCount":  1
                      },
                      {
-                         "switchCount":  2,
-                         "category":  "General Application",
-                         "name":  "Pickerhost",
-                         "totalSeconds":  14,
-                         "lastSeen":  "10:45:53 PM"
-                     },
-                     {
-                         "switchCount":  6,
+                         "switchCount":  19,
                          "category":  "System",
                          "name":  "Task Switching",
-                         "totalSeconds":  57,
-                         "lastSeen":  "10:43:45 PM"
+                         "totalSeconds":  198,
+                         "lastSeen":  "08:48:08 PM"
                      },
                      {
-                         "switchCount":  53,
+                         "lastSeen":  "05:28:37 PM",
+                         "category":  "Communication",
+                         "name":  "WhatsApp Desktop",
+                         "totalSeconds":  10,
+                         "switchCount":  1
+                     },
+                     {
+                         "lastSeen":  "05:52:37 PM",
+                         "category":  "Other",
+                         "name":  "umw (Brave Browser)",
+                         "totalSeconds":  1062,
+                         "switchCount":  10
+                     },
+                     {
+                         "lastSeen":  "08:43:25 PM",
                          "category":  "System",
                          "name":  "File Explorer",
-                         "totalSeconds":  382,
-                         "lastSeen":  "10:49:16 PM"
+                         "totalSeconds":  4,
+                         "switchCount":  1
                      },
                      {
-                         "switchCount":  141,
+                         "lastSeen":  "08:43:32 PM",
                          "category":  "General Application",
                          "name":  "Photos",
-                         "totalSeconds":  876,
-                         "lastSeen":  "10:49:09 PM"
+                         "totalSeconds":  14,
+                         "switchCount":  1
                      },
                      {
-                         "switchCount":  2,
-                         "category":  "Communication",
-                         "name":  "Gmail (Brave Browser)",
-                         "totalSeconds":  32,
-                         "lastSeen":  "10:50:34 PM"
+                         "switchCount":  9,
+                         "category":  "Utilities",
+                         "name":  "Windows Terminal",
+                         "totalSeconds":  343,
+                         "lastSeen":  "08:48:03 PM"
                      },
                      {
-                         "switchCount":  2,
+                         "lastSeen":  "05:33:15 PM",
                          "category":  "Other",
-                         "name":  "History (Brave Browser)",
-                         "totalSeconds":  6,
-                         "lastSeen":  "10:36:07 PM"
+                         "name":  "127.0.0.1 (Brave Browser)",
+                         "totalSeconds":  36,
+                         "switchCount":  2
+                     },
+                     {
+                         "lastSeen":  "08:43:36 PM",
+                         "category":  "General Application",
+                         "name":  "Antigravity Ide",
+                         "totalSeconds":  2,
+                         "switchCount":  1
+                     },
+                     {
+                         "lastSeen":  "08:44:32 PM",
+                         "category":  "Other",
+                         "name":  "RedFlix (Brave Browser)",
+                         "totalSeconds":  18,
+                         "switchCount":  1
                      }
                  ],
-    "timestamp":  "2026-11-15T22:55:39.9998839+05:30",
+    "timestamp":  "2026-11-17T20:48:13.0827154+05:30",
     "previous":  {
-                     "activeDurationFormatted":  "9m 44s",
-                     "title":  "infosys_springboard - Antigravity IDE",
-                     "appName":  "Antigravity Ide",
-                     "process":  "Antigravity IDE",
-                     "category":  "General Application",
-                     "lastActiveTime":  "10:55:38 PM",
-                     "sessionDwellSec":  252,
-                     "activeDurationSec":  584
+                     "activeDurationFormatted":  "3m 18s",
+                     "title":  "Task Switching",
+                     "appName":  "Task Switching",
+                     "process":  "explorer",
+                     "category":  "System",
+                     "lastActiveTime":  "08:48:08 PM",
+                     "sessionDwellSec":  4,
+                     "activeDurationSec":  198
                  },
-    "date":  "2026-11-15",
+    "date":  "2026-11-17",
     "summary":  {
-                    "totalActiveSeconds":  1383,
+                    "totalActiveSeconds":  1084,
                     "mostUsedApp":  {
-                                        "durationSeconds":  876,
-                                        "category":  "General Application",
-                                        "name":  "Photos",
-                                        "durationFormatted":  "14m 36s",
-                                        "percentage":  63
+                                        "durationSeconds":  1062,
+                                        "category":  "Other",
+                                        "name":  "umw (Brave Browser)",
+                                        "durationFormatted":  "17m 42s",
+                                        "percentage":  98
                                     },
-                    "totalActiveFormatted":  "23m 3s",
-                    "distinctAppsCount":  13,
-                    "totalSwitches":  263
+                    "totalActiveFormatted":  "18m 4s",
+                    "distinctAppsCount":  16,
+                    "totalSwitches":  67
                 },
     "timeline":  [
                      {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:47:31 PM",
-                         "Title":  "2.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "3s",
-                         "Category":  "General Application",
-                         "DurationSec":  3,
-                         "Time":  "10:47:32 PM",
-                         "Title":  "4.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "3s",
-                         "Category":  "General Application",
-                         "DurationSec":  3,
-                         "Time":  "10:47:35 PM",
-                         "Title":  "2.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:47:38 PM",
-                         "Title":  "5.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "3s",
-                         "Category":  "General Application",
-                         "DurationSec":  3,
-                         "Time":  "10:47:39 PM",
-                         "Title":  "Screenshot 2026-11-15 005820.png"
-                     },
-                     {
-                         "AppName":  "Photos",
+                         "AppName":  "Visual Studio Code",
                          "DurationFormatted":  "4s",
-                         "Category":  "General Application",
+                         "Category":  "Development",
                          "DurationSec":  4,
-                         "Time":  "10:47:42 PM",
-                         "Title":  "7.png"
+                         "Time":  "05:28:53 PM",
+                         "Title":  "Welcome - infosys_springboard - Visual Studio Code"
                      },
                      {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:47:47 PM",
-                         "Title":  "6.png"
+                         "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
+                         "DurationFormatted":  "31s",
+                         "Category":  "Learning",
+                         "DurationSec":  31,
+                         "Time":  "05:28:57 PM",
+                         "Title":  "TypeRacer - Play Typing Games and Race Friends"
                      },
                      {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:47:48 PM",
-                         "Title":  "4.png"
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "24s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  24,
+                         "Time":  "05:29:30 PM",
+                         "Title":  "YouTube"
                      },
                      {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:47:49 PM",
-                         "Title":  "2.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "2s",
-                         "Category":  "General Application",
-                         "DurationSec":  2,
-                         "Time":  "10:47:50 PM",
-                         "Title":  "1.png"
-                     },
-                     {
-                         "AppName":  "File Explorer",
-                         "DurationFormatted":  "3s",
-                         "Category":  "System",
-                         "DurationSec":  3,
-                         "Time":  "10:47:52 PM",
-                         "Title":  "Screenshots - File Explorer"
-                     },
-                     {
-                         "AppName":  "File Explorer",
-                         "DurationFormatted":  "4s",
-                         "Category":  "System",
-                         "DurationSec":  4,
-                         "Time":  "10:47:56 PM",
-                         "Title":  "ABHI - File Explorer"
-                     },
-                     {
-                         "AppName":  "File Explorer",
-                         "DurationFormatted":  "3s",
-                         "Category":  "System",
-                         "DurationSec":  3,
-                         "Time":  "10:48:00 PM",
-                         "Title":  "Gallery - File Explorer"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "4s",
-                         "Category":  "General Application",
-                         "DurationSec":  4,
-                         "Time":  "10:48:03 PM",
-                         "Title":  "3.png"
-                     },
-                     {
-                         "AppName":  "File Explorer",
+                         "AppName":  "Task Switching",
                          "DurationFormatted":  "6s",
                          "Category":  "System",
                          "DurationSec":  6,
-                         "Time":  "10:48:08 PM",
-                         "Title":  "Gallery - File Explorer"
+                         "Time":  "05:29:58 PM",
+                         "Title":  "Task Switching"
                      },
                      {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "4s",
+                         "AppName":  "Visual Studio Code",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Development",
+                         "DurationSec":  3,
+                         "Time":  "05:30:04 PM",
+                         "Title":  "Welcome - infosys_springboard - Visual Studio Code"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "9s",
+                         "Category":  "Other",
+                         "DurationSec":  9,
+                         "Time":  "05:30:07 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "6s",
+                         "Category":  "System",
+                         "DurationSec":  6,
+                         "Time":  "05:30:19 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "8s",
+                         "Category":  "Other",
+                         "DurationSec":  8,
+                         "Time":  "05:30:27 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "29s",
+                         "Category":  "System",
+                         "DurationSec":  29,
+                         "Time":  "05:30:35 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  1,
+                         "Time":  "05:31:06 PM",
+                         "Title":  "YouTube"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "7s",
+                         "Category":  "Other",
+                         "DurationSec":  7,
+                         "Time":  "05:31:07 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  2,
+                         "Time":  "05:31:14 PM",
+                         "Title":  "YouTube"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "43s",
+                         "Category":  "Other",
+                         "DurationSec":  43,
+                         "Time":  "05:31:16 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Shellhost",
+                         "DurationFormatted":  "26s",
                          "Category":  "General Application",
-                         "DurationSec":  4,
-                         "Time":  "10:48:15 PM",
-                         "Title":  "3.png"
+                         "DurationSec":  26,
+                         "Time":  "05:32:04 PM",
+                         "Title":  "Quick settings"
                      },
                      {
-                         "AppName":  "File Explorer",
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "24s",
+                         "Category":  "Other",
+                         "DurationSec":  24,
+                         "Time":  "05:32:34 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "127.0.0.1 (Brave Browser)",
+                         "DurationFormatted":  "14s",
+                         "Category":  "Other",
+                         "DurationSec":  14,
+                         "Time":  "05:33:00 PM",
+                         "Title":  "127.0.0.1"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  1,
+                         "Time":  "05:33:15 PM",
+                         "Title":  "YouTube"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Other",
+                         "DurationSec":  2,
+                         "Time":  "05:33:16 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Task Switching",
                          "DurationFormatted":  "1s",
                          "Category":  "System",
                          "DurationSec":  1,
-                         "Time":  "10:48:20 PM",
-                         "Title":  "Gallery - File Explorer"
+                         "Time":  "05:33:18 PM",
+                         "Title":  "Task View"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "4s",
+                         "Category":  "Other",
+                         "DurationSec":  4,
+                         "Time":  "05:33:19 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Untitled (Brave Browser)",
+                         "DurationFormatted":  "31s",
+                         "Category":  "Other",
+                         "DurationSec":  31,
+                         "Time":  "05:33:35 PM",
+                         "Title":  "Untitled"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "4s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  4,
+                         "Time":  "05:34:08 PM",
+                         "Title":  "YouTube"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "1m 34s",
+                         "Category":  "Other",
+                         "DurationSec":  94,
+                         "Time":  "05:34:13 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Utilities",
+                         "DurationSec":  2,
+                         "Time":  "05:46:05 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "3s",
+                         "Category":  "System",
+                         "DurationSec":  3,
+                         "Time":  "05:46:08 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Visual Studio Code",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Development",
+                         "DurationSec":  1,
+                         "Time":  "05:46:11 PM",
+                         "Title":  "Welcome - infosys_springboard - Visual Studio Code"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "6s",
+                         "Category":  "System",
+                         "DurationSec":  6,
+                         "Time":  "05:46:12 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "2m 37s",
+                         "Category":  "Other",
+                         "DurationSec":  157,
+                         "Time":  "05:46:19 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Snippingtool",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "05:49:10 PM",
+                         "Title":  "Snipping Tool Overlay"
+                     },
+                     {
+                         "AppName":  "umw (Brave Browser)",
+                         "DurationFormatted":  "3m 3s",
+                         "Category":  "Other",
+                         "DurationSec":  183,
+                         "Time":  "05:49:15 PM",
+                         "Title":  "Meet - sdh-iycm-umw"
+                     },
+                     {
+                         "AppName":  "Visual Studio Code",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Development",
+                         "DurationSec":  1,
+                         "Time":  "05:52:37 PM",
+                         "Title":  "Welcome - infosys_springboard - Visual Studio Code"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "05:52:38 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "33s",
+                         "Category":  "Utilities",
+                         "DurationSec":  33,
+                         "Time":  "08:42:21 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "4s",
+                         "Category":  "System",
+                         "DurationSec":  4,
+                         "Time":  "08:42:58 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  3,
+                         "Time":  "08:43:03 PM",
+                         "Title":  "KALYANI (with Shreya Ghoshal) OFFICIAL MUSIC VIDEO | ARJN | KDS | FIFTY4 | RONN | SHREYA GHOSHAL | - YouTube"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "08:43:06 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Utilities",
+                         "DurationSec":  5,
+                         "Time":  "08:43:08 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "8s",
+                         "Category":  "System",
+                         "DurationSec":  8,
+                         "Time":  "08:43:13 PM",
+                         "Title":  "Task Switching"
                      },
                      {
                          "AppName":  "File Explorer",
                          "DurationFormatted":  "2s",
                          "Category":  "System",
                          "DurationSec":  2,
-                         "Time":  "10:48:21 PM",
+                         "Time":  "08:43:23 PM",
                          "Title":  "Screenshots - File Explorer"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "6s",
-                         "Category":  "General Application",
-                         "DurationSec":  6,
-                         "Time":  "10:48:23 PM",
-                         "Title":  "1.png"
                      },
                      {
                          "AppName":  "Photos",
                          "DurationFormatted":  "7s",
                          "Category":  "General Application",
                          "DurationSec":  7,
-                         "Time":  "10:48:29 PM",
-                         "Title":  "2.png"
+                         "Time":  "08:43:25 PM",
+                         "Title":  "Screenshot 2026-11-17 174914.png"
                      },
                      {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "4s",
-                         "Category":  "General Application",
-                         "DurationSec":  4,
-                         "Time":  "10:48:37 PM",
-                         "Title":  "1.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "3s",
-                         "Category":  "General Application",
-                         "DurationSec":  3,
-                         "Time":  "10:48:41 PM",
-                         "Title":  "2.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:48:45 PM",
-                         "Title":  "3.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:48:46 PM",
-                         "Title":  "5.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:48:47 PM",
-                         "Title":  "6.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "8s",
-                         "Category":  "General Application",
-                         "DurationSec":  8,
-                         "Time":  "10:48:48 PM",
-                         "Title":  "Screenshot 2026-11-15 005820.png"
-                     },
-                     {
-                         "AppName":  "Photos",
+                         "AppName":  "Task Switching",
                          "DurationFormatted":  "2s",
-                         "Category":  "General Application",
-                         "DurationSec":  2,
-                         "Time":  "10:48:56 PM",
-                         "Title":  "7.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:48:58 PM",
-                         "Title":  "6.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:00 PM",
-                         "Title":  "2.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:01 PM",
-                         "Title":  "1.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:02 PM",
-                         "Title":  "2.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:03 PM",
-                         "Title":  "3.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:04 PM",
-                         "Title":  "5.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "2s",
-                         "Category":  "General Application",
-                         "DurationSec":  2,
-                         "Time":  "10:49:05 PM",
-                         "Title":  "Screenshot 2026-11-15 005820.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:07 PM",
-                         "Title":  "6.png"
-                     },
-                     {
-                         "AppName":  "Photos",
-                         "DurationFormatted":  "1s",
-                         "Category":  "General Application",
-                         "DurationSec":  1,
-                         "Time":  "10:49:08 PM",
-                         "Title":  "5.png"
-                     },
-                     {
-                         "AppName":  "File Explorer",
-                         "DurationFormatted":  "6s",
                          "Category":  "System",
-                         "DurationSec":  6,
-                         "Time":  "10:49:09 PM",
-                         "Title":  "Screenshots - File Explorer"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "2s",
-                         "Category":  "Professional",
                          "DurationSec":  2,
-                         "Time":  "10:49:16 PM",
-                         "Title":  "Milestone1 - Google Drive"
-                     },
-                     {
-                         "AppName":  "drive.google.com wants to open (Brave Browser)",
-                         "DurationFormatted":  "11s",
-                         "Category":  "Professional",
-                         "DurationSec":  11,
-                         "Time":  "10:49:18 PM",
-                         "Title":  "drive.google.com wants to open"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "28s",
-                         "Category":  "Professional",
-                         "DurationSec":  28,
-                         "Time":  "10:49:30 PM",
-                         "Title":  "Milestone1 - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "4s",
-                         "Category":  "Professional",
-                         "DurationSec":  4,
-                         "Time":  "10:50:01 PM",
-                         "Title":  "Milestone1 - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Professional",
-                         "DurationSec":  1,
-                         "Time":  "10:50:06 PM",
-                         "Title":  "Thota_Abhishek - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "4s",
-                         "Category":  "Professional",
-                         "DurationSec":  4,
-                         "Time":  "10:50:07 PM",
-                         "Title":  "Milestone 1 - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Professional",
-                         "DurationSec":  1,
-                         "Time":  "10:50:11 PM",
-                         "Title":  "Thota_Abhishek - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "3s",
-                         "Category":  "Professional",
-                         "DurationSec":  3,
-                         "Time":  "10:50:12 PM",
-                         "Title":  "Milestone1 - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "1s",
-                         "Category":  "Professional",
-                         "DurationSec":  1,
-                         "Time":  "10:50:15 PM",
-                         "Title":  "Thota_Abhishek - Google Drive"
-                     },
-                     {
-                         "AppName":  "Google Drive (Brave Browser)",
-                         "DurationFormatted":  "3s",
-                         "Category":  "Professional",
-                         "DurationSec":  3,
-                         "Time":  "10:50:16 PM",
-                         "Title":  "Milestone 1 - Google Drive"
-                     },
-                     {
-                         "AppName":  "Gmail (Brave Browser)",
-                         "DurationFormatted":  "13s",
-                         "Category":  "Communication",
-                         "DurationSec":  13,
-                         "Time":  "10:50:20 PM",
-                         "Title":  "Milestone 1 Submission Deadline - 16 November 2026 - thotaabhishek2006@gmail.com - Gmail"
+                         "Time":  "08:43:32 PM",
+                         "Title":  "Task Switching"
                      },
                      {
                          "AppName":  "Antigravity Ide",
                          "DurationFormatted":  "1s",
                          "Category":  "General Application",
                          "DurationSec":  1,
-                         "Time":  "10:50:34 PM",
-                         "Title":  "Antigravity IDE"
+                         "Time":  "08:43:34 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - README.md"
                      },
                      {
-                         "AppName":  "Antigravity Ide",
-                         "DurationFormatted":  "4m 12s",
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "08:43:36 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Utilities",
+                         "DurationSec":  1,
+                         "Time":  "08:43:37 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "17s",
+                         "Category":  "System",
+                         "DurationSec":  17,
+                         "Time":  "08:43:38 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Snippingtool",
+                         "DurationFormatted":  "19s",
                          "Category":  "General Application",
-                         "DurationSec":  252,
-                         "Time":  "10:50:36 PM",
-                         "Title":  "infosys_springboard - Antigravity IDE"
+                         "DurationSec":  19,
+                         "Time":  "08:43:57 PM",
+                         "Title":  "Snipping Tool Overlay"
+                     },
+                     {
+                         "AppName":  "Snippingtool",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "08:44:17 PM",
+                         "Title":  "Recording toolbar"
+                     },
+                     {
+                         "AppName":  "RedFlix (Brave Browser)",
+                         "DurationFormatted":  "9s",
+                         "Category":  "Other",
+                         "DurationSec":  9,
+                         "Time":  "08:44:21 PM",
+                         "Title":  "Watch Get Out Online Free (2017) - RedFlix"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1m 37s",
+                         "Category":  "Utilities",
+                         "DurationSec":  97,
+                         "Time":  "08:46:01 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "4s",
+                         "Category":  "System",
+                         "DurationSec":  4,
+                         "Time":  "08:48:03 PM",
+                         "Title":  "Task Switching"
                      }
                  ]
 }

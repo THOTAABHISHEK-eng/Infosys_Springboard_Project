@@ -610,3 +610,43 @@ if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessageE
         return true;
     });
 }
+
+// Expose global sync() function in the Service Worker DevTools Console
+self.sync = async function() {
+    console.log("[SYNC] Preparing browsing telemetry payload...");
+    const payload = {
+        timestamp: new Date().toISOString(),
+        todayDateStr: todayDateStr,
+        totalTabSwitches: totalTabSwitches,
+        totalIdleSec: totalIdleSec,
+        siteUsage: siteUsage,
+        timeline: timeline,
+        currentWebsite: currentWebsite,
+        previousWebsite: previousWebsite
+    };
+    try {
+        const res = await fetch("http://127.0.0.1:5500/api/sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        console.log("========================================================================");
+        console.log("[SYNC SUCCESS] RECEIVED REAL BROWSING HISTORY FROM CHROME");
+        console.log("========================================================================");
+        if (data && data.result) {
+            console.log(`Focus Score:         ${data.result.focus_score} / 100`);
+            console.log(`Classification:      ${data.result.classification}`);
+            console.log(`Deduction Breakdown: ${JSON.stringify(data.result.deduction_breakdown)}`);
+            console.log(`Session Type:        ${data.result.session_type}`);
+            console.log(`Real Tab Switches:   ${data.result.real_tab_switches}`);
+            console.log(`In-Tab Idle Ratio:   ${data.result.in_tab_idle_ratio}`);
+            console.log("\nAnalysis:\n" + data.result.analysis);
+            console.log("\nRecommendations:\n" + data.result.recommendations.map((r, i) => `${i + 1}. ${r}`).join("\n"));
+        }
+        return data;
+    } catch (err) {
+        console.error("[SYNC ERROR] Failed to connect to http://127.0.0.1:5500/api/sync:", err);
+        return { error: err.message };
+    }
+};

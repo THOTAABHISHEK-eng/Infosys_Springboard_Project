@@ -765,10 +765,20 @@ body {
     color: var(--text-secondary);
 }
 
-/* PREVIOUS COMPANION CARD */
+/* PREVIOUS COMPANION CARD (CLEARLY MUTED AND CONCLUDED) */
 .stage-previous {
-    border-left: 3px solid var(--stroke-panel);
-    background: var(--surface-base);
+    border-left: 3px dashed rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.65);
+    opacity: 0.9;
+    border-radius: var(--r-md);
+}
+
+.stage-previous .entity-headline {
+    color: #cbd5e1;
+}
+
+.stage-previous:hover {
+    opacity: 1;
 }
 
 /* ==========================================================================
