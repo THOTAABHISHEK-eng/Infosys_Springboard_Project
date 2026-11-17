@@ -2,22 +2,6 @@
     "2026-11-17":  {
                        "timeline":  [
                                         {
-                                            "AppName":  "Visual Studio Code",
-                                            "DurationFormatted":  "4s",
-                                            "Category":  "Development",
-                                            "DurationSec":  4,
-                                            "Time":  "05:28:53 PM",
-                                            "Title":  "Welcome - infosys_springboard - Visual Studio Code"
-                                        },
-                                        {
-                                            "AppName":  "Play Typing Games and Race Friends (Brave Browser)",
-                                            "DurationFormatted":  "31s",
-                                            "Category":  "Learning",
-                                            "DurationSec":  31,
-                                            "Time":  "05:28:57 PM",
-                                            "Title":  "TypeRacer - Play Typing Games and Race Friends"
-                                        },
-                                        {
                                             "AppName":  "YouTube (Brave Browser)",
                                             "DurationFormatted":  "24s",
                                             "Category":  "Entertainment",
@@ -400,11 +384,27 @@
                                             "DurationSec":  4,
                                             "Time":  "08:48:03 PM",
                                             "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Task Switching",
+                                            "DurationFormatted":  "3s",
+                                            "Category":  "System",
+                                            "DurationSec":  3,
+                                            "Time":  "09:46:33 PM",
+                                            "Title":  "Task Switching"
+                                        },
+                                        {
+                                            "AppName":  "Windows Terminal",
+                                            "DurationFormatted":  "1s",
+                                            "Category":  "Utilities",
+                                            "DurationSec":  1,
+                                            "Time":  "09:46:36 PM",
+                                            "Title":  "Dashboard Server"
                                         }
                                     ],
-                       "totalActiveSeconds":  1084,
-                       "lastUpdated":  "2026-11-17T20:48:13.0865715+05:30",
-                       "totalSwitches":  67,
+                       "totalActiveSeconds":  1093,
+                       "lastUpdated":  "2026-11-17T21:46:41.9762646+05:30",
+                       "totalSwitches":  70,
                        "appUsage":  [
                                         {
                                             "lastSeen":  "05:34:08 PM",
@@ -456,17 +456,17 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "switchCount":  19,
-                                            "category":  "System",
-                                            "name":  "Task Switching",
-                                            "totalSeconds":  198,
-                                            "lastSeen":  "08:48:08 PM"
-                                        },
-                                        {
                                             "lastSeen":  "05:28:37 PM",
                                             "category":  "Communication",
                                             "name":  "WhatsApp Desktop",
                                             "totalSeconds":  10,
+                                            "switchCount":  1
+                                        },
+                                        {
+                                            "lastSeen":  "08:44:32 PM",
+                                            "category":  "Other",
+                                            "name":  "RedFlix (Brave Browser)",
+                                            "totalSeconds":  18,
                                             "switchCount":  1
                                         },
                                         {
@@ -491,11 +491,11 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "switchCount":  9,
+                                            "switchCount":  10,
                                             "category":  "Utilities",
                                             "name":  "Windows Terminal",
-                                            "totalSeconds":  343,
-                                            "lastSeen":  "08:48:03 PM"
+                                            "totalSeconds":  345,
+                                            "lastSeen":  "09:46:37 PM"
                                         },
                                         {
                                             "lastSeen":  "05:33:15 PM",
@@ -512,16 +512,16 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "lastSeen":  "08:44:32 PM",
-                                            "category":  "Other",
-                                            "name":  "RedFlix (Brave Browser)",
-                                            "totalSeconds":  18,
-                                            "switchCount":  1
+                                            "switchCount":  21,
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  209,
+                                            "lastSeen":  "09:46:36 PM"
                                         }
                                     ],
                        "distinctAppsCount":  16,
                        "date":  "2026-11-17",
-                       "totalActiveFormatted":  "18m 4s"
+                       "totalActiveFormatted":  "18m 13s"
                    },
     "2026-11-15":  {
                        "timeline":  [
