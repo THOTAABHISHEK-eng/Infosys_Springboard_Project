@@ -592,6 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const fsScore = document.getElementById("fs-score");
         const fsGrade = document.getElementById("fs-grade");
         const fsJson = document.getElementById("fs-json");
+        const fsJsonLabel = document.getElementById("fs-json-label");
         const fsWrap = document.getElementById("fs-json-wrap");
         if (fsScore) fsScore.textContent = score;
         if (fsGrade) {
@@ -600,6 +601,9 @@ document.addEventListener("DOMContentLoaded", () => {
             fsGrade.style.backgroundColor = g.color + "15";
             fsGrade.style.color = g.color;
             fsGrade.style.borderColor = g.color + "40";
+            if (fsJsonLabel) {
+                fsJsonLabel.textContent = `Time-Loss JSON Summary & Attention Audit (${g.label} Focus - ${score}/100)`;
+            }
         }
         const summaryObj = buildTimeLossJson(latestState);
         let jsonText = JSON.stringify(summaryObj, null, 2);
@@ -1465,31 +1469,45 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             const todayKey = new Date().toISOString().slice(0, 10);
 
-            // Mirror today's live extension data into allHistory for accurate historical deltas
+            // Mirror today's live unified data into allHistory for accurate historical deltas
             if (res.siteUsage && Object.keys(res.siteUsage).length > 0) {
-                const todaySites = Object.values(res.siteUsage);
-                const todayTotal = todaySites.reduce((sum, s) => sum + (s.totalSec || 0), 0);
-                allHistory[todayKey] = {
-                    totalActiveSeconds: todayTotal,
-                    totalActiveFormatted: formatDurationHuman(todayTotal),
-                    totalSwitches: res.totalTabSwitches || 0,
-                    distinctAppsCount: todaySites.length,
-                    appUsage: todaySites.map(s => ({
-                        name: s.name,
-                        category: s.category || displayCategory("Web Browser", s.name).label,
-                        totalSeconds: s.totalSec || 0,
-                        switchCount: s.visitCount || 1,
-                        isBrowser: true
-                    })),
-                    timeline: (res.timeline || []).map(t => ({
-                        time: t.timeStr || t.time || "",
-                        appName: t.name || t.appName || "Website",
-                        title: t.actionText || t.title || t.name,
-                        category: displayCategory("Web Browser", t.name || t.appName).label,
-                        durationSec: t.durationSec || 0,
-                        durationFormatted: formatDurationHuman(t.durationSec || 0)
-                    }))
-                };
+                if (latestDaemonData) {
+                    const mergedToday = mergeDaemonAndExtension(latestDaemonData, res);
+                    if (mergedToday && mergedToday.summary) {
+                        allHistory[todayKey] = {
+                            totalActiveSeconds: mergedToday.summary.totalActiveSeconds || 0,
+                            totalActiveFormatted: mergedToday.summary.totalActiveFormatted || formatDurationHuman(mergedToday.summary.totalActiveSeconds || 0),
+                            totalSwitches: mergedToday.summary.totalSwitches || 0,
+                            distinctAppsCount: (mergedToday.appUsage || []).length,
+                            appUsage: mergedToday.appUsage || [],
+                            timeline: mergedToday.timeline || []
+                        };
+                    }
+                } else {
+                    const todaySites = Object.values(res.siteUsage);
+                    const todayTotal = todaySites.reduce((sum, s) => sum + (s.totalSec || 0), 0);
+                    allHistory[todayKey] = {
+                        totalActiveSeconds: todayTotal,
+                        totalActiveFormatted: formatDurationHuman(todayTotal),
+                        totalSwitches: res.totalTabSwitches || 0,
+                        distinctAppsCount: todaySites.length,
+                        appUsage: todaySites.map(s => ({
+                            name: s.name,
+                            category: s.category || displayCategory("Web Browser", s.name).label,
+                            totalSeconds: s.totalSec || 0,
+                            switchCount: s.visitCount || 1,
+                            isBrowser: true
+                        })),
+                        timeline: (res.timeline || []).map(t => ({
+                            time: t.timeStr || t.time || "",
+                            appName: t.name || t.appName || "Website",
+                            title: t.actionText || t.title || t.name,
+                            category: displayCategory("Web Browser", t.name || t.appName).label,
+                            durationSec: t.durationSec || 0,
+                            durationFormatted: formatDurationHuman(t.durationSec || 0)
+                        }))
+                    };
+                }
             }
 
             // Merge past days from historyByDate

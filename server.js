@@ -297,8 +297,10 @@ const server = http.createServer((req, res) => {
             const resp = JSON.stringify({ status: "success", result: analysisResult });
             res.writeHead(200, {
                 "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
                 "Content-Length": Buffer.byteLength(resp),
-                "Cache-Control": "no-store"
+                "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+                "Pragma": "no-cache"
             });
             res.end(resp);
         });
@@ -329,7 +331,9 @@ const server = http.createServer((req, res) => {
 
         res.writeHead(200, {
             "Content-Type": contentType,
-            "Cache-Control": "no-store"
+            "Access-Control-Allow-Origin": "*",
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+            "Pragma": "no-cache"
         });
 
         const stream = fs.createReadStream(filePath);

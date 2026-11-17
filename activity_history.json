@@ -403,7 +403,7 @@
                                         }
                                     ],
                        "totalActiveSeconds":  1093,
-                       "lastUpdated":  "2026-11-17T21:46:41.9762646+05:30",
+                       "lastUpdated":  "2026-11-17T21:51:19.0303132+05:30",
                        "totalSwitches":  70,
                        "appUsage":  [
                                         {
@@ -456,17 +456,17 @@
                                             "switchCount":  1
                                         },
                                         {
+                                            "lastSeen":  "09:46:36 PM",
+                                            "category":  "System",
+                                            "name":  "Task Switching",
+                                            "totalSeconds":  209,
+                                            "switchCount":  21
+                                        },
+                                        {
                                             "lastSeen":  "05:28:37 PM",
                                             "category":  "Communication",
                                             "name":  "WhatsApp Desktop",
                                             "totalSeconds":  10,
-                                            "switchCount":  1
-                                        },
-                                        {
-                                            "lastSeen":  "08:44:32 PM",
-                                            "category":  "Other",
-                                            "name":  "RedFlix (Brave Browser)",
-                                            "totalSeconds":  18,
                                             "switchCount":  1
                                         },
                                         {
@@ -491,11 +491,11 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "switchCount":  10,
+                                            "lastSeen":  "09:46:37 PM",
                                             "category":  "Utilities",
                                             "name":  "Windows Terminal",
                                             "totalSeconds":  345,
-                                            "lastSeen":  "09:46:37 PM"
+                                            "switchCount":  10
                                         },
                                         {
                                             "lastSeen":  "05:33:15 PM",
@@ -512,11 +512,11 @@
                                             "switchCount":  1
                                         },
                                         {
-                                            "switchCount":  21,
-                                            "category":  "System",
-                                            "name":  "Task Switching",
-                                            "totalSeconds":  209,
-                                            "lastSeen":  "09:46:36 PM"
+                                            "lastSeen":  "08:44:32 PM",
+                                            "category":  "Other",
+                                            "name":  "RedFlix (Brave Browser)",
+                                            "totalSeconds":  18,
+                                            "switchCount":  1
                                         }
                                     ],
                        "distinctAppsCount":  16,

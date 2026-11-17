@@ -1,14 +1,5 @@
 ﻿{
-    "current":  {
-                    "lastUpdated":  "09:46:41 PM",
-                    "activatedTime":  "09:46:37 PM",
-                    "title":  "Task Switching",
-                    "category":  "System",
-                    "dwellFormatted":  "5s",
-                    "dwellSeconds":  5,
-                    "appName":  "Task Switching",
-                    "process":  "explorer"
-                },
+    "current":  null,
     "appUsage":  [
                      {
                          "lastSeen":  "05:34:08 PM",
@@ -60,17 +51,17 @@
                          "switchCount":  1
                      },
                      {
+                         "lastSeen":  "09:46:36 PM",
+                         "category":  "System",
+                         "name":  "Task Switching",
+                         "totalSeconds":  209,
+                         "switchCount":  21
+                     },
+                     {
                          "lastSeen":  "05:28:37 PM",
                          "category":  "Communication",
                          "name":  "WhatsApp Desktop",
                          "totalSeconds":  10,
-                         "switchCount":  1
-                     },
-                     {
-                         "lastSeen":  "08:44:32 PM",
-                         "category":  "Other",
-                         "name":  "RedFlix (Brave Browser)",
-                         "totalSeconds":  18,
                          "switchCount":  1
                      },
                      {
@@ -95,11 +86,11 @@
                          "switchCount":  1
                      },
                      {
-                         "switchCount":  10,
+                         "lastSeen":  "09:46:37 PM",
                          "category":  "Utilities",
                          "name":  "Windows Terminal",
                          "totalSeconds":  345,
-                         "lastSeen":  "09:46:37 PM"
+                         "switchCount":  10
                      },
                      {
                          "lastSeen":  "05:33:15 PM",
@@ -116,14 +107,14 @@
                          "switchCount":  1
                      },
                      {
-                         "switchCount":  21,
-                         "category":  "System",
-                         "name":  "Task Switching",
-                         "totalSeconds":  209,
-                         "lastSeen":  "09:46:36 PM"
+                         "lastSeen":  "08:44:32 PM",
+                         "category":  "Other",
+                         "name":  "RedFlix (Brave Browser)",
+                         "totalSeconds":  18,
+                         "switchCount":  1
                      }
                  ],
-    "timestamp":  "2026-11-17T21:46:41.9752462+05:30",
+    "timestamp":  "2026-11-17T21:51:19.0297767+05:30",
     "previous":  {
                      "activeDurationFormatted":  "5m 45s",
                      "title":  "Dashboard Server",

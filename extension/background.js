@@ -359,8 +359,8 @@ function handleTabTransition(newUrl, newTitle, tabId) {
         };
     }
 
-    // 3. Set new Current Website (only count as a switch when transitioning from an existing website)
-    if (currentWebsite) {
+    // 3. Set new Current Website (only count as a switch when transitioning after meaningful dwell)
+    if (currentWebsite && currentDwellSec >= 1) {
         totalTabSwitches++;
     }
     currentDwellSec = 0;
@@ -417,6 +417,9 @@ chrome.tabs.onActivated.addListener(activeInfo => {
 // Only count a switch when the URL actually changes for this tab.
 // onUpdated fires for title/favicon/status changes too - ignore those.
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status && changeInfo.status !== "complete" && !changeInfo.url) {
+        return;
+    }
     const url = tab.url || tab.pendingUrl;
     if (url) {
         const prevUrl = lastTabUrls[tabId];
@@ -609,6 +612,39 @@ if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessageE
         });
         return true;
     });
+}
+
+// Keep Manifest V3 service worker active and continuously sync telemetry to dashboard
+if (typeof chrome !== "undefined" && chrome.alarms) {
+    chrome.alarms.create("TELEMETRY_SYNC_ALARM", { periodInMinutes: 0.25 });
+    chrome.alarms.onAlarm.addListener((alarm) => {
+        if (alarm.name === "TELEMETRY_SYNC_ALARM") {
+            syncToStorage();
+            autoPushTelemetry();
+        }
+    });
+}
+
+async function autoPushTelemetry() {
+    const payload = {
+        timestamp: new Date().toISOString(),
+        todayDateStr: todayDateStr,
+        totalTabSwitches: totalTabSwitches,
+        totalIdleSec: totalIdleSec,
+        siteUsage: siteUsage,
+        timeline: timeline,
+        currentWebsite: currentWebsite,
+        previousWebsite: previousWebsite
+    };
+    try {
+        await fetch("http://127.0.0.1:5500/api/sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+    } catch (e) {
+        // Silently ignore if server is not yet running
+    }
 }
 
 // Expose global sync() function in the Service Worker DevTools Console

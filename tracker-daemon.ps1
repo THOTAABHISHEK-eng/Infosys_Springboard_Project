@@ -76,9 +76,16 @@ $KNOWN_APPS = @{
     "cmd"             = @{ Name = "Command Prompt"; Category = "Utilities" }
     "windowsterminal" = @{ Name = "Windows Terminal"; Category = "Utilities" }
     "explorer"        = @{ Name = "File Explorer"; Category = "System" }
-    "spotify"         = @{ Name = "Spotify"; Category = "Media" }
+    "spotify"         = @{ Name = "Spotify"; Category = "Entertainment" }
+    "vlc"             = @{ Name = "VLC Media Player"; Category = "Entertainment" }
+    "wmplayer"        = @{ Name = "Windows Media Player"; Category = "Entertainment" }
+    "redflix"         = @{ Name = "RedFlix"; Category = "Entertainment" }
+    "netflix"         = @{ Name = "Netflix"; Category = "Entertainment" }
     "notepad"         = @{ Name = "Notepad"; Category = "Utilities" }
     "notepad++"       = @{ Name = "Notepad++"; Category = "Development" }
+    "snippingtool"    = @{ Name = "Snipping Tool"; Category = "Utilities" }
+    "calculator"      = @{ Name = "Calculator"; Category = "Utilities" }
+    "calculatorapp"   = @{ Name = "Calculator"; Category = "Utilities" }
     "shellexperiencehost" = @{ Name = "Task Switching"; Category = "System" }
     "taskview"        = @{ Name = "Task Switching"; Category = "System" }
     "searchhost"      = @{ Name = "Windows Search"; Category = "System" }
@@ -154,7 +161,9 @@ function Resolve-AppDetails($processName, $rawTitle) {
     # Distinct website tracking inside browsers (e.g. YouTube (Brave Browser))
     $finalAppName = if ($procLower -in @("brave", "chrome", "msedge", "firefox") -and $cleanTitle -ne $name -and -not [string]::IsNullOrWhiteSpace($cleanTitle)) {
         $siteIdentity = $cleanTitle
-        if ($cleanTitle -match "(?:-\s*|\|\s*)(YouTube|Google Search|GitHub|Reddit|Twitter|X|LinkedIn|Wikipedia|ChatGPT|Netflix|Spotify|Amazon|Stack Overflow|Coursera|LeetCode|Infosys)") {
+        if ($cleanTitle -match "(?i)\bmeet\b|Google Meet") {
+            $siteIdentity = "Google Meet"
+        } elseif ($cleanTitle -match "(?:-\s*|\|\s*)(YouTube|Google Search|GitHub|Reddit|Twitter|X|LinkedIn|Wikipedia|ChatGPT|Netflix|Spotify|Amazon|Stack Overflow|Coursera|LeetCode|Infosys)") {
             $siteIdentity = $matches[1]
         } elseif ($cleanTitle.Contains(" - ")) {
             $parts = $cleanTitle -split "\s*-\s*"
@@ -269,6 +278,18 @@ if (Test-Path $stateFile) {
                     activeDurationFormatted = $rawState.previous.activeDurationFormatted
                     lastActiveTime = $rawState.previous.lastActiveTime
                 }
+            }
+            if ($rawState.current -and -not [string]::IsNullOrWhiteSpace($rawState.current.appName)) {
+                $currentState = @{
+                    appName = $rawState.current.appName
+                    category = $rawState.current.category
+                    title = $rawState.current.title
+                    rawTitle = $rawState.current.title
+                    process = $rawState.current.process
+                    activatedTime = $rawState.current.activatedTime
+                    lastUpdated = $rawState.current.lastUpdated
+                }
+                $currentDwell = [int]$rawState.current.dwellSeconds
             }
         }
     } catch {
@@ -495,7 +516,9 @@ while ($true) {
 
                 # 2. Setup new active window
                 $resolved = Resolve-AppDetails $procName $windowTitle
-                $totalSwitches++
+                if ($currentState -eq $null -or $currentDwell -ge 1) {
+                    $totalSwitches++
+                }
                 $currentDwell = 0
                 $lastForegroundId = $proc.Id
 
@@ -544,9 +567,9 @@ while ($true) {
     # Refresh the structured terminal dashboard every second
     Print-ConsoleDashboard
 
-    # Persist structured JSON state to activity_state.json every 2 seconds
+    # Persist structured JSON state to activity_state.json every second
     $syncCounter++
-    if ($syncCounter % 2 -eq 0) {
+    if ($syncCounter % 1 -eq 0) {
         # Find Most Used App
         $topApp = $null
         $maxSec = -1
