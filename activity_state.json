@@ -1,43 +1,43 @@
 ﻿{
     "summary":  {
-                    "totalActiveSeconds":  146,
+                    "totalActiveSeconds":  571,
                     "mostUsedApp":  {
-                                        "durationSeconds":  152,
-                                        "category":  "General Application",
-                                        "name":  "Antigravity Ide",
-                                        "durationFormatted":  "2m 32s",
-                                        "percentage":  104
+                                        "durationSeconds":  414,
+                                        "category":  "Entertainment",
+                                        "name":  "YouTube (Brave Browser)",
+                                        "durationFormatted":  "6m 54s",
+                                        "percentage":  73
                                     },
-                    "totalActiveFormatted":  "2m 26s",
-                    "distinctAppsCount":  5,
-                    "totalSwitches":  9
+                    "totalActiveFormatted":  "9m 31s",
+                    "distinctAppsCount":  10,
+                    "totalSwitches":  54
                 },
     "totalIdleSec":  null,
     "previous":  {
-                     "activeDurationFormatted":  "36s",
-                     "title":  "Task Switching",
-                     "appName":  "Task Switching",
-                     "process":  "explorer",
-                     "category":  "System",
-                     "lastActiveTime":  "12:38:13 PM",
-                     "sessionDwellSec":  1,
-                     "activeDurationSec":  36
+                     "activeDurationFormatted":  "6m 54s",
+                     "title":  "Zeus can NEVER match Odin’s true power #thor - YouTube",
+                     "appName":  "YouTube (Brave Browser)",
+                     "process":  "brave",
+                     "category":  "Entertainment",
+                     "lastActiveTime":  "01:25:05 PM",
+                     "sessionDwellSec":  47,
+                     "activeDurationSec":  414
                  },
     "idleSeconds":  null,
     "appUsage":  [
                      {
-                         "switchCount":  4,
-                         "category":  "System",
-                         "name":  "Task Switching",
-                         "totalSeconds":  36,
-                         "lastSeen":  "12:38:13 PM"
-                     },
-                     {
-                         "switchCount":  1,
+                         "switchCount":  14,
                          "category":  "General Application",
                          "name":  "Antigravity Ide",
-                         "totalSeconds":  152,
-                         "lastSeen":  "12:38:12 PM"
+                         "totalSeconds":  337,
+                         "lastSeen":  "01:23:47 PM"
+                     },
+                     {
+                         "lastSeen":  "01:03:35 PM",
+                         "category":  "Utilities",
+                         "name":  "Windows Terminal",
+                         "totalSeconds":  38,
+                         "switchCount":  5
                      },
                      {
                          "lastSeen":  "12:08:02 AM",
@@ -47,46 +47,57 @@
                          "switchCount":  1
                      },
                      {
-                         "switchCount":  2,
-                         "category":  "Utilities",
-                         "name":  "Windows Terminal",
-                         "totalSeconds":  15,
-                         "lastSeen":  "12:36:30 PM"
+                         "switchCount":  1,
+                         "category":  "General Application",
+                         "name":  "Shellhost",
+                         "totalSeconds":  14,
+                         "lastSeen":  "01:22:51 PM"
                      },
                      {
-                         "lastSeen":  "12:08:07 AM",
+                         "lastSeen":  "01:03:42 PM",
+                         "category":  "General Application",
+                         "name":  "Clipchamp",
+                         "totalSeconds":  6,
+                         "switchCount":  1
+                     },
+                     {
+                         "switchCount":  4,
+                         "category":  "Utilities",
+                         "name":  "Snipping Tool",
+                         "totalSeconds":  38,
+                         "lastSeen":  "01:19:17 PM"
+                     },
+                     {
+                         "switchCount":  10,
                          "category":  "Entertainment",
                          "name":  "YouTube (Brave Browser)",
-                         "totalSeconds":  8,
+                         "totalSeconds":  414,
+                         "lastSeen":  "01:25:05 PM"
+                     },
+                     {
+                         "switchCount":  15,
+                         "category":  "System",
+                         "name":  "Task Switching",
+                         "totalSeconds":  192,
+                         "lastSeen":  "01:23:49 PM"
+                     },
+                     {
+                         "lastSeen":  "01:04:24 PM",
+                         "category":  "Other",
+                         "name":  "Branches · Springboard-Internshi... (Brave Browser)",
+                         "totalSeconds":  4,
                          "switchCount":  1
+                     },
+                     {
+                         "lastSeen":  "01:04:19 PM",
+                         "category":  "Utilities",
+                         "name":  "Notepad",
+                         "totalSeconds":  20,
+                         "switchCount":  2
                      }
                  ],
     "date":  "2026-11-18",
     "timeline":  [
-                     {
-                         "AppName":  "Review File Errors (Brave Browser)",
-                         "DurationFormatted":  "38s",
-                         "Category":  "Other",
-                         "DurationSec":  38,
-                         "Time":  "12:07:21 AM",
-                         "Title":  "Review File Errors"
-                     },
-                     {
-                         "AppName":  "YouTube (Brave Browser)",
-                         "DurationFormatted":  "4s",
-                         "Category":  "Entertainment",
-                         "DurationSec":  4,
-                         "Time":  "12:08:02 AM",
-                         "Title":  "Faint (Official Music Video) [4K UPGRADE] - Linkin Park - YouTube"
-                     },
-                     {
-                         "AppName":  "Task Switching",
-                         "DurationFormatted":  "1s",
-                         "Category":  "System",
-                         "DurationSec":  1,
-                         "Time":  "12:08:07 AM",
-                         "Title":  "Task Switching"
-                     },
                      {
                          "AppName":  "Windows Terminal",
                          "DurationFormatted":  "5s",
@@ -126,17 +137,377 @@
                          "DurationSec":  1,
                          "Time":  "12:38:12 PM",
                          "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "7s",
+                         "Category":  "Utilities",
+                         "DurationSec":  7,
+                         "Time":  "12:38:13 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "25s",
+                         "Category":  "System",
+                         "DurationSec":  25,
+                         "Time":  "01:01:49 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "4s",
+                         "Category":  "Utilities",
+                         "DurationSec":  4,
+                         "Time":  "01:02:18 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "31s",
+                         "Category":  "System",
+                         "DurationSec":  31,
+                         "Time":  "01:02:22 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Utilities",
+                         "DurationSec":  2,
+                         "Time":  "01:03:30 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Snipping Tool",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Utilities",
+                         "DurationSec":  1,
+                         "Time":  "01:03:32 PM",
+                         "Title":  "Recording toolbar"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "1s",
+                         "Category":  "Utilities",
+                         "DurationSec":  1,
+                         "Time":  "01:03:33 PM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Snipping Tool",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Utilities",
+                         "DurationSec":  3,
+                         "Time":  "01:03:35 PM",
+                         "Title":  "Snipping Tool"
+                     },
+                     {
+                         "AppName":  "Clipchamp",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "01:03:38 PM",
+                         "Title":  "Microsoft Clipchamp"
+                     },
+                     {
+                         "AppName":  "Snipping Tool",
+                         "DurationFormatted":  "8s",
+                         "Category":  "Utilities",
+                         "DurationSec":  8,
+                         "Time":  "01:03:42 PM",
+                         "Title":  "Snipping Tool"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "01:03:51 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "01:03:53 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "01:03:56 PM",
+                         "Title":  "Open"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "5s",
+                         "Category":  "General Application",
+                         "DurationSec":  5,
+                         "Time":  "01:04:01 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "01:04:07 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Notepad",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Utilities",
+                         "DurationSec":  5,
+                         "Time":  "01:04:08 PM",
+                         "Title":  "*taskk for the day.txt - Notepad"
+                     },
+                     {
+                         "AppName":  "Notepad",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Utilities",
+                         "DurationSec":  5,
+                         "Time":  "01:04:14 PM",
+                         "Title":  "what did we discuss yesterdaay.txt - Notepad"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "01:04:19 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Branches · Springboard-Internshi... (Brave Browser)",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Other",
+                         "DurationSec":  2,
+                         "Time":  "01:04:21 PM",
+                         "Title":  "Branches · Springboard-Internship-2026/AI-Powered-Digital-Attention-Management-System-for-Distraction-Detection-and-Focus-Enhance-NOV-2026"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "39s",
+                         "Category":  "General Application",
+                         "DurationSec":  39,
+                         "Time":  "01:04:24 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "6s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  6,
+                         "Time":  "01:18:46 PM",
+                         "Title":  "Goku Test\u0027s The Z Sword... - YouTube"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "9s",
+                         "Category":  "System",
+                         "DurationSec":  9,
+                         "Time":  "01:18:52 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "6s",
+                         "Category":  "General Application",
+                         "DurationSec":  6,
+                         "Time":  "01:19:02 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Snipping Tool",
+                         "DurationFormatted":  "7s",
+                         "Category":  "Utilities",
+                         "DurationSec":  7,
+                         "Time":  "01:19:09 PM",
+                         "Title":  "Snipping Tool Overlay"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "01:19:17 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "6s",
+                         "Category":  "General Application",
+                         "DurationSec":  6,
+                         "Time":  "01:19:21 PM",
+                         "Title":  "Open"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "3s",
+                         "Category":  "General Application",
+                         "DurationSec":  3,
+                         "Time":  "01:19:28 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "4s",
+                         "Category":  "General Application",
+                         "DurationSec":  4,
+                         "Time":  "01:19:32 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js●"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "15s",
+                         "Category":  "General Application",
+                         "DurationSec":  15,
+                         "Time":  "01:19:37 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "2s",
+                         "Category":  "System",
+                         "DurationSec":  2,
+                         "Time":  "01:19:54 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "31s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  31,
+                         "Time":  "01:19:56 PM",
+                         "Title":  "Goku Test\u0027s The Z Sword... - YouTube"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "53s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  53,
+                         "Time":  "01:20:37 PM",
+                         "Title":  "Choose $20K, $20M, or $20B Pain 😨 - YouTube"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "9s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  9,
+                         "Time":  "01:21:46 PM",
+                         "Title":  "Can a Spider-Man Actually BEAT Doctor Doom? 😳🕷️ - YouTube"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "01:21:56 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "1s",
+                         "Category":  "General Application",
+                         "DurationSec":  1,
+                         "Time":  "01:21:57 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "01:21:59 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "23s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  23,
+                         "Time":  "01:22:00 PM",
+                         "Title":  "Can a Spider-Man Actually BEAT Doctor Doom? 😳🕷️ - YouTube"
+                     },
+                     {
+                         "AppName":  "Shellhost",
+                         "DurationFormatted":  "7s",
+                         "Category":  "General Application",
+                         "DurationSec":  7,
+                         "Time":  "01:22:30 PM",
+                         "Title":  "Quick settings"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "29s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  29,
+                         "Time":  "01:22:51 PM",
+                         "Title":  "Can a Spider-Man Actually BEAT Doctor Doom? 😳🕷️ - YouTube"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "2s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  2,
+                         "Time":  "01:23:34 PM",
+                         "Title":  "Goku Meets Grand Zeno🔥🤯 - YouTube"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "3s",
+                         "Category":  "System",
+                         "DurationSec":  3,
+                         "Time":  "01:23:39 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "2s",
+                         "Category":  "General Application",
+                         "DurationSec":  2,
+                         "Time":  "01:23:45 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE - popup.js"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "01:23:47 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "3s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  3,
+                         "Time":  "01:23:49 PM",
+                         "Title":  "Goku Meets Grand Zeno🔥🤯 - YouTube"
+                     },
+                     {
+                         "AppName":  "YouTube (Brave Browser)",
+                         "DurationFormatted":  "47s",
+                         "Category":  "Entertainment",
+                         "DurationSec":  47,
+                         "Time":  "01:23:55 PM",
+                         "Title":  "Zeus can NEVER match Odin’s true power #thor - YouTube"
                      }
                  ],
     "current":  {
-                    "lastUpdated":  "12:38:18 PM",
-                    "activatedTime":  "12:38:13 PM",
-                    "title":  "Dashboard Server",
-                    "category":  "Utilities",
-                    "dwellFormatted":  "5s",
-                    "dwellSeconds":  5,
-                    "appName":  "Windows Terminal",
-                    "process":  "WindowsTerminal"
+                    "lastUpdated":  "01:25:07 PM",
+                    "activatedTime":  "01:25:05 PM",
+                    "title":  "infosys_springboard - Antigravity IDE - popup.js",
+                    "category":  "General Application",
+                    "dwellFormatted":  "3s",
+                    "dwellSeconds":  3,
+                    "appName":  "Antigravity Ide",
+                    "process":  "Antigravity IDE"
                 },
-    "timestamp":  "2026-11-18T12:38:18.3287670+05:30"
+    "timestamp":  "2026-11-18T13:25:07.9269397+05:30"
 }

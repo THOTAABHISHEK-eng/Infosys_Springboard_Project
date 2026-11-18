@@ -580,12 +580,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const cat = displayCategory(a.category, a.name).label;
             byCategory[cat] = (byCategory[cat] || 0) + (a.totalSeconds || 0);
         });
+        const DISTRACTION_CATEGORIES = ["Entertainment", "Social Media", "Shopping"];
         const timeLost = Object.entries(byCategory)
-            .filter(([cat]) => !PRODUCTIVE_CATEGORIES.includes(cat))
+            .filter(([cat]) => DISTRACTION_CATEGORIES.includes(cat))
             .map(([cat, sec]) => ({ category: cat, seconds: sec, percent: Math.round((sec / total) * 100) }))
             .sort((a, b) => b.seconds - a.seconds);
         const topDistractions = apps
-            .filter(a => !PRODUCTIVE_CATEGORIES.includes(displayCategory(a.category, a.name).label))
+            .filter(a => DISTRACTION_CATEGORIES.includes(displayCategory(a.category, a.name).label))
+            .sort((a, b) => (b.totalSeconds || 0) - (a.totalSeconds || 0))
             .slice(0, 5)
             .map(a => ({
                 name: a.name,

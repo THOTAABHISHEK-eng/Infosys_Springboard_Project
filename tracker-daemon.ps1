@@ -215,6 +215,7 @@ $previousState = $null
 $currentDwell = 0
 $totalActiveSeconds = 0
 $totalSwitches = 0
+$totalIdleSec = 0
 $appUsage = @{}
 $recentEvents = @()
 $lastForegroundId = 0
@@ -589,7 +590,10 @@ while ($true) {
                 $topApp = $appUsage[$k]
             }
         }
-        $appUsageSum = ($appUsage.Values | Measure-Object -Property totalSeconds -Sum).Sum
+        $appUsageSum = 0
+        foreach ($v in $appUsage.Values) {
+            if ($v -and $v.totalSeconds) { $appUsageSum += [int]$v.totalSeconds }
+        }
         $computedTotal = [Math]::Max($totalActiveSeconds, [int]$appUsageSum)
         $topAppPct = if ($computedTotal -gt 0 -and $maxSec -gt 0) { [Math]::Min(100, [Math]::Round(($maxSec / $computedTotal) * 100)) } else { 0 }
 
