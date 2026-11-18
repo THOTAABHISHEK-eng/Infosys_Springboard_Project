@@ -278,69 +278,95 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Focus Score: starts at 100
-    // Standardized Deduction Breakdown Engine
+    // Intelligent, rate-normalized, continuous deduction & flow resilience engine
     function computeFocusScore(state) {
-        if (!state) return { score: 100, isCalibrating: true, elapsed: 0, deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0 } };
+        if (!state) return { score: 100, isCalibrating: true, elapsed: 0, deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0, flow_bonus: 0 } };
         const switches = state.totalTabSwitches || 0;
         const siteUsage = state.siteUsage || {};
         const sites = Object.values(siteUsage);
         const totalActiveSec = sites.reduce((acc, s) => acc + (s.totalSec || 0), 0);
 
         if (totalActiveSec < 60) {
-            return { score: 100, isCalibrating: true, elapsed: totalActiveSec, deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0 } };
+            return { score: 100, isCalibrating: true, elapsed: totalActiveSec, deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0, flow_bonus: 0 } };
         }
 
         let distractSec = 0;
+        let longestDwellSec = 0;
         sites.forEach(s => {
             const cat = guessCategory(s.domain, s.name);
             const sec = s.totalSec || 0;
-            if (cat === "Entertainment" || cat === "Social Media" || cat === "Shopping") {
+            const isDistract = (cat === "Entertainment" || cat === "Social Media" || cat === "Shopping");
+            if (isDistract) {
                 distractSec += sec;
+            } else if (sec > longestDwellSec) {
+                longestDwellSec = sec;
             }
         });
 
-        // 1. Tab switching (0 to 20 pts)
+        const activeHours = Math.max(1 / 60, totalActiveSec / 3600);
+        const switchVelocity = switches / activeHours;
+
+        // 1. Tab switching: Velocity-based rate (0 to 20 pts)
+        // Up to 15 switches/hr is natural research/navigation (0 pts).
+        // 15 to 60 switches/hr scales smoothly from 1 to 20 pts.
         let tabDeduction = 0;
-        if (switches > 50) tabDeduction = 20;
-        else if (switches > 25) tabDeduction = 15;
-        else if (switches > 10) tabDeduction = 10;
-        else if (switches > 5) tabDeduction = 5;
+        if (switchVelocity > 15 && totalActiveSec >= 60) {
+            const excess = Math.min(45, switchVelocity - 15);
+            tabDeduction = Math.min(20, Math.round((excess / 45) * 20));
+        }
 
-        // 2. Category usage (0 to 30 pts)
+        // 2. Category usage: Continuous weighted curve (0 to 30 pts)
         const distractRatio = totalActiveSec > 0 ? (distractSec / totalActiveSec) : 0;
-        const categoryDeduction = Math.min(30, Math.round(distractRatio * 35));
+        let categoryDeduction = 0;
+        if (distractRatio > 0.03) {
+            categoryDeduction = Math.min(30, Math.round(Math.pow(distractRatio, 0.85) * 32));
+        } else if (distractRatio > 0) {
+            categoryDeduction = 1;
+        }
 
-        // 3. Idle time (0 to 20 pts)
+        // 3. Idle time: Micro-break tolerant decay (0 to 20 pts)
         const idleSec = state.totalIdleSec || 0;
         const totalTime = Math.max(1, totalActiveSec + idleSec);
         const idleRatio = (idleSec / totalTime) * 100;
         let idleDeduction = 0;
-        if (idleRatio >= 35) idleDeduction = 20;
-        else if (idleRatio >= 20) idleDeduction = 15;
-        else if (idleRatio >= 10) idleDeduction = 10;
-        else if (idleRatio >= 5) idleDeduction = 5;
+        if (idleRatio > 10) {
+            const excessIdle = Math.min(30, idleRatio - 10);
+            idleDeduction = Math.min(20, Math.round((excessIdle / 30) * 20));
+        }
 
-        // 4. Focus sessions / dwell depth (0 to 20 pts)
+        // 4. Focus sessions / dwell depth: Continuous curve (0 to 20 pts)
         const avgDwell = totalActiveSec / Math.max(1, switches + 1);
         let focusSessionDeduction = 0;
-        if (avgDwell < 30) focusSessionDeduction = 20;
-        else if (avgDwell < 60) focusSessionDeduction = 15;
-        else if (avgDwell < 120) focusSessionDeduction = 10;
+        if (avgDwell < 180 && totalActiveSec >= 60) {
+            const deficit = 180 - avgDwell;
+            focusSessionDeduction = Math.min(20, Math.round(Math.pow(deficit / 180, 1.25) * 20));
+        }
 
-        const deductions = {
-            tab_switching: tabDeduction,
-            category_usage: categoryDeduction,
-            idle_time: idleDeduction,
-            focus_sessions: focusSessionDeduction
-        };
-        const totalDeduction = tabDeduction + categoryDeduction + idleDeduction + focusSessionDeduction;
+        // 5. Deep Work Flow Bonus (Positive Reinforcement)
+        let flowBonus = 0;
+        if (distractRatio < 0.25) {
+            if (longestDwellSec >= 1500) {
+                flowBonus = 5;
+            } else if (longestDwellSec >= 900) {
+                flowBonus = 3;
+            }
+        }
+
+        const rawDeductions = tabDeduction + categoryDeduction + idleDeduction + focusSessionDeduction;
+        const totalDeduction = Math.max(0, rawDeductions - flowBonus);
         const score = Math.max(10, Math.min(100, 100 - totalDeduction));
 
         return {
             score: score,
             isCalibrating: false,
             elapsed: totalActiveSec,
-            deductions: deductions,
+            deductions: {
+                tab_switching: tabDeduction,
+                category_usage: categoryDeduction,
+                idle_time: idleDeduction,
+                focus_sessions: focusSessionDeduction,
+                flow_bonus: flowBonus
+            },
             idleRatio: idleRatio.toFixed(2) + "%"
         };
     }
@@ -504,11 +530,8 @@ document.addEventListener("DOMContentLoaded", () => {
             totalVisits += (s.visitCount || 1);
         });
 
-        // Sort by recency (most recently active or visited first)
+        // Sort by active duration (highest first) for the overview "Ranked by active duration" display
         sites.sort((a, b) => {
-            const timeA = a.lastActiveTimestamp || 0;
-            const timeB = b.lastActiveTimestamp || 0;
-            if (timeB !== timeA) return timeB - timeA;
             return (b.totalSec || 0) - (a.totalSec || 0);
         });
 

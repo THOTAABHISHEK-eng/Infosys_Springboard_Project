@@ -308,20 +308,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ========================================================================
-       TRANSPARENT FOCUS SCORE & DEDUCTION BREAKDOWN ENGINE
+       INTELLIGENT FOCUS SCORE & DEDUCTION BREAKDOWN ENGINE
+       Continuous, rate-normalized, and flow-resilient scoring.
        Base score: 100
-       Deductions:
-       - Tab switching (0 to 20 pts)
-       - Category usage (Entertainment/Social Media/Shopping: 0 to 30 pts)
-       - Idle time ratio (0 to 20 pts)
-       - Focus sessions / dwell depth (0 to 20 pts)
+       Deductions & Bonuses:
+       - Tab switching: Velocity-based (switches / active hour) (0 to 20 pts)
+       - Category usage: Continuous weighted power-curve (0 to 30 pts)
+       - Idle time ratio: Micro-break tolerant decay (0 to 20 pts)
+       - Focus sessions: Continuous dwell depth & cognitive friction (0 to 20 pts)
+       - Flow bonus: Sustained deep work reward (+3 to +5 pts resilience)
        ======================================================================== */
     function computeFocusBreakdown(state) {
         if (!state) {
             return {
                 score: 100,
                 classification: "Excellent",
-                deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0 },
+                deductions: { tab_switching: 0, category_usage: 0, idle_time: 0, focus_sessions: 0, flow_bonus: 0 },
                 totalDeductions: 0,
                 sessionType: "Focused Session (0 items)",
                 inTabIdleRatio: "0.00%",
@@ -337,90 +339,115 @@ document.addEventListener("DOMContentLoaded", () => {
         let distractSec = 0;
         let topDistractionSite = null;
         let maxDistractSec = 0;
+        let longestDwellSec = 0;
 
         apps.forEach(a => {
             const sec = a.totalSeconds || 0;
             totalActiveSec += sec;
             const cat = displayCategory(a.category, a.name);
-            if (cat.label === "Entertainment" || cat.label === "Social Media" || cat.label === "Shopping") {
+            const isDistract = (cat.label === "Entertainment" || cat.label === "Social Media" || cat.label === "Shopping");
+            if (isDistract) {
                 distractSec += sec;
                 if (sec > maxDistractSec) {
                     maxDistractSec = sec;
                     topDistractionSite = a.name;
                 }
+            } else if (sec > longestDwellSec) {
+                longestDwellSec = sec;
             }
         });
 
         const idleSec = state.idleSeconds || state.totalIdleSec || 0;
         const totalTimeSec = Math.max(1, totalActiveSec + idleSec);
         const idleRatio = (idleSec / totalTimeSec) * 100;
+        const activeHours = Math.max(1 / 60, totalActiveSec / 3600);
+        const switchVelocity = switches / activeHours;
 
-        // 1. Tab switching deduction (0 to 20 pts)
+        // 1. Tab switching deduction: Velocity-based rate (0 to 20 pts)
+        // Up to 15 switches/hr is natural research/navigation (0 pts).
+        // 15 to 60 switches/hr scales smoothly from 1 to 20 pts.
         let tabDeduction = 0;
-        if (switches > 50) tabDeduction = 20;
-        else if (switches > 25) tabDeduction = 15;
-        else if (switches > 10) tabDeduction = 10;
-        else if (switches > 5) tabDeduction = 5;
+        if (switchVelocity > 15 && totalActiveSec >= 60) {
+            const excess = Math.min(45, switchVelocity - 15);
+            tabDeduction = Math.min(20, Math.round((excess / 45) * 20));
+        }
 
-        // 2. Category usage deduction (0 to 30 pts)
+        // 2. Category usage deduction: Continuous weighted curve (0 to 30 pts)
+        // Distractions under 3% are treated as brief checks. Beyond 3%, scales smoothly.
         const distractRatio = totalActiveSec > 0 ? (distractSec / totalActiveSec) : 0;
-        const categoryDeduction = Math.min(30, Math.round(distractRatio * 35));
+        let categoryDeduction = 0;
+        if (distractRatio > 0.03) {
+            categoryDeduction = Math.min(30, Math.round(Math.pow(distractRatio, 0.85) * 32));
+        } else if (distractRatio > 0) {
+            categoryDeduction = 1;
+        }
 
-        // 3. Idle time deduction (0 to 20 pts)
+        // 3. Idle time deduction: Micro-break tolerant decay (0 to 20 pts)
+        // Up to 10% idle is considered healthy thinking/reading pauses.
         let idleDeduction = 0;
-        if (idleRatio >= 35) idleDeduction = 20;
-        else if (idleRatio >= 20) idleDeduction = 15;
-        else if (idleRatio >= 10) idleDeduction = 10;
-        else if (idleRatio >= 5) idleDeduction = 5;
+        if (idleRatio > 10) {
+            const excessIdle = Math.min(30, idleRatio - 10);
+            idleDeduction = Math.min(20, Math.round((excessIdle / 30) * 20));
+        }
 
-        // 4. Focus sessions / dwell depth (0 to 20 pts)
+        // 4. Focus sessions / dwell depth: Continuous curve (0 to 20 pts)
+        // 180s+ average dwell per switch indicates strong flow state.
         const avgDwell = totalActiveSec / Math.max(1, switches + 1);
         let focusSessionDeduction = 0;
-        if (avgDwell < 30) focusSessionDeduction = 20;
-        else if (avgDwell < 60) focusSessionDeduction = 15;
-        else if (avgDwell < 120) focusSessionDeduction = 10;
+        if (avgDwell < 180 && totalActiveSec >= 60) {
+            const deficit = 180 - avgDwell;
+            focusSessionDeduction = Math.min(20, Math.round(Math.pow(deficit / 180, 1.25) * 20));
+        }
 
-        const deductions = {
-            tab_switching: tabDeduction,
-            category_usage: categoryDeduction,
-            idle_time: idleDeduction,
-            focus_sessions: focusSessionDeduction
-        };
-        const totalDeductions = tabDeduction + categoryDeduction + idleDeduction + focusSessionDeduction;
+        // 5. Deep Work Flow Bonus (Positive Reinforcement)
+        // >= 25 min (1500s Pomodoro interval) on a productive task earns +5 resilience pts
+        // >= 15 min (900s) earns +3 resilience pts
+        let flowBonus = 0;
+        if (distractRatio < 0.25) {
+            if (longestDwellSec >= 1500) {
+                flowBonus = 5;
+            } else if (longestDwellSec >= 900) {
+                flowBonus = 3;
+            }
+        }
+
+        const rawDeductions = tabDeduction + categoryDeduction + idleDeduction + focusSessionDeduction;
+        const totalDeductions = Math.max(0, rawDeductions - flowBonus);
         const score = Math.max(10, Math.min(100, 100 - totalDeductions));
 
-        let classification = "Average";
+        let classification = "Fair";
         if (score >= 85) classification = "Excellent";
         else if (score >= 70) classification = "Good";
-        else if (score >= 50) classification = "Average";
-        else classification = "Poor";
+        else if (score >= 50) classification = "Fair";
+        else classification = "Needs Work";
 
         const totalItems = apps.length || 1;
-        const sessionType = (totalItems > 10 || switches > 20) ? `Multi-Tab Session (${totalItems} items)` : `Focused Session (${totalItems} items)`;
+        const sessionType = (totalItems > 10 || switchVelocity > 25) ? `Multi-Task Session (${totalItems} items)` : `Focused Session (${totalItems} items)`;
 
-        // Narrative Analysis explaining exactly where marks were lost
+        // Narrative Analysis explaining exactly where marks were lost or gained
         const reasons = [];
-        if (tabDeduction > 0) reasons.push(`heavy tab switching (-${tabDeduction} points)`);
-        if (categoryDeduction > 0) reasons.push(`distraction category usage (-${categoryDeduction} points)`);
-        if (idleDeduction > 0) reasons.push(`significant idle time (-${idleDeduction} points)`);
-        if (focusSessionDeduction > 0) reasons.push(`a lack of tracked focus sessions (-${focusSessionDeduction} points)`);
+        if (tabDeduction > 0) reasons.push(`rapid context switching (${Math.round(switchVelocity)}/hr, -${tabDeduction} pts)`);
+        if (categoryDeduction > 0) reasons.push(`distraction usage (${Math.round(distractRatio * 100)}% of time, -${categoryDeduction} pts)`);
+        if (idleDeduction > 0) reasons.push(`idle drift (${idleRatio.toFixed(1)}%, -${idleDeduction} pts)`);
+        if (focusSessionDeduction > 0) reasons.push(`fragmented dwell (${Math.round(avgDwell)}s avg, -${focusSessionDeduction} pts)`);
+        if (flowBonus > 0) reasons.push(`sustained deep work bonus (+${flowBonus} pts)`);
 
         let analysis = "";
         if (reasons.length > 0) {
-            analysis = `The user's focus score decreased due to ${reasons.join(", ")}.`;
+            analysis = `The user focus score was evaluated with ${reasons.join(", ")}.`;
             if (topDistractionSite) {
                 const mins = Math.round(maxDistractSec / 60);
-                analysis += ` Distractions were primarily driven by non-productive browsing on ${topDistractionSite}${mins > 0 ? ` (${mins}m)` : ""}, which accounted for the bulk of distraction duration.`;
+                analysis += ` Non-productive browsing was primarily on ${topDistractionSite}${mins > 0 ? ` (${mins}m)` : ""}.`;
             }
         } else {
-            analysis = "The user maintained optimal focus with zero deductions across all monitored metrics. Browsing was disciplined with strong dwell times and minimal cognitive reorientation.";
+            analysis = "The user maintained optimal focus with disciplined dwell velocity and minimal cognitive reorientation.";
         }
 
         // Varied recommendations (ALWAYS POPULATED, IRRESPECTIVE OF FOCUS SCORE)
         const recs = [];
         if (focusSessionDeduction > 0) recs.push("Integrate a Pomodoro focus timer into your routine to structure work intervals and properly log focus sessions.");
-        if (tabDeduction > 0) recs.push("Minimize frequent tab switching by closing unrelated tabs and focusing on a single task at a time.");
-        if (idleDeduction > 0) recs.push("Reduce idle time by setting clear session goals and taking designated breaks rather than drifting between tabs.");
+        if (tabDeduction > 0) recs.push("Minimize rapid context switching by closing unrelated tabs and maintaining a single primary task in view.");
+        if (idleDeduction > 0) recs.push("Reduce idle drift by setting clear session goals and taking designated breaks rather than idling between windows.");
         if (categoryDeduction > 0 && topDistractionSite) recs.push(`Limit visits to entertainment sites like ${topDistractionSite} during active work periods to maintain continuous concentration.`);
 
         if (recs.length < 4) {
@@ -434,6 +461,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 recs.push("Keep a single primary application in the foreground and minimize background distractions.");
             }
         }
+
+        const deductions = {
+            tab_switching: tabDeduction,
+            category_usage: categoryDeduction,
+            idle_time: idleDeduction,
+            focus_sessions: focusSessionDeduction,
+            flow_bonus: flowBonus
+        };
 
         return {
             score,
@@ -644,6 +679,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div style="font-size:0.65rem;color:var(--text-muted);">Focus Sessions</div>
                         <div style="font-size:0.85rem;font-weight:700;color:${breakdown.deductions.focus_sessions > 0 ? '#ef4444' : 'var(--accent-emerald)'};">-${breakdown.deductions.focus_sessions} pts</div>
                     </div>
+                    ${(breakdown.deductions.flow_bonus > 0) ? `
+                    <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);border-radius:6px;padding:8px 10px;">
+                        <div style="font-size:0.65rem;color:var(--accent-emerald);">Flow Bonus</div>
+                        <div style="font-size:0.85rem;font-weight:700;color:var(--accent-emerald);">+${breakdown.deductions.flow_bonus} pts</div>
+                    </div>` : ''}
                 </div>
                 <div style="font-size:0.75rem;color:#cbd5e1;line-height:1.45;background:rgba(255,255,255,0.03);border-left:3px solid var(--accent-emerald);padding:8px 10px;border-radius:0 4px 4px 0;margin-bottom:10px;">
                     <strong>Analysis:</strong> ${escapeHtml(breakdown.analysis)}
@@ -1426,6 +1466,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Combine timelines
+        // Helper to convert a time string like "01:12:57 AM" or "13:04:22" into seconds-since-midnight for sorting
+        function timeStrToSortKey(timeStr) {
+            if (!timeStr) return 0;
+            const m12 = /(\d+):(\d+):(\d+)\s*(AM|PM)/i.exec(timeStr);
+            if (m12) {
+                let h = parseInt(m12[1], 10);
+                const min = parseInt(m12[2], 10);
+                const sec = parseInt(m12[3], 10);
+                const ampm = m12[4].toUpperCase();
+                if (ampm === 'AM' && h === 12) h = 0;
+                if (ampm === 'PM' && h !== 12) h += 12;
+                return h * 3600 + min * 60 + sec;
+            }
+            const m24 = /(\d+):(\d+):(\d+)/.exec(timeStr);
+            if (m24) {
+                return parseInt(m24[1], 10) * 3600 + parseInt(m24[2], 10) * 60 + parseInt(m24[3], 10);
+            }
+            return 0;
+        }
         const combinedTimeline = [
             ...(extRes.timeline || []).map(t => ({
                 time: t.timeStr || t.time,
@@ -1433,7 +1492,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 title: t.actionText || t.title,
                 category: displayCategory("Web Browser", t.name).label,
                 durationSec: t.durationSec || 0,
-                durationFormatted: formatDurationHuman(t.durationSec || 0)
+                durationFormatted: formatDurationHuman(t.durationSec || 0),
+                _sortKey: t.timestamp || timeStrToSortKey(t.timeStr || t.time)
             })),
             ...(daemonData.timeline || []).map(t => ({
                 time: t.Time || t.time,
@@ -1441,9 +1501,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 title: t.Title || t.title,
                 category: t.Category || t.category || "General Application",
                 durationSec: t.DurationSec || t.durationSec || 0,
-                durationFormatted: t.DurationFormatted || formatDurationHuman(t.DurationSec || t.durationSec || 0)
+                durationFormatted: t.DurationFormatted || formatDurationHuman(t.DurationSec || t.durationSec || 0),
+                _sortKey: timeStrToSortKey(t.Time || t.time)
             }))
-        ].slice(-60);
+        ].sort((a, b) => a._sortKey - b._sortKey).slice(-60);
 
         return {
             current: current,
@@ -1635,7 +1696,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <option value="30days">Past 30 Days</option>
             <option value="alltime">All Time (All Days)</option>
         `;
-        const todayStr = new Date().toISOString().slice(0, 10);
+        const now = new Date();
+        const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
         const pastDates = dates.filter(d => d !== todayStr);
         if (pastDates.length > 0) {
             html += `<optgroup label="Specific Past Dates">`;

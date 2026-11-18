@@ -332,9 +332,9 @@ function Print-ConsoleDashboard {
 
     Write-DashboardRow "$FG_BLUE$C_BOLD[MONITORING STATUS AND SESSION STATISTICS]$C_RESET"
 
-    # Row 1: Status & Total Dwell
+    # Row 1: Status & Today Total Active (cumulative across all daemon runs today)
     $col1Val1 = "* ACTIVE (MONITORING)".PadRight(26)
-    Write-DashboardRow "  $FG_MUTED- Status:         $FG_RESET$FG_EMERALD$col1Val1$FG_RESET$FG_MUTED- Total Session Dwell:  $FG_RESET$FG_WHITE$C_BOLD$durFormatted$C_RESET"
+    Write-DashboardRow "  $FG_MUTED- Status:         $FG_RESET$FG_EMERALD$col1Val1$FG_RESET$FG_MUTED- Today Total Active:   $FG_RESET$FG_WHITE$C_BOLD$durFormatted$C_RESET"
 
     # Row 2: Storage Sync & Switch Count
     $col1Val2 = "* CONNECTED (JSON)".PadRight(26)
@@ -589,7 +589,9 @@ while ($true) {
                 $topApp = $appUsage[$k]
             }
         }
-        $topAppPct = if ($totalActiveSeconds -gt 0 -and $maxSec -gt 0) { [Math]::Round(($maxSec / $totalActiveSeconds) * 100) } else { 0 }
+        $appUsageSum = ($appUsage.Values | Measure-Object -Property totalSeconds -Sum).Sum
+        $computedTotal = [Math]::Max($totalActiveSeconds, [int]$appUsageSum)
+        $topAppPct = if ($computedTotal -gt 0 -and $maxSec -gt 0) { [Math]::Min(100, [Math]::Round(($maxSec / $computedTotal) * 100)) } else { 0 }
 
         $exportPayload = @{
             date = (Get-Date).ToString("yyyy-MM-dd")

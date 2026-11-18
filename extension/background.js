@@ -277,6 +277,47 @@ function scanAllOpenTabs() {
 function handleTabTransition(newUrl, newTitle, tabId) {
     // 1. Strict filter against internal, extension, or tracker self-URLs
     if (!isValidExternalUrl(newUrl)) {
+        // Finalize and clear current website when navigating away to an internal URL
+        // so the heartbeat loop does not keep accruing dwell for the previous external site
+        if (currentWebsite) {
+            const now = new Date();
+            const elapsedSec = currentDwellSec;
+            const prevDomain = currentWebsite.domain;
+            const prevCategory = currentWebsite.category || categorizeSite(prevDomain, currentWebsite.name);
+            if (!siteUsage[prevDomain]) {
+                siteUsage[prevDomain] = {
+                    name: currentWebsite.name,
+                    domain: prevDomain,
+                    category: prevCategory,
+                    totalSec: elapsedSec,
+                    visitCount: 1,
+                    lastActiveTimestamp: Date.now()
+                };
+            } else {
+                if (siteUsage[prevDomain].totalSec < elapsedSec) {
+                    siteUsage[prevDomain].totalSec = elapsedSec;
+                }
+                if (!siteUsage[prevDomain].category) {
+                    siteUsage[prevDomain].category = prevCategory;
+                }
+            }
+            siteUsage[prevDomain].lastActive = formatClockTime(now);
+            siteUsage[prevDomain].lastActiveTimestamp = Date.now();
+            previousWebsite = {
+                name: currentWebsite.name,
+                domain: prevDomain,
+                category: prevCategory,
+                url: currentWebsite.url,
+                sessionDwellSec: elapsedSec,
+                totalActiveSpent: (siteUsage[prevDomain] && siteUsage[prevDomain].totalSec > 0)
+                    ? siteUsage[prevDomain].totalSec
+                    : Math.max(1, elapsedSec),
+                lastActiveTime: formatClockTime(now)
+            };
+            currentWebsite = null;
+            currentDwellSec = 0;
+            syncToStorage();
+        }
         return; // Never track internal or tracker URLs
     }
 

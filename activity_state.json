@@ -1,69 +1,67 @@
 ﻿{
-    "current":  {
-                    "lastUpdated":  "12:08:10 AM",
-                    "activatedTime":  "12:08:08 AM",
-                    "title":  "Dashboard Server",
-                    "category":  "Utilities",
-                    "dwellFormatted":  "3s",
-                    "dwellSeconds":  3,
-                    "appName":  "Windows Terminal",
-                    "process":  "WindowsTerminal"
+    "summary":  {
+                    "totalActiveSeconds":  146,
+                    "mostUsedApp":  {
+                                        "durationSeconds":  152,
+                                        "category":  "General Application",
+                                        "name":  "Antigravity Ide",
+                                        "durationFormatted":  "2m 32s",
+                                        "percentage":  104
+                                    },
+                    "totalActiveFormatted":  "2m 26s",
+                    "distinctAppsCount":  5,
+                    "totalSwitches":  9
                 },
-    "appUsage":  [
-                     {
-                         "switchCount":  1,
-                         "category":  "Utilities",
-                         "name":  "Windows Terminal",
-                         "totalSeconds":  3,
-                         "lastSeen":  "12:08:08 AM"
-                     },
-                     {
-                         "switchCount":  1,
-                         "category":  "Other",
-                         "name":  "Review File Errors (Brave Browser)",
-                         "totalSeconds":  76,
-                         "lastSeen":  "12:08:02 AM"
-                     },
-                     {
-                         "switchCount":  1,
-                         "category":  "System",
-                         "name":  "Task Switching",
-                         "totalSeconds":  2,
-                         "lastSeen":  "12:08:08 AM"
-                     },
-                     {
-                         "switchCount":  1,
-                         "category":  "Entertainment",
-                         "name":  "YouTube (Brave Browser)",
-                         "totalSeconds":  8,
-                         "lastSeen":  "12:08:07 AM"
-                     }
-                 ],
-    "timestamp":  "2026-11-18T00:08:10.5369289+05:30",
+    "totalIdleSec":  null,
     "previous":  {
-                     "activeDurationFormatted":  "2s",
+                     "activeDurationFormatted":  "36s",
                      "title":  "Task Switching",
                      "appName":  "Task Switching",
                      "process":  "explorer",
                      "category":  "System",
-                     "lastActiveTime":  "12:08:08 AM",
+                     "lastActiveTime":  "12:38:13 PM",
                      "sessionDwellSec":  1,
-                     "activeDurationSec":  2
+                     "activeDurationSec":  36
                  },
+    "idleSeconds":  null,
+    "appUsage":  [
+                     {
+                         "switchCount":  4,
+                         "category":  "System",
+                         "name":  "Task Switching",
+                         "totalSeconds":  36,
+                         "lastSeen":  "12:38:13 PM"
+                     },
+                     {
+                         "switchCount":  1,
+                         "category":  "General Application",
+                         "name":  "Antigravity Ide",
+                         "totalSeconds":  152,
+                         "lastSeen":  "12:38:12 PM"
+                     },
+                     {
+                         "lastSeen":  "12:08:02 AM",
+                         "category":  "Other",
+                         "name":  "Review File Errors (Brave Browser)",
+                         "totalSeconds":  76,
+                         "switchCount":  1
+                     },
+                     {
+                         "switchCount":  2,
+                         "category":  "Utilities",
+                         "name":  "Windows Terminal",
+                         "totalSeconds":  15,
+                         "lastSeen":  "12:36:30 PM"
+                     },
+                     {
+                         "lastSeen":  "12:08:07 AM",
+                         "category":  "Entertainment",
+                         "name":  "YouTube (Brave Browser)",
+                         "totalSeconds":  8,
+                         "switchCount":  1
+                     }
+                 ],
     "date":  "2026-11-18",
-    "summary":  {
-                    "totalActiveSeconds":  46,
-                    "mostUsedApp":  {
-                                        "durationSeconds":  76,
-                                        "category":  "Other",
-                                        "name":  "Review File Errors (Brave Browser)",
-                                        "durationFormatted":  "1m 16s",
-                                        "percentage":  165
-                                    },
-                    "totalActiveFormatted":  "46s",
-                    "distinctAppsCount":  4,
-                    "totalSwitches":  4
-                },
     "timeline":  [
                      {
                          "AppName":  "Review File Errors (Brave Browser)",
@@ -88,6 +86,57 @@
                          "DurationSec":  1,
                          "Time":  "12:08:07 AM",
                          "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Windows Terminal",
+                         "DurationFormatted":  "5s",
+                         "Category":  "Utilities",
+                         "DurationSec":  5,
+                         "Time":  "12:08:08 AM",
+                         "Title":  "Dashboard Server"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "15s",
+                         "Category":  "System",
+                         "DurationSec":  15,
+                         "Time":  "12:36:30 PM",
+                         "Title":  "Task View"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:36:47 PM",
+                         "Title":  "Task Switching"
+                     },
+                     {
+                         "AppName":  "Antigravity Ide",
+                         "DurationFormatted":  "1m 16s",
+                         "Category":  "General Application",
+                         "DurationSec":  76,
+                         "Time":  "12:36:49 PM",
+                         "Title":  "infosys_springboard - Antigravity IDE"
+                     },
+                     {
+                         "AppName":  "Task Switching",
+                         "DurationFormatted":  "1s",
+                         "Category":  "System",
+                         "DurationSec":  1,
+                         "Time":  "12:38:12 PM",
+                         "Title":  "Task Switching"
                      }
-                 ]
+                 ],
+    "current":  {
+                    "lastUpdated":  "12:38:18 PM",
+                    "activatedTime":  "12:38:13 PM",
+                    "title":  "Dashboard Server",
+                    "category":  "Utilities",
+                    "dwellFormatted":  "5s",
+                    "dwellSeconds":  5,
+                    "appName":  "Windows Terminal",
+                    "process":  "WindowsTerminal"
+                },
+    "timestamp":  "2026-11-18T12:38:18.3287670+05:30"
 }

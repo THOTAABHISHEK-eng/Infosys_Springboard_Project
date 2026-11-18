@@ -2,7 +2,7 @@
 cd /d "%~dp0"
 title System-Wide Usage Tracker Launcher
 echo =========================================================================
-echo   SYSTEM-WIDE APPLICATION & BROWSER USAGE TRACKER
+echo   SYSTEM-WIDE APPLICATION ^& BROWSER USAGE TRACKER
 echo   Infosys Springboard Internship - Week 1 Deliverable
 echo =========================================================================
 echo.
